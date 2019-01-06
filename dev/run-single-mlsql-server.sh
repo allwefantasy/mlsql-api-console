@@ -10,4 +10,4 @@ docker run --name mlsql-server -d \
 --network mlsql-network \
 --host 
 -p 9003:9003 \
-mlsql:spark_2.3-1.1.7-SNAPSHOT
+techmlsql/mlsql:spark_2.3-1.1.7-SNAPSHOT

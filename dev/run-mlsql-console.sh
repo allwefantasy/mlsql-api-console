@@ -8,4 +8,4 @@ docker run --name mlsql-console \
 -p 9002:9002 \
 -e MLSQL_CLUSTER_URL=http://mlsql-server:9003 \
 -e MY_URL=http://mlsql-console:9002 \
-mlsql-console:1.0
+techmlsql/mlsql-console:1.0
