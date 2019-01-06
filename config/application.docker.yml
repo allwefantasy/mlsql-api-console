@@ -66,6 +66,7 @@ serviceframework:
 http:
   port: 9002
   disable: false
+  host: 0.0.0.0
   client:
     accept:
       timeout: 43200000
