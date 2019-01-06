@@ -3,12 +3,10 @@ package tech.mlsql.api.controller
 import java.security.MessageDigest
 import java.util.UUID
 
-import tech.mlsql.model.AccessToken
 import net.csdn.annotation.rest._
-import net.csdn.modules.http.{ApplicationController, AuthModule}
 import net.csdn.modules.http.RestRequest.Method
-import net.csdn.common.collections.WowCollections._
-import tech.mlsql.model.MlsqlUser
+import net.csdn.modules.http.{ApplicationController, AuthModule}
+import tech.mlsql.model.{AccessToken, MlsqlUser}
 
 
 @OpenAPIDefinition(
@@ -43,12 +41,13 @@ class UserController extends ApplicationController with AuthModule {
     tokenAuth(true)
     val token = UUID.randomUUID().toString
     if (MlsqlUser.findByName(param("userName")) == null) {
-      MlsqlUser.createUser(param("userName"), md5(param("password")), token)
+      user = MlsqlUser.createUser(param("userName"), md5(param("password")), token)
     } else {
       render(400, s"""{"msg":"${param("userName")} have be taken"}""")
     }
 
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
+    AccessToken.loginToken(user, token)
 
     render(200, "{}")
   }
