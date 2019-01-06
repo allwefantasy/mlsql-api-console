@@ -5,8 +5,11 @@ SELF=$(cd $(dirname $0) && pwd)
 
 #set -e
 #set -o pipefail
+docker ps |grep mlsql-console-mysql
+if [[ "$?" != "0" ]];then
+  docker run --name mlsql-console-mysql -e MYSQL_ROOT_PASSWORD=mlsql --network mlsql-network -d mysql:5.7
+fi
 
-docker run --name mlsql-console-mysql -e MYSQL_ROOT_PASSWORD=mlsql --network mlsql-network -d mysql:5.7
 
 EXEC_MLSQL_PREFIX="exec mysql -uroot -pmlsql --protocol=tcp "
 
