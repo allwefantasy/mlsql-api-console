@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-
-SELF=$(cd $(dirname $0) && pwd)
-. "$SELF/docker-command.sh"
-
 #set -e
 #set -o pipefail
 
