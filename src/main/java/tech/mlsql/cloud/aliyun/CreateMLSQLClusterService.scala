@@ -3,33 +3,42 @@ package tech.mlsql.cloud.aliyun
 import java.io.File
 import java.util.concurrent.Executors
 
+import org.json4s.DefaultFormats
+import org.json4s.jackson.Serialization
+import tech.mlsql.model.{AliyunClusterProcess, MlsqlUser}
 import tech.mlsql.shell.ShellCommand
 
 import scala.collection.mutable.ArrayBuffer
 
 object CreateMLSQLClusterService {
-  val executors = Executors.newFixedThreadPool(1)
+  val executors = Executors.newFixedThreadPool(10)
 }
 
-class CreateMLSQLClusterService(ak: String, aks: String, keyPareName: String, scriptLocation: String) {
+class CreateMLSQLClusterService(user: MlsqlUser, ak: String, aks: String, keyPareName: String, scriptLocation: String) {
 
 
   def asyncCreate(config: Map[String, String]) = {
     CreateMLSQLClusterService.executors.execute(new Runnable {
       override def run(): Unit = {
+        val process = AliyunClusterProcess.newItem(user)
         try {
-          create(config)
+          val clusterResult = create(config)
+          implicit val formats = DefaultFormats
+          AliyunClusterProcess.markSuccues(process.getId, Serialization.write(clusterResult))
         } catch {
           case e: MLSQLClusterIllegalParameterException =>
+            AliyunClusterProcess.markFail(process.getId, e.message)
           case e: MLSQLClusterCreateFailException =>
+            AliyunClusterProcess.markFail(process.getId, e.message)
           case e: Exception =>
+            AliyunClusterProcess.markFail(process.getId, e.getMessage)
         }
 
       }
     })
   }
 
-  def create(config: Map[String, String]) = {
+  private def create(config: Map[String, String]) = {
     val OSS_AK = System.getenv("OSS_AK")
     val OSS_AKS = System.getenv("OSS_AKS")
 

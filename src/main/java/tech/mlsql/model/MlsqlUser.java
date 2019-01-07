@@ -17,6 +17,9 @@ public class MlsqlUser extends Model {
     @OneToMany
     private List<AccessToken> accessTokens = list();
 
+    @OneToMany
+    private List<AliyunClusterProcess> aliyunClusterProcesses = list();
+
     public static MlsqlUser createUser(String name, String password, String token) {
         MlsqlUser user = create(map("name", name, "password", password));
         AccessToken accessToken = AccessToken.create(map("name", token, "createAt", System.currentTimeMillis()));
@@ -30,6 +33,10 @@ public class MlsqlUser extends Model {
     }
 
     public Association scriptUserRws() {
+        throw new AutoGeneration();
+    }
+
+    public Association aliyunClusterProcesses() {
         throw new AutoGeneration();
     }
 
