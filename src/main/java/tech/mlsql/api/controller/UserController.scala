@@ -63,11 +63,25 @@ class UserController extends ApplicationController with AuthModule {
       schema = new Schema(`type` = "string", format = """{"userName":"allwefantasy@gmail.com"}""", description = "")
     ))
   ))
-  @At(path = Array("/api_v1/user/userName"), types = Array(Method.GET))
+  @At(path = Array("/api_v1/user/userName"), types = Array(Method.GET, Method.POST))
   def userName = {
     tokenAuth()
-    val user = AccessToken.token(accessToken).mlsqlUser().fetch().get(0).asInstanceOf[MlsqlUser]
-    render(200, map("userName", user.getName))
+    render(200, map("userName", user.getName, "backendTags", user.getBackendTags))
+  }
+
+  @At(path = Array("/api_v1/user/tags/update"), types = Array(Method.GET, Method.POST))
+  def userTagsUpdate = {
+    tokenAuth()
+    if (hasParam("backendTags")) {
+      if (paramAsBoolean("append", false)) {
+        user.setBackendTags((if (user.getBackendTags == null) "" else user.getBackendTags + ",") + param("backendTags"))
+      } else {
+        user.setBackendTags(param("backendTags"))
+      }
+
+      user.save()
+    }
+    render(200, map("userName", user.getName, "backendTags", user.getBackendTags))
   }
 
   def md5(s: String) = {

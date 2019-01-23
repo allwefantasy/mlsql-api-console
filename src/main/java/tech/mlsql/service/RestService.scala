@@ -55,4 +55,15 @@ trait BackendService {
   @At(path = Array("/run/sql"), types = Array(GET, POST))
   def runSQL(params: Map[String, String]): HttpTransportService.SResponse
 
+  @At(path = Array("/backend/list"), types = Array(GET, POST))
+  def backendList(params: Map[String, String]): HttpTransportService.SResponse
+
+  @At(path = Array("/backend/add"), types = Array(GET, POST))
+  def backendAdd(params: Map[String, String]): HttpTransportService.SResponse
+
+  @At(path = Array("/backend/remove"), types = Array(GET, POST))
+  def backendRemove(params: Map[String, String]): HttpTransportService.SResponse
+
+  @At(path = Array("/backend/tags/update"), types = Array(GET, POST))
+  def backendTagsUpdate(params: Map[String, String]): HttpTransportService.SResponse
 }

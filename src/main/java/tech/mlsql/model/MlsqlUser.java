@@ -51,6 +51,15 @@ public class MlsqlUser extends Model {
     private int id;
     private String name;
     private String password;
+    private String backendTags;
+
+    public void setBackendTags(String backendTags) {
+        this.backendTags = backendTags;
+    }
+
+    public String getBackendTags() {
+        return backendTags;
+    }
 
     public String getPassword() {
         return password;

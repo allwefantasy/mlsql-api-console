@@ -27,9 +27,10 @@ CREATE TABLE script_user_rw
 
 CREATE TABLE mlsql_user
 (
-  id       int(11) NOT NULL AUTO_INCREMENT,
-  name     varchar(255) DEFAULT NULL,
-  password varchar(255) DEFAULT NULL,
+  id           int(11) NOT NULL AUTO_INCREMENT,
+  name         varchar(255) DEFAULT NULL,
+  password     varchar(255) DEFAULT NULL,
+  backend_tags text,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -47,8 +48,8 @@ CREATE TABLE aliyun_cluster_process
   id            int(11) NOT NULL AUTO_INCREMENT,
   mlsql_user_id int(11),
   status        int(11),
-  startTime     text,
-  endTime       text,
+  start_time    text,
+  end_time      text,
   reason        text,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

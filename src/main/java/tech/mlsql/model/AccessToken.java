@@ -6,7 +6,7 @@ import net.csdn.jpa.model.Model;
 
 import javax.persistence.ManyToOne;
 
-import static net.csdn.common.collections.WowCollections.*;
+import static net.csdn.common.collections.WowCollections.map;
 
 public class AccessToken extends Model {
 
@@ -17,8 +17,7 @@ public class AccessToken extends Model {
                 token.delete();
                 return null;
             } else {
-                token.setCreateAt(System.currentTimeMillis());
-                token.save();
+                nativeSqlClient().execute("update access_token set create_at=? where id=?", System.currentTimeMillis(), token.id);
             }
 
         }
