@@ -66,7 +66,7 @@ class UserController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/user/userName"), types = Array(Method.GET, Method.POST))
   def userName = {
     tokenAuth()
-    render(200, map("userName", user.getName, "backendTags", user.getBackendTags))
+    render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
   }
 
   @At(path = Array("/api_v1/user/tags/update"), types = Array(Method.GET, Method.POST))
@@ -81,7 +81,7 @@ class UserController extends ApplicationController with AuthModule {
 
       user.save()
     }
-    render(200, map("userName", user.getName, "backendTags", user.getBackendTags))
+    render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
   }
 
   def md5(s: String) = {

@@ -31,6 +31,7 @@ CREATE TABLE mlsql_user
   name         varchar(255) DEFAULT NULL,
   password     varchar(255) DEFAULT NULL,
   backend_tags text,
+  role         text,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
