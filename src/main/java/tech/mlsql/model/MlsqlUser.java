@@ -1,7 +1,9 @@
 package tech.mlsql.model;
 
+import net.csdn.common.collections.WowCollections;
 import net.csdn.common.exception.AutoGeneration;
 import net.csdn.jpa.association.Association;
+import net.csdn.jpa.model.JPQL;
 import net.csdn.jpa.model.Model;
 
 import javax.persistence.OneToMany;
@@ -29,9 +31,9 @@ public class MlsqlUser extends Model {
         Map<Object, Object> items = Model.nativeSqlClient().single_query("select count(*) as c from mlsql_user");
         Long count = (Long) (items.get("c"));
         if (count == 0) {
-            user.setRole("admin");
+            user.setRole(ROLE_ADMIN);
         } else {
-            user.setRole("developer");
+            user.setRole(ROLE_DEVELOPER);
         }
         user.save();
         return findByName(name);
@@ -45,6 +47,14 @@ public class MlsqlUser extends Model {
         throw new AutoGeneration();
     }
 
+    public static List<MlsqlUser> items(String fields) {
+        JPQL query = MlsqlUser.where(WowCollections.map("role", ROLE_DEVELOPER));
+        if (fields == null) {
+            return query.fetch();
+        }
+        return query.select(fields).fetch();
+    }
+
     public Association aliyunClusterProcesses() {
         throw new AutoGeneration();
     }
@@ -56,6 +66,9 @@ public class MlsqlUser extends Model {
     public static MlsqlUser findByName(String name) {
         return where(map("name", name)).singleFetch();
     }
+
+    public static String ROLE_ADMIN = "admin";
+    public static String ROLE_DEVELOPER = "developer";
 
     private int id;
     private String name;

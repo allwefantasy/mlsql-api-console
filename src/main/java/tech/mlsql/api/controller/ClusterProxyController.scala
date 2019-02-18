@@ -25,6 +25,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
       MLSQLConsoleCommandConfig.commandConfig.my_url
     }
     newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
+    newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
     val response = proxy.runScript(newparams)
     render(200, response.getContent)
   }

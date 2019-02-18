@@ -69,17 +69,36 @@ class UserController extends ApplicationController with AuthModule {
     render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
   }
 
+  @At(path = Array("/api_v1/users"), types = Array(Method.GET, Method.POST))
+  def users = {
+    tokenAuth()
+    val userNames = MlsqlUser.items("name")
+    render(200, userNames)
+  }
+
   @At(path = Array("/api_v1/user/tags/update"), types = Array(Method.GET, Method.POST))
   def userTagsUpdate = {
     tokenAuth()
     if (hasParam("backendTags")) {
-      if (paramAsBoolean("append", false)) {
-        user.setBackendTags((if (user.getBackendTags == null) "" else user.getBackendTags + ",") + param("backendTags"))
-      } else {
-        user.setBackendTags(param("backendTags"))
+
+      def updateTags(user: MlsqlUser) = {
+        if (paramAsBoolean("append", false)) {
+          user.setBackendTags((if (user.getBackendTags == null) "" else user.getBackendTags + ",") + param("backendTags"))
+        } else {
+          user.setBackendTags(param("backendTags"))
+        }
+        user.save()
       }
 
-      user.save()
+      if (!isEmpty(param("users"))) {
+        param("users").split(",").foreach { name =>
+          val user = MlsqlUser.findByName(name)
+          updateTags(user)
+        }
+      } else {
+        updateTags(user)
+      }
+
     }
     render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
   }
