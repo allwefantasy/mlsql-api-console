@@ -29,6 +29,10 @@ class MLSQLConsoleCommandConfig(params: ParamsUtil) {
   def my_url = {
     params.getParam("my_url", "")
   }
+
+  def user_home = {
+    params.getParam("user_home", "/home/mlsql")
+  }
 }
 
 object MLSQLConsoleCommandConfig {
