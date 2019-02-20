@@ -33,6 +33,10 @@ class MLSQLConsoleCommandConfig(params: ParamsUtil) {
   def user_home = {
     params.getParam("user_home", "/home/mlsql")
   }
+
+  def single_user_upload_bytes = {
+    params.getParam("single_user_upload_bytes", s"${1024 * 1024 * 1024}")
+  }
 }
 
 object MLSQLConsoleCommandConfig {
