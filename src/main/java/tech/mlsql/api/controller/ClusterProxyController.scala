@@ -28,7 +28,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
     newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
     val response = proxy.runScript(newparams)
-    render(200, response.getContent)
+    render(response.getStatus, response.getContent)
   }
 
   @At(path = Array("/api_v1/cluster"), types = Array(Method.POST))
@@ -49,6 +49,6 @@ class ClusterProxyController extends ApplicationController with AuthModule {
       case "/backend/tags/update" => proxy.backendTagsUpdate(newparams)
     }
 
-    render(200, response.getContent)
+    render(response.getStatus, response.getContent)
   }
 }
