@@ -14,7 +14,7 @@ public class AccessToken extends Model {
         AccessToken token = AccessToken.where(map("name", name)).singleFetch();
         if (token != null) {
             if (System.currentTimeMillis() - token.createAt > 1000 * 64 * 30) {
-                token.delete();
+                nativeSqlClient().execute("delete access_token where id=?", token.id);
                 return null;
             } else {
                 nativeSqlClient().execute("update access_token set create_at=? where id=?", System.currentTimeMillis(), token.id);

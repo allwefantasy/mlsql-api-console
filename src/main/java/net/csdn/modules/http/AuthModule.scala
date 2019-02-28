@@ -12,6 +12,9 @@ trait AuthModule {
     restResponse.httpServletResponse().setHeader("Access-Control-Allow-Origin", "*")
     if (!ignoreToken) {
       accessToken = request.header(ACCESS_TOKEN_NAME)
+      if(isEmpty(accessToken)){
+        accessToken = request.cookie(ACCESS_TOKEN_NAME)
+      }
       if (isEmpty(accessToken)) {
         render(401,"""{"msg":"accessToken is invalidate"}""")
       }

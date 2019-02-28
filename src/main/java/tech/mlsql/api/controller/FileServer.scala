@@ -1,18 +1,23 @@
 package tech.mlsql.api.controller
 
 import java.io.File
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.{Executors, TimeUnit}
 
+import net.csdn.ServiceFramwork
 import net.csdn.annotation.rest.At
 import net.csdn.common.exception.RenderFinish
 import net.csdn.common.logging.Loggers
+import net.csdn.common.network.NetworkUtils
+import net.csdn.common.settings.Settings
 import net.csdn.modules.http.RestRequest.Method.{GET, POST}
 import net.csdn.modules.http.{ApplicationController, AuthModule, RestRequest, ViewType}
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.io.FileUtils
 import tech.mlsql.MLSQLConsoleCommandConfig
+import tech.mlsql.service.RestService
 import tech.mlsql.utils.DownloadRunner
 
 import scala.collection.JavaConversions._
@@ -35,7 +40,7 @@ class FileServer extends ApplicationController with AuthModule {
     if (homeDir.exists()) {
       val totalSize = FileUtils.sizeOfDirectory(homeDir)
       if (totalSize > MLSQLConsoleCommandConfig.commandConfig.single_user_upload_bytes.toInt) {
-        render(400, s"You have no enough space. The limit is ${MLSQLConsoleCommandConfig.commandConfig.single_user_upload_bytes.toInt} bytes",ViewType.string)
+        render(400, s"You have no enough space. The limit is ${MLSQLConsoleCommandConfig.commandConfig.single_user_upload_bytes.toInt} bytes", ViewType.string)
       }
     }
 
@@ -76,7 +81,7 @@ class FileServer extends ApplicationController with AuthModule {
     } catch {
       case e: Exception =>
         logger.info("upload fail ", e)
-        render(500, s"upload fail,check master log ${e.getMessage}",ViewType.string)
+        render(500, s"upload fail,check master log ${e.getMessage}", ViewType.string)
     }
     throw new RenderFinish()
     //val fields = items.filter(f => f.isFormField)
@@ -87,13 +92,22 @@ class FileServer extends ApplicationController with AuthModule {
     if (!hasParam("fileName")) {
       render(404, "fileName required")
     }
+    var targetFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(param("userName")) + "/" + param("fileName")
+    if (param("fileName").startsWith("public/")) {
+      targetFilePath = "/data/mlsql/data/" + param("fileName")
+    }
     try {
-      DownloadRunner.getTarFileByPath(restResponse.httpServletResponse(), FileServerDaemon.DEFAULT_TEMP_PATH + md5(param("userName")) + "/" + param("fileName"))
+      if (param("fileName").endsWith(".tar")) {
+        DownloadRunner.getTarFileByTarFile(restResponse.httpServletResponse(), targetFilePath)
+      } else {
+        DownloadRunner.getTarFileByPath(restResponse.httpServletResponse(), targetFilePath)
+      }
+
     } catch {
       case e: Exception =>
         logger.error("download fail", e)
     }
-    render("", ViewType.stream)
+    render(200, "{}", ViewType.json)
   }
 
   def md5(text: String): String = {
@@ -103,6 +117,59 @@ class FileServer extends ApplicationController with AuthModule {
       _ + _
     }
   }
+
+
+  @At(path = Array("/api_v1/public/file/download"), types = Array(GET, POST))
+  def public_download = {
+    tokenAuth(false)
+    if (!hasParam("fileName")) {
+      render(404, "fileName required")
+    }
+
+
+    def runUpload() = {
+      val proxy = RestService.client(MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url)
+      var newparams = Map[String, String](
+        "sql" ->
+          s"""
+             |run command as UploadFileToServerExt.`${param("fileName")}` where tokenName="access-token" and tokenValue="${accessToken}";
+          """.stripMargin,
+        "owner" -> user.getName,
+        "jobName" -> UUID.randomUUID().toString,
+        "sessionPerUser" -> "true",
+        "show_stack" -> "false",
+        "tags" -> user.getBackendTags
+      )
+      val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
+        s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
+      } else {
+        MLSQLConsoleCommandConfig.commandConfig.my_url
+      }
+      newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
+      newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
+      newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
+      newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
+      val response = proxy.runScript(newparams)
+    }
+
+    runUpload()
+
+    val targetFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName) + "/" + param("fileName")
+
+    try {
+      if (param("fileName").endsWith(".tar")) {
+        DownloadRunner.getTarFileByTarFile(restResponse.httpServletResponse(), targetFilePath)
+      } else {
+        DownloadRunner.getTarFileByPath(restResponse.httpServletResponse(), targetFilePath)
+      }
+
+    } catch {
+      case e: Exception =>
+        logger.error("download fail", e)
+    }
+    render(200, "", ViewType.stream)
+  }
+
 }
 
 object FileServerDaemon {

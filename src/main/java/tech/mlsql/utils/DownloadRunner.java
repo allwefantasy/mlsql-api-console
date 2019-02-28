@@ -41,6 +41,23 @@ public class DownloadRunner {
         }
     }
 
+    public static int getTarFileByTarFile(HttpServletResponse response, String pathStr) throws UnsupportedEncodingException {
+
+        String[] fileChunk = pathStr.split("/");
+        response.setContentType("application/octet-stream");
+        //response.setHeader("Transfer-Encoding", "chunked");
+        response.setHeader(HEADER_KEY, HEADER_VALUE + "\"" + URLEncoder.encode(fileChunk[fileChunk.length - 1], "utf-8") + "\"");
+
+        try {
+            org.apache.commons.io.IOUtils.copyLarge(new FileInputStream(new File(pathStr)), response.getOutputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 500;
+
+        }
+        return 200;
+    }
+
     public static int getTarFileByPath(HttpServletResponse response, String pathStr) throws UnsupportedEncodingException {
 
         String[] fileChunk = pathStr.split("/");
