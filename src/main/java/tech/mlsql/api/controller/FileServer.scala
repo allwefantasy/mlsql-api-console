@@ -7,6 +7,7 @@ import java.util.concurrent.{Executors, TimeUnit}
 
 import net.csdn.ServiceFramwork
 import net.csdn.annotation.rest.At
+import net.csdn.common.collections.WowCollections
 import net.csdn.common.exception.RenderFinish
 import net.csdn.common.logging.Loggers
 import net.csdn.common.network.NetworkUtils
@@ -96,6 +97,7 @@ class FileServer extends ApplicationController with AuthModule {
     if (param("fileName").startsWith("public/")) {
       targetFilePath = "/data/mlsql/data/" + param("fileName")
     }
+    logger.info(s"Write ${targetFilePath} to response")
     try {
       if (param("fileName").endsWith(".tar")) {
         DownloadRunner.getTarFileByTarFile(restResponse.httpServletResponse(), targetFilePath)
@@ -107,7 +109,7 @@ class FileServer extends ApplicationController with AuthModule {
       case e: Exception =>
         logger.error("download fail", e)
     }
-    render(200, "{}", ViewType.json)
+    render("", ViewType.stream)
   }
 
   def md5(text: String): String = {
@@ -150,14 +152,19 @@ class FileServer extends ApplicationController with AuthModule {
       newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
       newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
       val response = proxy.runScript(newparams)
+      if (response.getStatus != 200) {
+        render(200, WowCollections.map("msg", response.getContent), ViewType.json)
+      }
     }
 
     runUpload()
 
-    val targetFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName) + "/" + param("fileName")
+    val newFile = param("fileName").split("/").filterNot(f => f.isEmpty).last
+
+    val targetFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName) + "/" + newFile
 
     try {
-      if (param("fileName").endsWith(".tar")) {
+      if (newFile.endsWith(".tar")) {
         DownloadRunner.getTarFileByTarFile(restResponse.httpServletResponse(), targetFilePath)
       } else {
         DownloadRunner.getTarFileByPath(restResponse.httpServletResponse(), targetFilePath)
