@@ -23,4 +23,12 @@ public class MlsqlGroupUser extends Model {
     public Association mlsqlGroup() {
         throw new AutoGeneration();
     }
+
+    public static class Status {
+        public static Integer invited = 1;
+        public static Integer confirmed = 2;
+        public static Integer refused = 3;
+        public static Integer owner = 4;
+    }
+
 }

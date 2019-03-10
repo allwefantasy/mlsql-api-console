@@ -98,6 +98,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.liftweb</groupId>
+            <artifactId>lift-json_2.11</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.csdn</groupId>
             <artifactId>serviceframework-jetty-9-server</artifactId>
             <version>${serviceframework.version}</version>

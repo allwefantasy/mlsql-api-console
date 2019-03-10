@@ -69,6 +69,7 @@ CREATE TABLE mlsql_group_user
   id             int(11) NOT NULL AUTO_INCREMENT,
   mlsql_group_id int(11),
   mlsql_user_id  int(11),
+  status         int(11),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
