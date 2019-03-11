@@ -10,16 +10,18 @@ import javax.persistence.ManyToOne;
  * 2019-03-07 WilliamZhu(allwefantasy@gmail.com)
  */
 public class MlsqlGroupRoleAuth extends Model {
-    @ManyToOne
-    private MlsqlGroupTable mlsqlGroupTable;
+
     @ManyToOne
     private MlsqlGroupRole mlsqlGroupRole;
+
+    @ManyToOne
+    private MlsqlTable mlsqlTable;
 
     public Association mlsqlGroupRole() {
         throw new AutoGeneration();
     }
 
-    public Association mlsqlGroupTable() {
+    public Association mlsqlTable() {
         throw new AutoGeneration();
     }
 

@@ -8,6 +8,7 @@ import javax.persistence.OneToMany;
 import java.util.List;
 
 import static net.csdn.common.collections.WowCollections.list;
+import static net.csdn.common.collections.WowCollections.map;
 
 /**
  * 2019-03-06 WilliamZhu(allwefantasy@gmail.com)
@@ -20,12 +21,24 @@ public class MlsqlGroup extends Model {
     @OneToMany
     private List<MlsqlGroupRole> mlsqlGroupRoles = list();
 
+    @OneToMany
+    private List<MlsqlGroupTable> mlsqlGroupTables = list();
+
     public Association mlsqlGroupUsers() {
         throw new AutoGeneration();
     }
 
     public Association mlsqlGroupRoles() {
         throw new AutoGeneration();
+    }
+
+    public Association mlsqlGroupTables() {
+        throw new AutoGeneration();
+    }
+
+    public static MlsqlGroup fetchByName(String name) {
+        MlsqlGroup group = MlsqlGroup.where(map("name", name)).singleFetch();
+        return group;
     }
 
     private String name;

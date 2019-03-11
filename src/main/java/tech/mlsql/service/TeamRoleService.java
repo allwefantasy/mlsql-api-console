@@ -1,9 +1,7 @@
 package tech.mlsql.service;
 
 import net.csdn.jpa.model.Model;
-import tech.mlsql.model.MlsqlGroup;
-import tech.mlsql.model.MlsqlGroupUser;
-import tech.mlsql.model.MlsqlUser;
+import tech.mlsql.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +56,50 @@ public class TeamRoleService {
 
     }
 
+    public static List<MlsqlGroupRole> roles(String teamName) {
+        MlsqlGroup group = MlsqlGroup.where(map("name", teamName)).singleFetch();
+        List<MlsqlGroupRole> groupUsers = MlsqlGroupRole.where(map("mlsqlGroup", group)).fetch();
+        return groupUsers;
+
+    }
+
     public static void updateMemberStatus(MlsqlUser user, String teamName, int status) {
         MlsqlGroup group = MlsqlGroup.where(map("name", teamName)).singleFetch();
         MlsqlGroupUser relation = MlsqlGroupUser.where(map("mlsqlGroup", group, "mlsqlUser", user)).singleFetch();
         relation.attr("status", status);
         relation.save();
+    }
+
+    public static void removeMember(String teamName, String userName) {
+        MlsqlGroup group = MlsqlGroup.where(map("name", teamName)).singleFetch();
+        MlsqlUser user = MlsqlUser.findByName(userName);
+        MlsqlGroupUser relation = MlsqlGroupUser.where(map("mlsqlGroup", group, "mlsqlUser", user)).singleFetch();
+        relation.delete();
+    }
+
+    public static void removeRole(String teamName, String roleName) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        MlsqlGroupRole role = MlsqlGroupRole.where(map("mlsqlGroup", group, "name", roleName)).singleFetch();
+        role.delete();
+    }
+
+    // remove table
+    public static void removeTable(String teamName, Integer tableId) {
+        Model.nativeSqlClient().execute("delete from mlsql_group_table where mlsql_table_id=?", tableId);
+        Model.nativeSqlClient().execute("delete from mlsql_table where id=?", tableId);
+    }
+
+
+    public static String addRoles(String teamName, List<String> roleNames) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        for (String roleName : roleNames) {
+            if (!MlsqlGroupRole.exists(roleName, group)) {
+                MlsqlGroupRole role = MlsqlGroupRole.create(map("name", roleName));
+                role.mlsqlGroup().set(group);
+                role.save();
+            }
+        }
+        return ReturnCode.SUCCESS;
     }
 
     public static String addMember(String teamName, List<String> userNames) {
@@ -96,11 +133,65 @@ public class TeamRoleService {
 
     }
 
+    public static String addTableForTeam(String teamName, Map<String, String> params) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        MlsqlTable table = MlsqlTable.create(params);
+        table.save();
+        MlsqlGroupTable groupTable = MlsqlGroupTable.create(map());
+        groupTable.mlsqlGroup().set(group);
+        groupTable.mlsqlTable().set(table);
+        groupTable.save();
+        return ReturnCode.SUCCESS;
+
+    }
+
+    public static String addTableForRole(String teamName, String roleName, List<Integer> tableIds, List<String> operateTypes) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        for (Integer tableId : tableIds) {
+            MlsqlTable table = MlsqlTable.find(tableId);
+            MlsqlGroupRole groupRole = MlsqlGroupRole.where(map("mlsqlGroup", group, "name", roleName)).singleFetch();
+            for (String operateType : operateTypes) {
+                Map<String, Object> items = map(
+                        "mlsqlTable", table,
+                        "mlsqlGroupRole", groupRole
+                        , "operateType", operateType
+                );
+                if (MlsqlGroupRoleAuth.where(items).fetch().size() == 0) {
+                    MlsqlGroupRoleAuth roleAuth = MlsqlGroupRoleAuth.create(items);
+                    roleAuth.save();
+                }
+
+            }
+
+        }
+
+        return ReturnCode.SUCCESS;
+
+    }
+
+    public static String removeRoleTable(String teamName, String roleName, Integer tableId) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        MlsqlGroupRole groupRole = MlsqlGroupRole.where(map("mlsqlGroup", group, "name", roleName)).singleFetch();
+        MlsqlGroupRoleAuth.nativeSqlClient().execute("delete mlsql_group_role_auth where mlsql_table_id=? and mlsql_group_role_id=?", tableId, groupRole.id());
+        return ReturnCode.SUCCESS;
+    }
+
+    public static List<MlsqlGroupRoleAuth> roleTables(String teamName, String roleName) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        MlsqlGroupRole groupRole = MlsqlGroupRole.where(map("mlsqlGroup", group, "name", roleName)).singleFetch();
+        List<MlsqlGroupRoleAuth> mlsqlGroupRoleAuths = MlsqlGroupRoleAuth.where(map("mlsqlGroupRole", groupRole)).fetch();
+        return mlsqlGroupRoleAuths;
+    }
+
+    public static List<MlsqlGroupTable> fetchTables(String teamName) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        return MlsqlGroupTable.where(map("mlsqlGroup", group)).joins("mlsqlTable").fetch();
+    }
+
     public static class ReturnCode {
         public static String TEAM_EXISTS = "Team exists";
         public static String USER_NOT_EXISTS = "User not exists";
         public static String SUCCESS = "success";
     }
-
 
 }

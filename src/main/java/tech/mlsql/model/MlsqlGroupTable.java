@@ -1,27 +1,28 @@
 package tech.mlsql.model;
 
+import net.csdn.common.exception.AutoGeneration;
+import net.csdn.jpa.association.Association;
 import net.csdn.jpa.model.Model;
+
+import javax.persistence.ManyToOne;
 
 /**
  * 2019-03-07 WilliamZhu(allwefantasy@gmail.com)
  */
 public class MlsqlGroupTable extends Model {
-    private String name;
-    private String tableType;
+    @ManyToOne
+    private MlsqlTable mlsqlTable;
 
-    public String getName() {
-        return name;
+    @ManyToOne
+    private MlsqlGroup mlsqlGroup;
+
+
+    public Association mlsqlGroup() {
+        throw new AutoGeneration();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Association mlsqlTable() {
+        throw new AutoGeneration();
     }
 
-    public String getTableType() {
-        return tableType;
-    }
-
-    public void setTableType(String tableType) {
-        this.tableType = tableType;
-    }
 }

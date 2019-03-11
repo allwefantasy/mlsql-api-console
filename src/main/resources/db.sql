@@ -81,20 +81,32 @@ CREATE TABLE mlsql_group_role
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE mlsql_table
+(
+  id                   int(11) NOT NULL AUTO_INCREMENT,
+  name                 varchar(255) DEFAULT NULL,
+  db                   varchar(255) DEFAULT NULL,
+  table_type           varchar(255) DEFAULT NULL,
+  source_type          varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE mlsql_group_table
 (
-  id         int(11) NOT NULL AUTO_INCREMENT,
-  name       varchar(255) DEFAULT NULL,
-  table_type varchar(255) DEFAULT NULL,
+  id             int(11) NOT NULL AUTO_INCREMENT,
+  mlsql_table_id int(11),
+  mlsql_group_id int(11),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE mlsql_group_role_auth
 (
-  id                   int(11) NOT NULL AUTO_INCREMENT,
-  mlsql_group_table_id int(11),
-  mlsql_group_role_id  int(11),
-  operate_type         varchar(255) DEFAULT NULL,
+  id                  int(11) NOT NULL AUTO_INCREMENT,
+  mlsql_table_id      int(11),
+  mlsql_group_role_id int(11),
+  operate_type        varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
