@@ -99,7 +99,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
     tokenAuth()
     val res = TeamRoleService.members(param("teamName")).asScala.map(gu => Map(
       "name" -> gu.mlsqlUser().fetch().get(0).asInstanceOf[MlsqlUser].getName,
-      "status" -> gu.attr("status", classOf[String])
+      "status" -> gu.attr("status", classOf[Integer])
     ))
     scalaRender(200, res)
   }
