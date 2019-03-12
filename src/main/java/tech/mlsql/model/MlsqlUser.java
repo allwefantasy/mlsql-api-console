@@ -26,6 +26,9 @@ public class MlsqlUser extends Model {
     @OneToMany
     private List<MlsqlGroupUser> mlsqlGroupUsers = list();
 
+    @OneToMany
+    private List<MlsqlRoleMember> mlsqlRoleMembers = list();
+
     public static MlsqlUser createUser(String name, String password, String token) {
         MlsqlUser user = MlsqlUser.create(map("name", name, "password", password));
         AccessToken accessToken = AccessToken.create(map("name", token, "createAt", System.currentTimeMillis()));
@@ -47,6 +50,10 @@ public class MlsqlUser extends Model {
     }
 
     public Association scriptUserRws() {
+        throw new AutoGeneration();
+    }
+
+    public Association mlsqlRoleMembers() {
         throw new AutoGeneration();
     }
 

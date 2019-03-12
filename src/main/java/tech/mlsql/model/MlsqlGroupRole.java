@@ -21,11 +21,18 @@ public class MlsqlGroupRole extends Model {
     @OneToMany
     private List<MlsqlTable> mlsqlTables = list();
 
+    @OneToMany
+    private List<MlsqlRoleMember> mlsqlRoleMembers = list();
+
     public Association mlsqlGroup() {
         throw new AutoGeneration();
     }
 
     public Association mlsqlTables() {
+        throw new AutoGeneration();
+    }
+
+    public Association mlsqlRoleMembers() {
         throw new AutoGeneration();
     }
 

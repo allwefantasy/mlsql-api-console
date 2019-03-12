@@ -90,14 +90,7 @@ class UserController extends ApplicationController with AuthModule {
         user.save()
       }
 
-      if (!isEmpty(param("users"))) {
-        param("users").split(",").foreach { name =>
-          val user = MlsqlUser.findByName(name)
-          updateTags(user)
-        }
-      } else {
-        updateTags(user)
-      }
+      updateTags(user)
 
     }
     render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))

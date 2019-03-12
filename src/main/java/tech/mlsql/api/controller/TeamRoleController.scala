@@ -30,7 +30,18 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/team"), types = Array(Method.POST))
   def team = {
     tokenAuth()
+    if (!TeamRoleService.checkTeamNameValid(param("name"))) {
+      scalaRender(400, Map("msg" -> s"team name ${param("name")} has been taken"))
+    }
     val groups = TeamRoleService.teams(user, MlsqlGroupUser.Status.owner).asScala.map(f => Map("name" -> f.getName))
+    scalaRender(200, groups)
+  }
+
+
+  @At(path = Array("/api_v1/team/in"), types = Array(Method.POST))
+  def teamIn = {
+    tokenAuth()
+    val groups = TeamRoleService.teamsIn(user).asScala.map(f => Map("name" -> f.getName))
     scalaRender(200, groups)
   }
 
@@ -151,12 +162,52 @@ class TeamRoleController extends ApplicationController with AuthModule {
     scalaRender(200, Map("msg" -> "success"))
   }
 
+  @At(path = Array("/api_v1/role/member/add"), types = Array(Method.POST))
+  def RoleMemberAdd = {
+    tokenAuth()
+
+    if (param("roleName") == "undefined" || param("userName") == "undefined") {
+      render(400, Map("msg" -> "roleName userName required"))
+    }
+
+    val roleNames = paramAsStringArray("roleName", null).toList
+    val userNames = paramAsStringArray("userName", null).toList
+
+    roleNames.foreach { roleName =>
+      userNames.foreach { userName =>
+        TeamRoleService.addMemberForRole(param("teamName"),
+          roleName, userName)
+      }
+    }
+
+    scalaRender(200, Map("msg" -> "success"))
+  }
+
+  @At(path = Array("/api_v1/role/members"), types = Array(Method.POST))
+  def RoleMemberList = {
+    tokenAuth()
+    val members = TeamRoleService.roleMembers(param("teamName"), param("roleName"))
+    val res = members.asScala.map { item =>
+      val user = item.mlsqlUser().fetch().get(0).asInstanceOf[MlsqlUser]
+      Map("name" -> user.getName, "id" -> user.getId)
+    }
+    scalaRender(200, res)
+  }
+
+  @At(path = Array("/api_v1/role/member/remove"), types = Array(Method.POST))
+  def RoleMemberRemove = {
+    tokenAuth()
+    TeamRoleService.removeRoleMember(param("teamName"), param("roleName"), param("userName"))
+    scalaRender(200, Map("msg" -> "success"))
+  }
+
   @At(path = Array("/api_v1/role/table/remove"), types = Array(Method.POST))
   def RoleTableRemove = {
     tokenAuth()
     TeamRoleService.removeRoleTable(param("teamName"), param("roleName"), paramAsInt("TableId", -1))
     scalaRender(200, Map("msg" -> "success"))
   }
+
 
   @At(path = Array("/api_v1/role/tables"), types = Array(Method.POST))
   def roleTables = {
