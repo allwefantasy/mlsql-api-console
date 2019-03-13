@@ -4,10 +4,13 @@ SELF=$(cd $(dirname $0) && pwd)
 cd $SELF
 cd ..
 
+cd /tmp
+
 function docker_exec {
   name=$1
   command=$2
-  docker exec -it ${name} bash -c "${command}"
+  #test -t 1 && USE_TTY="t"
+  docker exec -i${USE_TTY} ${name} bash -c "${command}"
 }
 
 function check_ready {
@@ -26,7 +29,7 @@ function check_ready {
       echo "try ${counter} times."
       let "counter+=1"
     done
-    return $recCode
+    echo $recCode
 }
 
 echo "----clean all mlsql related containers-----"
@@ -59,7 +62,6 @@ docker run --name mlsql-console-mysql --network mlsql-network  -e MYSQL_ROOT_PAS
 
 EXEC_MLSQL_PREFIX="exec mysql -uroot -pmlsql --protocol=tcp "
 
-#set +e
 check_ready mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'SHOW CHARACTER SET'"
 
 if [[ "$?" != "0" ]];then
