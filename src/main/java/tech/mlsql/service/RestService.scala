@@ -1,6 +1,7 @@
 package tech.mlsql.service
 
 import java.lang.reflect.Proxy
+import java.util.UUID
 
 import com.alibaba.dubbo.rpc.protocol.rest.RestClientProxy
 import com.google.common.cache.{CacheBuilder, CacheLoader}
@@ -16,6 +17,7 @@ import net.csdn.modules.transport.{DefaultHttpTransportService, HttpTransportSer
   * 2019-01-03 WilliamZhu(allwefantasy@gmail.com)
   */
 object RestService {
+  val auth_secret = UUID.randomUUID().toString
   private final val settings: Settings = ServiceFramwork.injector.getInstance(classOf[Settings])
   private final val transportService: HttpTransportService = new DefaultHttpTransportService(new DefaultThreadPoolService(settings), settings)
   private val cache = CacheBuilder.newBuilder()

@@ -30,6 +30,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
     newparams += ("context.__auth_client__" -> s"streaming.dsl.auth.meta.client.MLSQLConsoleClient")
     newparams += ("context.__auth_server_url__" -> s"${myUrl}/api_v1/table/auth")
+    newparams += ("context.__auth_secret__" -> RestService.auth_secret)
     newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
     val response = proxy.runScript(newparams)
     render(response.getStatus, response.getContent)

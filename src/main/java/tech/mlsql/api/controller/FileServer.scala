@@ -90,6 +90,10 @@ class FileServer extends ApplicationController with AuthModule {
 
   @At(path = Array("/api_v1/file/download"), types = Array(GET, POST))
   def download = {
+    if (!hasParam("auth_secret") || param("auth_secret") != RestService.auth_secret) {
+      render(403, "forbidden")
+    }
+
     if (!hasParam("fileName")) {
       render(404, "fileName required")
     }

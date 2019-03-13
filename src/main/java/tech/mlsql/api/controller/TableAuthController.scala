@@ -6,7 +6,7 @@ import net.csdn.modules.http.RestRequest.Method
 import net.liftweb.{json => SJSon}
 import streaming.dsl.auth.{MLSQLTable, TableType}
 import tech.mlsql.model.MlsqlTable
-import tech.mlsql.service.TableAuthService
+import tech.mlsql.service.{RestService, TableAuthService}
 import tech.mlsql.utils.{JSONTool, OperateTypeSerializer}
 
 import scala.collection.JavaConverters._
@@ -18,6 +18,9 @@ import scala.collection.JavaConverters._
 class TableAuthController extends ApplicationController {
   @At(path = Array("/api_v1/table/auth"), types = Array(Method.POST))
   def clusterManager = {
+    if (!hasParam("auth_secret") || param("auth_secret") != RestService.auth_secret) {
+      render(403, "forbidden")
+    }
     val tables = parseJson[List[MLSQLTable]](param("tables"))
     val home = param("home")
     val authTables = TableAuthService.fetchAuth(param("owner")).asScala.map { f =>
