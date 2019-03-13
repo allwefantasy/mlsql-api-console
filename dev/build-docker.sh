@@ -16,4 +16,4 @@ mvn clean package -Pshade
 cp target/mlsql-api-console-${MLSQL_CONSOLE_VERSION}.jar ./dev/docker
 cd $SELF
 
-docker build -t mlsql-console:${MLSQL_CONSOLE_VERSION} ./docker
+docker build --build-arg MLSQL_CONSOLE_JAR=mlsql-api-console-${MLSQL_CONSOLE_VERSION}.jar -t mlsql-console:${MLSQL_CONSOLE_VERSION} ./docker

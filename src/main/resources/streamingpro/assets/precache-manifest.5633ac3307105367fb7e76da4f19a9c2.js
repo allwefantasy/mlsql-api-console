@@ -8,8 +8,8 @@ self.__precacheManifest = [
     "url": "/static/css/main.4e3a75f7.chunk.css"
   },
   {
-    "revision": "0f7149769d6b4ee77b646ee5b90c005a",
-    "url": "/static/media/icons-20.0f714976.ttf"
+    "revision": "9baec0ab0bc3096fb9fe865d6ae29d1d",
+    "url": "/static/media/icons-20.9baec0ab.woff"
   },
   {
     "revision": "836eb315e72e3de680e3",
@@ -36,8 +36,8 @@ self.__precacheManifest = [
     "url": "/static/media/icons-20.c6e7874e.eot"
   },
   {
-    "revision": "9baec0ab0bc3096fb9fe865d6ae29d1d",
-    "url": "/static/media/icons-20.9baec0ab.woff"
+    "revision": "0f7149769d6b4ee77b646ee5b90c005a",
+    "url": "/static/media/icons-20.0f714976.ttf"
   },
   {
     "revision": "836eb315e72e3de680e3",
