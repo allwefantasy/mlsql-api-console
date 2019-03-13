@@ -4,6 +4,7 @@ import net.csdn.common.exception.AutoGeneration;
 import net.csdn.jpa.association.Association;
 import net.csdn.jpa.model.Model;
 
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -15,6 +16,7 @@ public class MlsqlGroupRoleAuth extends Model {
     private MlsqlGroupRole mlsqlGroupRole;
 
     @ManyToOne
+    @JoinColumn(name = "mlsql_table_id")
     private MlsqlTable mlsqlTable;
 
     public Association mlsqlGroupRole() {
