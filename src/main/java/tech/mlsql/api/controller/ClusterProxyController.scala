@@ -7,6 +7,7 @@ import net.csdn.common.settings.Settings
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig
+import tech.mlsql.model.MlsqlBackendProxy
 import tech.mlsql.service.RestService
 
 import scala.collection.JavaConverters._
@@ -27,6 +28,8 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
     newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
     newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
+    newparams += ("context.__auth_client__" -> s"streaming.dsl.auth.meta.client.MLSQLConsoleClient")
+    newparams += ("context.__auth_server_url__" -> s"${myUrl}/api_v1/table/auth")
     newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
     val response = proxy.runScript(newparams)
     render(response.getStatus, response.getContent)
@@ -43,11 +46,21 @@ class ClusterProxyController extends ApplicationController with AuthModule {
       MLSQLConsoleCommandConfig.commandConfig.my_url
     }
     newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
+    newparams -= "teamName"
     val response = param("action") match {
       case "/backend/list" => proxy.backendList(newparams)
-      case "/backend/add" => proxy.backendAdd(newparams)
-      case "/backend/remove" => proxy.backendRemove(newparams)
+      case "/backend/add" =>
+        val tmpRes = proxy.backendAdd(newparams)
+        if (tmpRes.getStatus == 200) {
+          MlsqlBackendProxy.build(param("teamName"), param("name"))
+        }
+        tmpRes
+      case "/backend/remove" =>
+        MlsqlBackendProxy.findByName(param("name")).delete()
+        proxy.backendRemove(newparams)
       case "/backend/tags/update" => proxy.backendTagsUpdate(newparams)
+      case "/backend/name/check" => proxy.backendNameCheck(newparams)
+      case "/backend/list/names" => proxy.backendListNames(newparams)
     }
 
     render(response.getStatus, response.getContent)

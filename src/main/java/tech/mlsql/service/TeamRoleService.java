@@ -229,6 +229,11 @@ public class TeamRoleService {
         return mlsqlGroupRoleAuths;
     }
 
+    public static List<MlsqlBackendProxy> backends(String teamName) {
+        MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
+        return MlsqlBackendProxy.where(map("mlsqlGroup", group)).fetch();
+    }
+
     public static List<MlsqlGroupTable> fetchTables(String teamName) {
         MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
         return MlsqlGroupTable.where(map("mlsqlGroup", group)).joins("mlsqlTable").fetch();

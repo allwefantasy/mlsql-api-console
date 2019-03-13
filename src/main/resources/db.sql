@@ -117,4 +117,14 @@ CREATE TABLE mlsql_role_member
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE mlsql_backend_proxy
+(
+  id             int(11) NOT NULL AUTO_INCREMENT,
+  mlsql_group_id int(11),
+  backend_name   varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 

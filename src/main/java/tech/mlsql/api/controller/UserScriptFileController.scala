@@ -6,6 +6,7 @@ import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.model.{MlsqlUser, ScriptFile}
 import tech.mlsql.service.{ScriptFileRender, ScriptFileService}
+import tech.mlsql.utils.ModelCleaner
 
 @OpenAPIDefinition(
   info = new BasicInfo(
@@ -96,6 +97,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   def getScriptFile = {
     tokenAuth()
     val sf = ScriptFile.getItem(paramAsInt("id", -1))
+    ModelCleaner.cleanForRender(sf)
     render(200, sf)
   }
 

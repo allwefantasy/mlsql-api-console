@@ -220,7 +220,13 @@ class TeamRoleController extends ApplicationController with AuthModule {
     }.groupBy(f => f.id).map { f =>
       f._2.head.copy(operateType = f._2.map(tableMap => tableMap.operateType).mkString(","))
     }.toSeq
+    scalaRender(200, res)
+  }
 
+  @At(path = Array("/api_v1/backends"), types = Array(Method.POST))
+  def backends = {
+    tokenAuth()
+    val res = TeamRoleService.backends(param("teamName")).asScala.map(f => Map("name" -> f.getBackendName))
     scalaRender(200, res)
   }
 

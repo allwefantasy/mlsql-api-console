@@ -24,7 +24,14 @@ public class MlsqlGroup extends Model {
     @OneToMany
     private List<MlsqlGroupTable> mlsqlGroupTables = list();
 
+    @OneToMany
+    private List<MlsqlBackendProxy> mlsqlBackendProxies = list();
+
     public Association mlsqlGroupUsers() {
+        throw new AutoGeneration();
+    }
+
+    public Association mlsqlBackendProxies() {
         throw new AutoGeneration();
     }
 
@@ -40,6 +47,7 @@ public class MlsqlGroup extends Model {
         MlsqlGroup group = MlsqlGroup.where(map("name", name)).singleFetch();
         return group;
     }
+
 
     private String name;
 
