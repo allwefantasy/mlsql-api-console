@@ -55,7 +55,7 @@ class TableAuthController extends ApplicationController {
 
   def withoutAuthSituation(t: MLSQLTable, home: String) = {
     t.tableType.name == TableType.TEMP.name ||
-      t.tableType.name == TableType.HDFS.name && t.table.getOrElse("").startsWith(home) ||
+      (t.tableType.name == TableType.HDFS.name && t.table.getOrElse("").startsWith(home)) ||
       t.tableType.name == "system" ||
       t.tableType.name == TableType.GRAMMAR.name || t.operateType.toString == "set"
   }
