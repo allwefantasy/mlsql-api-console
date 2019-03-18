@@ -4,5 +4,3 @@ target/
 .DS_Store
 dependency-reduced-pom.xml
 dev/docker/*.jar
-dev/docker/*.sh
-dev/docker/*.yml

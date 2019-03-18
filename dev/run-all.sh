@@ -10,7 +10,7 @@ function docker_exec {
   name=$1
   command=$2
   #test -t 1 && USE_TTY="t"
-  docker exec -i${USE_TTY} ${name} bash -c "${command}"
+  docker exec -i${USE_TTY} ${name} bash -c "${command}" /dev/null 2>&1
 }
 
 function check_ready {
@@ -32,6 +32,55 @@ function check_ready {
     echo $recCode
 }
 
+check_cmd() {
+    command -v "$1" > /dev/null 2>&1
+}
+
+say() {
+    printf 'mlsql-docker fail \n %s\n' "$1"
+}
+
+err() {
+    say "$1" >&2
+    exit 1
+}
+
+need_cmd() {
+    if ! check_cmd "$1"; then
+        err "need '$1' (command not found)"
+    fi
+}
+
+need_ok() {
+    if [[ $? -ne 0 ]]; then err "$1"; fi
+}
+
+assert_nz() {
+    if [[ -z "$1" ]]; then err "assert_nz $2"; fi
+}
+
+
+ensure() {
+    "$@"
+    need_ok "command failed: $*"
+}
+
+ignore() {
+    "$@"
+}
+
+check_port() {
+if lsof -Pi :${1} -sTCP:LISTEN -t >/dev/null ; then
+    return 1
+else
+    return 0
+fi
+}
+
+need_cmd docker
+
+# check command ready
+
 echo "----clean all mlsql related containers-----"
 
 ids=$(docker ps --all |grep mlsql|awk '{print $1}')
@@ -41,6 +90,10 @@ echo $v
 docker stop $v
 docker rm $v
 done
+
+ensure check_port 8080
+ensure check_port 9002
+ensure check_port 9003
 
 VERSION=1.2.0-SNAPSHOT
 
