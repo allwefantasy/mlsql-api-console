@@ -13,6 +13,7 @@ development:
       database: mlsql_console
       username: root
       password: mlsql
+      initialSize: 3
       disable: false
     mongodb:
       disable: true
