@@ -125,6 +125,40 @@ CREATE TABLE mlsql_backend_proxy
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `script_file` ADD INDEX `name` (`name`);
+ALTER TABLE `script_user_rw` ADD INDEX `script_file_id` (`script_file_id`);
+ALTER TABLE `script_user_rw` ADD INDEX `mlsql_user_id` (`mlsql_user_id`);
+
+ALTER TABLE `mlsql_user` ADD INDEX `name` (`name`);
+ALTER TABLE `access_token` ADD INDEX `name` (`name`);
+ALTER TABLE `access_token` ADD INDEX `mlsql_user_id` (`mlsql_user_id`);
+ALTER TABLE `mlsql_group` ADD INDEX `name` (`name`);
+ALTER TABLE `mlsql_group_user` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
+ALTER TABLE `mlsql_group_user` ADD INDEX `mlsql_user_id` (`mlsql_user_id`);
+
+ALTER TABLE `mlsql_group_role` ADD INDEX `name` (`name`);
+ALTER TABLE `mlsql_group_role` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
+
+ALTER TABLE `mlsql_table` ADD INDEX `name` (`name`);
+ALTER TABLE `mlsql_table` ADD INDEX `mlsql_table_id` (`mlsql_table_id`);
+ALTER TABLE `mlsql_table` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
+
+ALTER TABLE `mlsql_backend_proxy` ADD INDEX `backend_name` (`backend_name`);
+ALTER TABLE `mlsql_backend_proxy` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
+
+ALTER TABLE `mlsql_role_member` ADD INDEX `mlsql_user_id` (`mlsql_user_id`);
+ALTER TABLE `mlsql_role_member` ADD INDEX `mlsql_group_role_id` (`mlsql_group_role_id`);
+
+ALTER TABLE `mlsql_group_role_auth` ADD INDEX `mlsql_table_id` (`mlsql_table_id`);
+ALTER TABLE `mlsql_group_role_auth` ADD INDEX `mlsql_group_role_id` (`mlsql_group_role_id`);
+
+ALTER TABLE `mlsql_group_table` ADD INDEX `mlsql_table_id` (`mlsql_table_id`);
+ALTER TABLE `mlsql_group_table` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
+
+
+
+
+
 
 
 
