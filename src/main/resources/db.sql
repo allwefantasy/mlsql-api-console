@@ -140,8 +140,6 @@ ALTER TABLE `mlsql_group_role` ADD INDEX `name` (`name`);
 ALTER TABLE `mlsql_group_role` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
 
 ALTER TABLE `mlsql_table` ADD INDEX `name` (`name`);
-ALTER TABLE `mlsql_table` ADD INDEX `mlsql_table_id` (`mlsql_table_id`);
-ALTER TABLE `mlsql_table` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
 
 ALTER TABLE `mlsql_backend_proxy` ADD INDEX `backend_name` (`backend_name`);
 ALTER TABLE `mlsql_backend_proxy` ADD INDEX `mlsql_group_id` (`mlsql_group_id`);
