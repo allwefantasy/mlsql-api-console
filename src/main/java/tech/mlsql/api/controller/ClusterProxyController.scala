@@ -33,6 +33,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("context.__auth_secret__" -> RestService.auth_secret)
     newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
     newparams += ("skipAuth" -> (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center).toString)
+    newparams += ("skipGrammarValidate" -> "false")
     val response = proxy.runScript(newparams)
     render(response.getStatus, response.getContent)
   }
