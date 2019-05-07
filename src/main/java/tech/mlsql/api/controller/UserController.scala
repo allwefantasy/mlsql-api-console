@@ -49,6 +49,8 @@ class UserController extends ApplicationController with AuthModule {
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
     AccessToken.loginToken(user, token)
 
+    user.createDefaultTeamAndRole()
+
     render(200, "{}")
   }
 

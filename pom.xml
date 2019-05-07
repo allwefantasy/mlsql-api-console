@@ -13,7 +13,7 @@
         <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.jline.version>2.11.0-M3</scala.jline.version>
-        <serviceframework.version>2.0.0</serviceframework.version>
+        <serviceframework.version>2.0.1</serviceframework.version>
     </properties>
 
     <profiles>
@@ -117,12 +117,12 @@
 
         <dependency>
             <groupId>net.csdn</groupId>
-            <artifactId>serviceframework-jetty-9-server</artifactId>
+            <artifactId>serviceframework-jetty-9-server_${scala.binary.version}</artifactId>
             <version>${serviceframework.version}</version>
         </dependency>
         <dependency>
             <groupId>net.csdn</groupId>
-            <artifactId>serviceframework-orm_2.11</artifactId>
+            <artifactId>serviceframework-orm_${scala.binary.version}</artifactId>
             <version>${serviceframework.version}</version>
         </dependency>
         <dependency>
@@ -135,6 +135,13 @@
             <artifactId>json4s-jackson_2.11</artifactId>
             <version>3.6.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+
         <dependency>
             <groupId>net.csdn</groupId>
             <artifactId>serviceframework-web_2.11</artifactId>

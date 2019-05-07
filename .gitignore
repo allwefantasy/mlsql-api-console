@@ -4,3 +4,5 @@ target/
 .DS_Store
 dependency-reduced-pom.xml
 dev/docker/*.jar
+src/main/java/tech/mlsql/Main.scala
+src/main/java/tech/mlsql/na/

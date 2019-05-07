@@ -4,6 +4,7 @@ import net.csdn.ServiceFramwork
 import net.csdn.annotation.rest._
 import net.csdn.common.network.NetworkUtils
 import net.csdn.common.settings.Settings
+import net.csdn.jpa.JPA
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig

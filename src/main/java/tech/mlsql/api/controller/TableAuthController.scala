@@ -36,10 +36,10 @@ class TableAuthController extends ApplicationController {
         (t.db.getOrElse(KEY_WORD) + "_" + t.table.getOrElse(KEY_WORD) + "_" + name + "_" + t.sourceType.getOrElse(KEY_WORD), t.operateType.toString, t)
       }
     }.map { t =>
-      checkAuth(t._1, t._3, home, authTables)
-    }.toSeq
+      (t._3, checkAuth(t._1, t._3, home, authTables))
+    }.groupBy(f => f._1).map { f => (f._1, f._2.map(k => k._2).contains(true)) }.toMap
 
-    render(200, JSONTool.toJsonStr(finalResult))
+    render(200, JSONTool.toJsonStr(tables.map { m => finalResult(m) }.toSeq))
   }
 
   def checkAuth(key: String, t: MLSQLTable, home: String, authTables: Map[String, String]): Boolean = {
@@ -56,7 +56,7 @@ class TableAuthController extends ApplicationController {
   def withoutAuthSituation(t: MLSQLTable, home: String) = {
     t.tableType.name == TableType.TEMP.name ||
       (t.tableType.name == TableType.HDFS.name && t.table.getOrElse("").startsWith(home)) ||
-      t.tableType.name == "system" ||
+      (t.tableType.name == "system" && t.table.getOrElse("") != "__resource_allocate__") ||
       t.tableType.name == TableType.GRAMMAR.name || t.operateType.toString == "set"
   }
 

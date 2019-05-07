@@ -5,10 +5,13 @@ import net.csdn.common.exception.AutoGeneration;
 import net.csdn.jpa.association.Association;
 import net.csdn.jpa.model.JPQL;
 import net.csdn.jpa.model.Model;
+import tech.mlsql.service.TeamRoleService;
 
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static net.csdn.common.collections.WowCollections.list;
 import static net.csdn.common.collections.WowCollections.map;
@@ -128,5 +131,14 @@ public class MlsqlUser extends Model {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void createDefaultTeamAndRole() {
+        String uuid = UUID.randomUUID().toString();
+        TeamRoleService.createTeam(this, uuid);
+        List<String> roles = new ArrayList<>();
+        roles.add("admin");
+        TeamRoleService.addRoles(uuid, roles);
+        TeamRoleService.addMemberForRole(uuid, "admin", this.getName());
     }
 }
