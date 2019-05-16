@@ -201,7 +201,7 @@ object FileServerDaemon {
         val file = new File(DEFAULT_TEMP_PATH)
         file.listFiles().foreach { tempFile =>
           try {
-            if (System.currentTimeMillis() - tempFile.lastModified() > 1000 * 60 * 5) {
+            if (System.currentTimeMillis() - tempFile.lastModified() > 1000 * 60 * 120) {
               FileUtils.deleteQuietly(tempFile)
             }
           } catch {

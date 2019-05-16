@@ -21,6 +21,10 @@ public class ScriptUserRw extends Model {
         throw new AutoGeneration();
     }
 
+    public ScriptFile fetchScriptFile() {
+        return this.scriptFile;
+    }
+
 
     private Integer id;
     private Integer readable;

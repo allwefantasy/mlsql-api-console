@@ -13,8 +13,12 @@ development:
       database: mlsql_console
       username: root
       password: mlsql
-      initialSize: 3
+      initialSize: 8
       disable: false
+      removeAbandoned: true
+      testWhileIdle: true
+      removeAbandonedTimeout: 30
+      filters: stat,log4j
     mongodb:
       disable: true
     redis:
@@ -68,6 +72,8 @@ http:
   port: 9002
   disable: false
   host: 0.0.0.0
+  server:
+    idleTimeout: 6000000
   client:
     accept:
       timeout: 43200000

@@ -1,5 +1,6 @@
 package tech.mlsql.api.controller
 
+import net.csdn.annotation.NoTransaction
 import net.csdn.annotation.rest.At
 import net.csdn.modules.http.ApplicationController
 import net.csdn.modules.http.RestRequest.Method

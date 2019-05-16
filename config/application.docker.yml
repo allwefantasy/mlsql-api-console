@@ -15,6 +15,11 @@ development:
       password: mlsql
       disable: false
       initialSize: 3
+      removeAbandoned: true
+      testWhileIdle: true
+      removeAbandonedTimeout: 30
+      filters: stat,log4j
+
     mongodb:
       disable: true
     redis:

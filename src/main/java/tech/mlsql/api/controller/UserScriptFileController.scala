@@ -1,7 +1,6 @@
 package tech.mlsql.api.controller
 
 import net.csdn.ServiceFramwork
-import net.csdn.annotation.NoTransaction
 import net.csdn.annotation.rest._
 import net.csdn.jpa.model.Model
 import net.csdn.modules.http.RestRequest.Method
@@ -95,7 +94,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     render(200, result)
   }
 
-  @NoTransaction
+
   @At(path = Array("/api_v1/script_file/get"), types = Array(Method.GET))
   def getScriptFile = {
     tokenAuth()
@@ -104,7 +103,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     render(200, sf)
   }
 
-  @NoTransaction
+
   @At(path = Array("/api_v1/script_file/include"), types = Array(Method.GET))
   def includeScriptFile = {
     user = MlsqlUser.findByName(param("owner"))

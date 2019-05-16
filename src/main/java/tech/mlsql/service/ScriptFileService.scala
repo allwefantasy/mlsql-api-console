@@ -23,7 +23,7 @@ class ScriptFileService {
 
   def listScriptFileByUser(user: MlsqlUser): String = {
     val res = user.listScriptFiles().map { sur =>
-      val sf = sur.scriptFile().fetch().get(0).asInstanceOf[ScriptFile]
+      val sf = sur.fetchScriptFile()
       ScriptFileRender(sf.getId, sf.getIcon, sf.getLabel, sf.getParentId, sf.isDir, sf.getIsExpanded)
     }
     implicit val formats = Serialization.formats(NoTypeHints)
@@ -33,7 +33,7 @@ class ScriptFileService {
 
   def buildTree(user: MlsqlUser) = {
     val items = user.listScriptFiles().map { sur =>
-      val sf = sur.scriptFile().fetch().get(0).asInstanceOf[ScriptFile]
+      val sf = sur.fetchScriptFile()
       IDParentID(sf.getId, sf.getParentId, sf.getName, ArrayBuffer())
 
     }
