@@ -1,6 +1,5 @@
 package tech.mlsql.api.controller
 
-import net.csdn.annotation.NoTransaction
 import net.csdn.annotation.rest.At
 import net.csdn.modules.http.ApplicationController
 import net.csdn.modules.http.RestRequest.Method
@@ -23,6 +22,9 @@ class TableAuthController extends ApplicationController {
       render(403, "forbidden")
     }
     val tables = parseJson[List[MLSQLTable]](param("tables"))
+
+    //render(200, JSONTool.toJsonStr(tables.map { m => true }.toSeq))
+
     val home = param("home")
     val authTables = TableAuthService.fetchAuth(param("owner")).asScala.map { f =>
       val operateType = f.getOperateType
@@ -32,15 +34,13 @@ class TableAuthController extends ApplicationController {
     }.toMap
 
     // now we will check all table's auth
-    val finalResult = tables.flatMap { t =>
-      t.tableType.includes.map { name =>
-        (t.db.getOrElse(KEY_WORD) + "_" + t.table.getOrElse(KEY_WORD) + "_" + name + "_" + t.sourceType.getOrElse(KEY_WORD), t.operateType.toString, t)
-      }
+    val finalResult = tables.map { t =>
+      (t.db.getOrElse(KEY_WORD) + "_" + t.table.getOrElse(KEY_WORD) + "_" + t.tableType.name + "_" + t.sourceType.getOrElse(KEY_WORD), t.operateType.toString, t)
     }.map { t =>
-      (t._3, checkAuth(t._1, t._3, home, authTables))
-    }.groupBy(f => f._1).map { f => (f._1, f._2.map(k => k._2).contains(true)) }.toMap
+      checkAuth(t._1, t._3, home, authTables)
+    }
 
-    render(200, JSONTool.toJsonStr(tables.map { m => finalResult(m) }.toSeq))
+    render(200, JSONTool.toJsonStr(finalResult))
   }
 
   def checkAuth(key: String, t: MLSQLTable, home: String, authTables: Map[String, String]): Boolean = {

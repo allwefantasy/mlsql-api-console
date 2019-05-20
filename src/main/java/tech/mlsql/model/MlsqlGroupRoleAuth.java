@@ -23,8 +23,8 @@ public class MlsqlGroupRoleAuth extends Model {
         throw new AutoGeneration();
     }
 
-    public Association mlsqlTable() {
-        throw new AutoGeneration();
+    public MlsqlTable getMlsqlTable() {
+        return mlsqlTable;
     }
 
     private String operateType;

@@ -26,6 +26,7 @@ class OperateTypeSerializer
           case "drop" => OperateType.DROP
           case "empty" => OperateType.EMPTY
           case "insert" => OperateType.INSERT
+          case "directQuery" => OperateType.DIRECT_QUERY
         }
 
 

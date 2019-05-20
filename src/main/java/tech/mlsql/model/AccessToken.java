@@ -13,7 +13,7 @@ public class AccessToken extends Model {
     public static AccessToken token(String name) {
         AccessToken token = AccessToken.where(map("name", name)).singleFetch();
         if (token != null) {
-            if (System.currentTimeMillis() - token.createAt > 1000 * 64 * 60) {
+            if (System.currentTimeMillis() - token.createAt > 1000 * 60 * 60 * 24) {
                 nativeSqlClient().execute("delete from access_token where id=?", token.id);
                 return null;
             } else {
