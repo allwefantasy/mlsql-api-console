@@ -18,6 +18,7 @@ import net.csdn.modules.transport.{DefaultHttpTransportService, HttpTransportSer
   */
 object RestService {
   val auth_secret = UUID.randomUUID().toString
+  println(s"auth_secret:${auth_secret}")
   private final val settings: Settings = ServiceFramwork.injector.getInstance(classOf[Settings])
   private final val transportService: HttpTransportService = new DefaultHttpTransportService(new DefaultThreadPoolService(settings), settings)
   private val cache = CacheBuilder.newBuilder()
