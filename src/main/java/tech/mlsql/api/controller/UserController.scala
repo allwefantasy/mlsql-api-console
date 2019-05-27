@@ -139,6 +139,12 @@ class UserController extends ApplicationController with AuthModule {
     render(200, "{}")
   }
 
+  @At(path = Array("/api_v1/test"), types = Array(Method.POST))
+  def test = {
+    logger.info(toJson(params()))
+    render(200, "{}")
+  }
+
 }
 
 

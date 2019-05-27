@@ -19,7 +19,8 @@ RUN mkdir -p /home/deploy/mlsql-api-console
 
 WORKDIR /home/deploy/mlsql-api-console
 
-ENV MLSQL_CONSOLE_JAR=mlsql-api-console-1.2.0-SNAPSHOT.jar
+ARG MLSQL_CONSOLE_JAR
+ENV MLSQL_CONSOLE_JAR=${MLSQL_CONSOLE_JAR}
 ENV MLSQL_CONSOLE_CONFIG_FILE="application.docker.yml"
 ADD ${MLSQL_CONSOLE_JAR} /home/deploy/mlsql-api-console/
 ADD ${MLSQL_CONSOLE_CONFIG_FILE} /home/deploy/mlsql-api-console/

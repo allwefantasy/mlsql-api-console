@@ -19,6 +19,7 @@ development:
       removeAbandonedTimeout: 30
       filters: stat,log4j
       disable: false
+      maxWait: 100
     mongodb:
       disable: true
     redis:

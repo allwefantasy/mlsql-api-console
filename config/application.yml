@@ -18,6 +18,7 @@ development:
       removeAbandoned: true
       testWhileIdle: true
       removeAbandonedTimeout: 30
+      maxWait: 100
       filters: stat,log4j
     mongodb:
       disable: true
