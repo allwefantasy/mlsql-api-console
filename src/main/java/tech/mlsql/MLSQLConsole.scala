@@ -35,7 +35,8 @@ class MLSQLConsoleCommandConfig(params: ParamsUtil) {
   }
 
   def single_user_upload_bytes = {
-    params.getParam("single_user_upload_bytes", s"${1024 * 1024 * 1024 * 8}")
+    val v = 1024l * 1024 * 1024 * 8
+    params.getParam("single_user_upload_bytes", s"${v}")
   }
 
   def enable_auth_center = {

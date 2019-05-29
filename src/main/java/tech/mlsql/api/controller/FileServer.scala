@@ -19,7 +19,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.io.FileUtils
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.service.RestService
-import tech.mlsql.utils.DownloadRunner
+import tech.mlsql.utils.{DownloadRunner, PathFun}
 
 import scala.collection.JavaConversions._
 
@@ -38,9 +38,10 @@ class FileServer extends ApplicationController with AuthModule {
     val items = sfu.parseRequest(request.httpServletRequest())
 
     val homeDir = new File(FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName))
+    var finalDir = ""
     if (homeDir.exists()) {
       val totalSize = FileUtils.sizeOfDirectory(homeDir)
-      if (totalSize > MLSQLConsoleCommandConfig.commandConfig.single_user_upload_bytes.toInt) {
+      if (totalSize > MLSQLConsoleCommandConfig.commandConfig.single_user_upload_bytes.toLong) {
         render(400, s"You have no enough space. The limit is ${MLSQLConsoleCommandConfig.commandConfig.single_user_upload_bytes.toInt} bytes", ViewType.string)
       }
     }
@@ -68,12 +69,18 @@ class FileServer extends ApplicationController with AuthModule {
       items.filterNot(f => f.isFormField).map {
         item =>
           val fileContent = item.getInputStream()
-          val tempFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName) + s"""${if (item.getFieldName.startsWith("/")) "" else "/"}""" + item.getFieldName
+          val tempFilePath = PathFun(FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName)).add(item.getFieldName).toPath
           val dir = new File(tempFilePath.split("/").dropRight(1).mkString("/"))
           if (!dir.exists()) {
             dir.mkdirs()
           }
           val targetPath = new File(tempFilePath)
+
+          if (tempFilePath.substring(homeDir.getPath.length).stripPrefix("/").stripSuffix("/").split("/").length >= 2) {
+            finalDir = dir.getPath.substring(homeDir.getPath.length())
+          } else {
+            finalDir = tempFilePath.substring(homeDir.getPath.length())
+          }
           //upload.setSizeMax(yourMaxRequestSize);
           logger.info(s"upload to ${targetPath.getPath}")
           FileUtils.copyInputStreamToFile(fileContent, targetPath)
@@ -84,6 +91,38 @@ class FileServer extends ApplicationController with AuthModule {
         logger.info("upload fail ", e)
         render(500, s"upload fail,check master log ${e.getMessage}", ViewType.string)
     }
+
+    def runUpload() = {
+      val proxy = RestService.client(MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url)
+      var newparams = Map[String, String](
+        "sql" ->
+          s"""
+             |run command as DownloadExt.`` where from="${finalDir}" and to="/tmp/upload";
+          """.stripMargin,
+        "owner" -> user.getName,
+        "jobName" -> UUID.randomUUID().toString,
+        "sessionPerUser" -> "true",
+        "show_stack" -> "false",
+        "tags" -> user.getBackendTags
+      )
+      val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
+        s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
+      } else {
+        MLSQLConsoleCommandConfig.commandConfig.my_url
+      }
+      newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
+      newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
+      newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
+      newparams += ("context.__auth_secret__" -> RestService.auth_secret)
+      newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
+      val response = proxy.runScript(newparams)
+      if (response.getStatus != 200) {
+        render(500, WowCollections.map("msg", response.getContent), ViewType.json)
+      }
+    }
+
+    runUpload()
+
     throw new RenderFinish()
     //val fields = items.filter(f => f.isFormField)
   }
@@ -97,7 +136,7 @@ class FileServer extends ApplicationController with AuthModule {
     if (!hasParam("fileName")) {
       render(404, "fileName required")
     }
-    var targetFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(param("userName")) + "/" + param("fileName")
+    var targetFilePath = PathFun(FileServerDaemon.DEFAULT_TEMP_PATH + md5(param("userName"))).add(param("fileName")).toPath
     if (param("fileName").startsWith("public/")) {
       targetFilePath = "/data/mlsql/data/" + param("fileName")
     }
@@ -154,6 +193,7 @@ class FileServer extends ApplicationController with AuthModule {
       newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
       newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
       newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
+      newparams += ("context.__auth_secret__" -> RestService.auth_secret)
       newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
       val response = proxy.runScript(newparams)
       if (response.getStatus != 200) {
@@ -165,7 +205,7 @@ class FileServer extends ApplicationController with AuthModule {
 
     val newFile = param("fileName").split("/").filterNot(f => f.isEmpty).last
 
-    val targetFilePath = FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName) + "/" + newFile
+    val targetFilePath = PathFun(FileServerDaemon.DEFAULT_TEMP_PATH + md5(user.getName)).add(newFile).toPath
 
     try {
       if (newFile.endsWith(".tar")) {
