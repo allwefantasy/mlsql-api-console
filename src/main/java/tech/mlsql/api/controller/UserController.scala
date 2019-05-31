@@ -7,6 +7,7 @@ import net.csdn.annotation.rest._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.model.{AccessToken, MlsqlUser}
+import tech.mlsql.utils.JSONTool
 
 
 @OpenAPIDefinition(
@@ -68,6 +69,9 @@ class UserController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/user/userName"), types = Array(Method.GET, Method.POST))
   def userName = {
     tokenAuth()
+    if (user.getStatus == MlsqlUser.STATUS_LOCK) {
+      render(400, s"""{"msg":"userName${param("userName")} has been lock"}""")
+    }
     render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
   }
 
@@ -131,12 +135,36 @@ class UserController extends ApplicationController with AuthModule {
     if (user.getPassword != md5(param("password"))) {
       render(400, s"""{"msg":"password  is not correct"}""")
     }
-
+    if (user.getStatus == MlsqlUser.STATUS_LOCK) {
+      render(400, s"""{"msg":"userName${param("userName")} has been lock"}""")
+    }
     val token = UUID.randomUUID().toString
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
     AccessToken.loginToken(user, token)
 
     render(200, "{}")
+  }
+
+  @At(path = Array("/api_v1/changepassword"), types = Array(Method.POST))
+  def changepassword = {
+    tokenAuth(false)
+
+    if (user.getStatus == MlsqlUser.STATUS_LOCK) {
+      render(400, s"""{"msg":"userName${user.getName} has been lock"}""")
+    }
+
+    if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+      render(400, s"""{"msg":"userName${user.getName} has been paused"}""")
+    }
+
+
+    if (user.getPassword == md5(param("password"))) {
+      user.setPassword(md5(param("newPassword")))
+      user.save()
+    } else {
+      render(200, JSONTool.toJsonStr(Map("msg" -> "change password fail")))
+    }
+    render(200, JSONTool.toJsonStr(Map("msg" -> "success")))
   }
 
   @At(path = Array("/api_v1/test"), types = Array(Method.POST))

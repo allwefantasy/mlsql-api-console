@@ -43,6 +43,9 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     if (hasParam("id")) {
       val sf = ScriptFile.getItem(param("id").toInt)
       if (hasParam("content")) {
+        if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+          render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
+        }
         sf.setContent(param("content"))
       }
       if (hasParam("isExpanded")) {
@@ -50,6 +53,9 @@ class UserScriptFileController extends ApplicationController with AuthModule {
       }
       sf.save()
     } else {
+      if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+        render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
+      }
       val parentId = paramAsInt("parentId", -1)
       scriptFileService.createFile(
         user.getName,
@@ -65,6 +71,9 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/script_file/remove"), types = Array(Method.DELETE, Method.GET, Method.POST))
   def removeScriptFile = {
     tokenAuth()
+    if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+      render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
+    }
     scriptFileService.removeFile(paramAsInt("id", -1), user)
     render(200, "{}")
   }

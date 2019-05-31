@@ -92,6 +92,19 @@ public class MlsqlUser extends Model {
     private String password;
     private String backendTags;
     private String role;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public static String STATUS_NORMAL = "normal"; // null or normal means ok
+    public static String STATUS_PAUSE = "pause"; // shutdown all write/update function
+    public static String STATUS_LOCK = "lock";   // disable login
 
     public String getRole() {
         return role;
@@ -132,6 +145,7 @@ public class MlsqlUser extends Model {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public void createDefaultTeamAndRole() {
         String uuid = UUID.randomUUID().toString();

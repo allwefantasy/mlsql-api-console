@@ -35,7 +35,7 @@ class MLSQLConsoleCommandConfig(params: ParamsUtil) {
   }
 
   def single_user_upload_bytes = {
-    val v = 1024l * 1024 * 1024 * 8
+    val v = 1024l * 1024 * 125
     params.getParam("single_user_upload_bytes", s"${v}")
   }
 
