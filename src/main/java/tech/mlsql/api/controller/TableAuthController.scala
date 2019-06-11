@@ -26,18 +26,27 @@ class TableAuthController extends ApplicationController {
     //render(200, JSONTool.toJsonStr(tables.map { m => true }.toSeq))
 
     val home = param("home")
+
     val authTables = TableAuthService.fetchAuth(param("owner")).asScala.map { f =>
       val operateType = f.getOperateType
       val table = f.attr("mlsqlTable", classOf[MlsqlTable])
-      val key = table.getDb + "_" + table.getName + "_" + table.getTableType + "_" + table.getSourceType
-      (key, operateType)
+      val sourceType = if (table.getSourceType == null || table.getSourceType == KEY_WORD) table.getTableType else table.getSourceType
+      val key = table.getDb + "_" + table.getName + "_" + table.getTableType + "_" + sourceType + "_" + operateType
+      (key, "")
     }.toMap
+
+    def getOrUndefined(a: Option[String]) = {
+      a match {
+        case Some(i) => if (i == null || i.isEmpty) KEY_WORD else i
+        case None => KEY_WORD
+      }
+    }
 
     // now we will check all table's auth
     val finalResult = tables.map { t =>
-      (t.db.getOrElse(KEY_WORD) + "_" + t.table.getOrElse(KEY_WORD) + "_" + t.tableType.name + "_" + t.sourceType.getOrElse(KEY_WORD), t.operateType.toString, t)
+      (getOrUndefined(t.db) + "_" + getOrUndefined(t.table) + "_" + t.tableType.name + "_" + getOrUndefined(t.sourceType) + "_" + t.operateType.toString, t)
     }.map { t =>
-      checkAuth(t._1, t._3, home, authTables)
+      checkAuth(t._1, t._2, home, authTables)
     }
 
     render(200, JSONTool.toJsonStr(finalResult))
@@ -47,7 +56,7 @@ class TableAuthController extends ApplicationController {
     if (forbidden(t, home)) return false
     if (withoutAuthSituation(t, home)) return true
     return authTables.get(key) match {
-      case Some(operateType) => operateType == t.operateType.toString
+      case Some(_) => true
       case None => false
     }
 

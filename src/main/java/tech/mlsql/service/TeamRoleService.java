@@ -218,7 +218,7 @@ public class TeamRoleService {
     public static String removeRoleTable(String teamName, String roleName, Integer tableId) {
         MlsqlGroup group = MlsqlGroup.fetchByName(teamName);
         MlsqlGroupRole groupRole = MlsqlGroupRole.where(map("mlsqlGroup", group, "name", roleName)).singleFetch();
-        MlsqlGroupRoleAuth.nativeSqlClient().execute("delete mlsql_group_role_auth where mlsql_table_id=? and mlsql_group_role_id=?", tableId, groupRole.id());
+        MlsqlGroupRoleAuth.nativeSqlClient().execute("delete from mlsql_group_role_auth where mlsql_table_id=? and mlsql_group_role_id=?", tableId, groupRole.id());
         return ReturnCode.SUCCESS;
     }
 

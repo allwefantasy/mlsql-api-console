@@ -155,6 +155,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/role/table/add"), types = Array(Method.POST))
   def RoleTableAdd = {
     tokenAuth()
+    
     TeamRoleService.addTableForRole(param("teamName"),
       param("roleName"),
       paramAsStringArray("tableName", null).toList.map(f => new Integer(f.toInt)).asJava,
@@ -204,7 +205,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/role/table/remove"), types = Array(Method.POST))
   def RoleTableRemove = {
     tokenAuth()
-    TeamRoleService.removeRoleTable(param("teamName"), param("roleName"), paramAsInt("TableId", -1))
+    TeamRoleService.removeRoleTable(param("teamName"), param("roleName"), paramAsInt("tableId", -1))
     scalaRender(200, Map("msg" -> "success"))
   }
 
