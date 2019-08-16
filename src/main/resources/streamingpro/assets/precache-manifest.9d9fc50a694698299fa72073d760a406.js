@@ -20,24 +20,24 @@ self.__precacheManifest = [
     "url": "/static/js/2.eee1ebce.chunk.js"
   },
   {
-    "revision": "9f52e4014adab067c8ef0f48ec1a4f43",
-    "url": "/static/media/icons-16.9f52e401.eot"
+    "revision": "9baec0ab0bc3096fb9fe865d6ae29d1d",
+    "url": "/static/media/icons-20.9baec0ab.woff"
   },
   {
     "revision": "befb1a58e4dec496432f",
     "url": "/static/js/main.2c7b2265.chunk.js"
   },
   {
-    "revision": "c6e7874eefb0dacfd50dad73a2de5a17",
-    "url": "/static/media/icons-20.c6e7874e.eot"
-  },
-  {
     "revision": "d75e6370295e046dd0b170ee42c3fa44",
     "url": "/static/media/icons-16.d75e6370.ttf"
   },
   {
-    "revision": "9baec0ab0bc3096fb9fe865d6ae29d1d",
-    "url": "/static/media/icons-20.9baec0ab.woff"
+    "revision": "9f52e4014adab067c8ef0f48ec1a4f43",
+    "url": "/static/media/icons-16.9f52e401.eot"
+  },
+  {
+    "revision": "c6e7874eefb0dacfd50dad73a2de5a17",
+    "url": "/static/media/icons-20.c6e7874e.eot"
   },
   {
     "revision": "cf6765f05133d0bc6736",
