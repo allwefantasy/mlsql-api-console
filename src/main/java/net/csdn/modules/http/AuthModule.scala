@@ -1,7 +1,7 @@
 package net.csdn.modules.http
 
-import tech.mlsql.model.AccessToken
-import tech.mlsql.model.MlsqlUser
+import tech.mlsql.model.{AccessToken, MlsqlUser}
+import tech.mlsql.service.RestService
 
 /**
   * 2018-12-02 WilliamZhu(allwefantasy@gmail.com)
@@ -12,17 +12,25 @@ trait AuthModule {
     restResponse.httpServletResponse().setHeader("Access-Control-Allow-Origin", "*")
     if (!ignoreToken) {
       accessToken = request.header(ACCESS_TOKEN_NAME)
-      if(isEmpty(accessToken)){
+      if (isEmpty(accessToken)) {
         accessToken = request.cookie(ACCESS_TOKEN_NAME)
       }
       if (isEmpty(accessToken)) {
         render(401,"""{"msg":"accessToken is invalidate"}""")
       }
-      val token = AccessToken.token(accessToken)
-      if (isNull(token)) {
-        render(401,"""{"msg":"accessToken is invalidate"}""")
+
+      //to interact with service
+      if (accessToken == RestService.auth_secret) {
+        user = MlsqlUser.findByName(param("owner"))
+      } else {
+        val token = AccessToken.token(accessToken)
+        if (isNull(token)) {
+          render(401,"""{"msg":"accessToken is invalidate"}""")
+        }
+        user = token.mlsqlUser().fetch().get(0).asInstanceOf[MlsqlUser]
       }
-      user = token.mlsqlUser().fetch().get(0).asInstanceOf[MlsqlUser]
+
+
     }
 
   }

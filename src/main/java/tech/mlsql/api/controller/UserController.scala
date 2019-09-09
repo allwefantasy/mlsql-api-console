@@ -88,11 +88,36 @@ class UserController extends ApplicationController with AuthModule {
     if (hasParam("backendTags")) {
 
       def updateTags(user: MlsqlUser) = {
-        if (paramAsBoolean("append", false)) {
-          user.setBackendTags((if (user.getBackendTags == null) "" else user.getBackendTags + ",") + param("backendTags"))
-        } else {
-          user.setBackendTags(param("backendTags"))
+        val res = if (user.getBackendTags != null) {
+          try {
+            JSONTool.parseJson[Map[String, String]](user.getBackendTags)
+          } catch {
+            case e: Exception =>
+              Map(MlsqlUser.NORMAL_TAG_TYPE -> user.getBackendTags)
+          }
+
+        } else Map[String, String]()
+
+        def appendTag(tags: String) = {
+          if (paramAsBoolean("append", false)) {
+            tags + "," + param("backendTags")
+          } else {
+            param("backendTags")
+          }
         }
+
+        val tagType = if (paramAsBoolean("isScheduler", false)) MlsqlUser.SCHEDULER_TAG_TYPE else MlsqlUser.NORMAL_TAG_TYPE
+
+        val tempMap = res.get(tagType) match {
+          case Some(tags) =>
+            Map(tagType -> appendTag(tags))
+
+          case None => Map(tagType -> param("backendTags"))
+        }
+
+        val finalMap = res ++ tempMap
+
+        user.setBackendTags(JSONTool.toJsonStr(finalMap))
         user.save()
       }
 
@@ -101,6 +126,7 @@ class UserController extends ApplicationController with AuthModule {
     }
     render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
   }
+
 
   def md5(s: String) = {
     new String(MessageDigest.getInstance("MD5").digest(s.getBytes))

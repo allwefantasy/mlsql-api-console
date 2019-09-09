@@ -106,6 +106,9 @@ public class MlsqlUser extends Model {
     public static String STATUS_PAUSE = "pause"; // shutdown all write/update function
     public static String STATUS_LOCK = "lock";   // disable login
 
+    public static String SCHEDULER_TAG_TYPE = "scheduler";
+    public static String NORMAL_TAG_TYPE = "normal";
+
     public String getRole() {
         return role;
     }

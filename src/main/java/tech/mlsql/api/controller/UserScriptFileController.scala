@@ -4,7 +4,7 @@ import net.csdn.ServiceFramwork
 import net.csdn.annotation.rest._
 import net.csdn.jpa.model.Model
 import net.csdn.modules.http.RestRequest.Method
-import net.csdn.modules.http.{ApplicationController, AuthModule}
+import net.csdn.modules.http.{ApplicationController, AuthModule, ViewType}
 import tech.mlsql.model.{MlsqlUser, ScriptFile}
 import tech.mlsql.service.{ScriptFileRender, ScriptFileService}
 import tech.mlsql.utils.ModelCleaner
@@ -119,6 +119,15 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     val path = param("path")
     val node = scriptFileService.findScriptFileByPath(user, path)
     render(200, node.getContent())
+  }
+
+  @At(path = Array("/api_v1/script_file/path/id"), types = Array(Method.GET))
+  def pathId = {
+    tokenAuth()
+    user = MlsqlUser.findByName(param("owner"))
+    val path = param("path")
+    val node = scriptFileService.findScriptFileByPath(user, path)
+    render(200, node.getId,ViewType.string)
   }
 
   def scriptFileService = ServiceFramwork.injector.getInstance(classOf[ScriptFileService])

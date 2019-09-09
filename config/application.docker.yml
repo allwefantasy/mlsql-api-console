@@ -48,7 +48,7 @@ production:
 ###############application config##################
 #'model' for relational database  like MySQL
 #'document' for NoSQL database model configuration,  MongoDB
-
+auth_secret: "mlsql"
 application:
   controller: tech.mlsql.api.controller
   model:      tech.mlsql.model
