@@ -6,14 +6,16 @@
 
     <groupId>allwefantasy</groupId>
     <artifactId>mlsql-api-console</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.jline.version>2.11.0-M3</scala.jline.version>
-        <serviceframework.version>2.0.1</serviceframework.version>
+        <serviceframework.version>2.0.2</serviceframework.version>
+        <mlsql.version>1.5.0</mlsql.version>
+        <common-utils-version>0.2.1</common-utils-version>
     </properties>
 
     <profiles>
@@ -53,6 +55,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>tech.mlsql</groupId>
+            <artifactId>common-utils_${scala.binary.version}</artifactId>
+            <version>${common-utils-version}</version>
+        </dependency>
+        
+        <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
@@ -65,31 +73,15 @@
         </dependency>
         <dependency>
             <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.11</artifactId>
+            <artifactId>scalatest_${scala.binary.version}</artifactId>
             <version>3.0.3</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-            <version>3.11.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-meta</artifactId>
-            <version>3.11.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-codegen</artifactId>
-            <version>3.11.5</version>
-        </dependency>
-
-        <dependency>
             <groupId>tech.mlsql</groupId>
-            <artifactId>streamingpro-api</artifactId>
-            <version>1.2.0</version>
+            <artifactId>streamingpro-api-2.4_${scala.binary.version}</artifactId>
+            <version>${mlsql.version}</version>
         </dependency>
 
         <dependency>
@@ -111,7 +103,7 @@
 
         <dependency>
             <groupId>net.liftweb</groupId>
-            <artifactId>lift-json-ext_2.11</artifactId>
+            <artifactId>lift-json-ext_${scala.binary.version}</artifactId>
             <version>3.3.0</version>
         </dependency>
 
@@ -132,7 +124,7 @@
         </dependency>
         <dependency>
             <groupId>org.json4s</groupId>
-            <artifactId>json4s-jackson_2.11</artifactId>
+            <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
             <version>3.6.1</version>
         </dependency>
 
@@ -144,7 +136,7 @@
 
         <dependency>
             <groupId>net.csdn</groupId>
-            <artifactId>serviceframework-web_2.11</artifactId>
+            <artifactId>serviceframework-web_${scala.binary.version}</artifactId>
             <version>${serviceframework.version}</version>
             <exclusions>
                 <exclusion>

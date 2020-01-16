@@ -62,10 +62,16 @@ class ScriptFileService {
 
     def splitPath = {
       var temp = path.split("\\.")
+      var suffix = ".mlsql"
       if (path.endsWith(".mlsql")) {
+        suffix = ".mlsql"
         temp = path.replaceAll("\\.mlsql$", "").split("\\.")
       }
-      temp(temp.length - 1) = temp.last + ".mlsql"
+      if (path.endsWith(".py")) {
+        suffix = ".py"
+        temp = path.replaceAll("\\.py$", "").split("\\.")
+      }
+      temp(temp.length - 1) = temp.last + suffix
       temp
     }
 

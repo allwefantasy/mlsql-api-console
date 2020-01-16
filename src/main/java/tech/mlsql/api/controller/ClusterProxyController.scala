@@ -8,7 +8,7 @@ import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
-import tech.mlsql.service.RestService
+import tech.mlsql.service.{FullPathAndScriptFile, QuillScriptFileService, RestService}
 import tech.mlsql.utils.JSONTool
 
 import scala.collection.JavaConverters._
@@ -26,8 +26,17 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     } else {
       MLSQLConsoleCommandConfig.commandConfig.my_url
     }
-
-    val sql = newparams("sql")
+    val quileFileService = findService(classOf[QuillScriptFileService])
+    val sql = newparams.getOrElse("runMode", "mlsql") match {
+      case "python" =>
+        val currentFile = quileFileService.findScriptFile(newparams("scriptId").toInt)
+        JSONTool.toJsonStr(List(FullPathAndScriptFile(quileFileService.buildFullPath(currentFile), currentFile)))
+      case "pythonProject" =>
+        val projectName = quileFileService.findProjectNameFileIn(newparams("scriptId").toInt)
+        val buffer = quileFileService.findProjectFiles(user.getName, projectName).toList
+        JSONTool.toJsonStr(buffer)
+      case _ => newparams("sql")
+    }
 
     val tagsMap = try {
       JSONTool.parseJson[Map[String, String]](user.getBackendTags)
@@ -53,6 +62,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
     newparams += ("skipAuth" -> (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center).toString)
     newparams += ("skipGrammarValidate" -> "false")
+    newparams += ("sql" -> sql)
     val response = proxy.runScript(newparams)
     render(response.getStatus, response.getContent)
   }
@@ -87,4 +97,5 @@ class ClusterProxyController extends ApplicationController with AuthModule {
 
     render(response.getStatus, response.getContent)
   }
+
 }

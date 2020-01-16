@@ -18,8 +18,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.io.FileUtils
 import tech.mlsql.MLSQLConsoleCommandConfig
+import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.service.RestService
-import tech.mlsql.utils.{DownloadRunner, PathFun}
+import tech.mlsql.utils.DownloadRunner
 
 import scala.collection.JavaConversions._
 
