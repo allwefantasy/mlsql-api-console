@@ -29,6 +29,8 @@ import scala.collection.JavaConversions._
   */
 class FileServer extends ApplicationController with AuthModule {
 
+  val clusterUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url
+  val engineUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_engine_url
 
   @At(path = Array("/api_v1/file/upload"), types = Array(RestRequest.Method.GET, RestRequest.Method.POST))
   def formUpload = {
@@ -94,7 +96,9 @@ class FileServer extends ApplicationController with AuthModule {
     }
 
     def runUpload() = {
-      val proxy = RestService.client(MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url)
+      val proxyUrl = if (clusterUrl != null) clusterUrl
+      else engineUrl
+      val proxy = RestService.client(proxyUrl)
       var newparams = Map[String, String](
         "sql" ->
           s"""
@@ -174,7 +178,9 @@ class FileServer extends ApplicationController with AuthModule {
 
 
     def runUpload() = {
-      val proxy = RestService.client(MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url)
+      val proxyUrl = if (clusterUrl != null) clusterUrl
+      else engineUrl
+      val proxy = RestService.client(proxyUrl)
       var newparams = Map[String, String](
         "sql" ->
           s"""

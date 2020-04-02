@@ -5,8 +5,8 @@ import net.csdn.bootstrap.Application
 import tech.mlsql.utils.ParamsUtil
 
 /**
-  * 2019-01-03 WilliamZhu(allwefantasy@gmail.com)
-  */
+ * 2019-01-03 WilliamZhu(allwefantasy@gmail.com)
+ */
 object MLSQLConsole {
 
 
@@ -23,7 +23,11 @@ object MLSQLConsole {
 
 class MLSQLConsoleCommandConfig(params: ParamsUtil) {
   def mlsql_cluster_url = {
-    params.getParam("mlsql_cluster_url", "http://127.0.0.1:9003")
+    params.getParam("mlsql_cluster_url")
+  }
+
+  def mlsql_engine_url = {
+    params.getParam("mlsql_engine_url", "http://127.0.0.1:9003")
   }
 
   def my_url = {

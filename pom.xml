@@ -13,7 +13,7 @@
         <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.jline.version>2.11.0-M3</scala.jline.version>
-        <serviceframework.version>2.0.2</serviceframework.version>
+        <serviceframework.version>2.0.3</serviceframework.version>
         <mlsql.version>1.5.0</mlsql.version>
         <common-utils-version>0.2.1</common-utils-version>
     </properties>

@@ -12,7 +12,8 @@ case class ScriptFile(id: Int,
                       isDir: Int,
                       content: String,
                       isExpanded: Int
-                     )
+                     ) {
+}
 
 case class ScriptUserRw(id: Int,
                         scriptFileId: Int,

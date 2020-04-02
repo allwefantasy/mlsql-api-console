@@ -14,11 +14,11 @@ import scala.collection.mutable.ArrayBuffer
 @Singleton
 class QuillScriptFileService {
 
-  def findScriptFile(scriptId:Int) = {
+  def findScriptFile(scriptId: Int) = {
     ctx.run(query[quill_model.ScriptFile].filter(_.id == lift(scriptId))).head
   }
 
-  def buildFullPath(scriptFile:quill_model.ScriptFile) = {
+  def buildFullPath(scriptFile: quill_model.ScriptFile) = {
     val pathBuffer = ArrayBuffer[String]()
     var item = scriptFile
     pathBuffer += item.name
@@ -71,6 +71,13 @@ class QuillScriptFileService {
 
     collectPaths(targetProject)
     buffer
+  }
+
+  def isInPackage(currentScriptFile: FullPathAndScriptFile, projectFiles: List[FullPathAndScriptFile]): Boolean = {
+    projectFiles.map(sf => sf.path.split("/")).
+      filter(sfArray => sfArray.last=="__init__.py").
+      map(sfArray => sfArray.dropRight(1)).
+      filter(f => f.mkString("/") == currentScriptFile.path.split("/").dropRight(1).mkString("/")).size > 0
   }
 
   def findProjectNameFileIn(id: Int) = {
