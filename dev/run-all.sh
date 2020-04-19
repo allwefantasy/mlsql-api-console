@@ -92,80 +92,76 @@ docker stop $v
 docker rm $v
 done
 
-ensure check_port 8080
+ensure check_port 3306
 ensure check_port 9002
 ensure check_port 9003
 
-VERSION=1.3.0-SNAPSHOT
+VERSION=1.6.0-SNAPSHOT
 
 echo "------create mlsql-network-----"
 docker network rm  mlsql-network
 docker network create mlsql-network
 
-echo "------create mlsql-engine------"
+
+
+echo "start mysql"
+
+docker run --name mlsql-db -p 3306:3306 \
+--network mlsql-network \
+-e MYSQL_ROOT_PASSWORD=mlsql \
+-d techmlsql/mlsql-db:1.6.0-SNAPSHOT
+
+
+#EXEC_MLSQL_PREFIX="exec mysql -uroot -pmlsql --protocol=tcp "
+#
+#check_ready mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'SHOW CHARACTER SET'"
+#
+#if [[ "$?" != "0" ]];then
+#   echo "cannot start mysql in docker"
+#   exit 1
+#fi
+#
+#echo "------create db mlsql cluster ------"
+#
+#docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'create database mlsql_cluster'"
+#docker_id=$(docker inspect -f   '{{.Id}}' mlsql-console-mysql)
+#rm -rf cluster-db.sql
+#wget download.mlsql.tech/scripts/cluster-db.sql .
+#docker cp cluster-db.sql ${docker_id}:/tmp
+#docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} mlsql_cluster < /tmp/cluster-db.sql"
+#
+#
+#echo "------create db mlsql_console ------"
+#docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'create database mlsql_console'"
+#
+##导入数据
+#docker_id=$(docker inspect -f   '{{.Id}}' mlsql-console-mysql)
+#rm -rf  console-db.sql
+#wget download.mlsql.tech/scripts/console-db.sql .
+#docker cp console-db.sql ${docker_id}:/tmp
+#docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} mlsql_console < /tmp/console-db.sql"
+
+
+echo "------start mlsql engine ------"
 
 docker run --name mlsql-server -d \
 --network mlsql-network \
 -p 9003:9003 \
-techmlsql/mlsql:spark_2.4-${VERSION}
+techmlsql/mlsql:spark_2.4-1.6.0-SNAPSHOT
 
-echo "start mysql"
-
-echo "-------------------------------------------------------------------------"
-echo " Notice:"
-echo " We are trying to connect MySQL to check when it's ready."
-echo " There are may some errors, please ignore them"
-echo "--------------------------------------------------------------------------"
-
-docker run --name mlsql-console-mysql --network mlsql-network  -e MYSQL_ROOT_PASSWORD=mlsql -d mysql:5.7
-
-
-EXEC_MLSQL_PREFIX="exec mysql -uroot -pmlsql --protocol=tcp "
-
-check_ready mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'SHOW CHARACTER SET'"
-
-if [[ "$?" != "0" ]];then
-   echo "cannot start mysql in docker"
-   exit 1
-fi
-
-echo "------create db mlsql cluster ------"
-
-docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'create database mlsql_cluster'"
-docker_id=$(docker inspect -f   '{{.Id}}' mlsql-console-mysql)
-rm -rf cluster-db.sql
-wget download.mlsql.tech/scripts/cluster-db.sql .
-docker cp cluster-db.sql ${docker_id}:/tmp
-docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} mlsql_cluster < /tmp/cluster-db.sql"
-
-
-echo "------create db mlsql_console ------"
-docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} -e 'create database mlsql_console'"
-
-#导入数据
-docker_id=$(docker inspect -f   '{{.Id}}' mlsql-console-mysql)
-rm -rf  console-db.sql
-wget download.mlsql.tech/scripts/console-db.sql .
-docker cp console-db.sql ${docker_id}:/tmp
-docker_exec mlsql-console-mysql "${EXEC_MLSQL_PREFIX} mlsql_console < /tmp/console-db.sql"
-
-
-echo "------start mlsql cluster ------"
-
-docker run --name mlsql-cluster \
--d --network mlsql-network \
--p 8080:8080 \
-techmlsql/mlsql-cluster:${VERSION}
-
+echo "------sleep 10 senconds to make sure mysql is ready"
+sleep 10
 
 echo "------start mlsql console ------"
 docker run --name mlsql-console \
--d --network mlsql-network \
+--network mlsql-network \
 -p 9002:9002 \
--e MLSQL_CLUSTER_URL=http://mlsql-cluster:8080 \
+-e MLSQL_ENGINE_URL=http://mlsql-server:9003 \
 -e MY_URL=http://mlsql-console:9002 \
--e USER_HOME=/home/users \
-techmlsql/mlsql-console:${VERSION}
+-e USER_HOME=/tmp/users \
+-e MYSQL_HOST=mlsql-db \
+-d \
+techmlsql/mlsql-console:1.6.0-SNAPSHOT
 
 
 

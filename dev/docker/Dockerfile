@@ -25,8 +25,4 @@ ENV MLSQL_CONSOLE_CONFIG_FILE="application.docker.yml"
 ADD ${MLSQL_CONSOLE_JAR} /home/deploy/mlsql-api-console/
 ADD ${MLSQL_CONSOLE_CONFIG_FILE} /home/deploy/mlsql-api-console/
 ADD start.sh /home/deploy/mlsql-api-console/
-
-ENV MYSQL_HOST=mlsql-console-mysql
-RUN sed -i "s/MYSQL_HOST/${MYSQL_HOST}/g" application.docker.yml
-
 CMD ./start.sh
