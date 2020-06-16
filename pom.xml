@@ -15,7 +15,7 @@
         <scala.jline.version>2.11.0-M3</scala.jline.version>
         <serviceframework.version>2.0.6</serviceframework.version>
         <mlsql.version>1.5.0</mlsql.version>
-        <common-utils-version>0.2.8</common-utils-version>
+        <common-utils-version>0.3.4</common-utils-version>
     </properties>
 
     <profiles>

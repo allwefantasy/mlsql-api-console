@@ -147,7 +147,7 @@ echo "------start mlsql engine ------"
 docker run --name mlsql-server -d \
 --network mlsql-network \
 -p 9003:9003 \
-techmlsql/mlsql:spark_2.4-1.6.0-SNAPSHOT
+techmlsql/mlsql:latest
 
 echo "------sleep 10 senconds to make sure mysql is ready"
 sleep 10
