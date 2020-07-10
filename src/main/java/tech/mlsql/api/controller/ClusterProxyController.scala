@@ -4,10 +4,13 @@ import net.csdn.ServiceFramwork
 import net.csdn.annotation.rest._
 import net.csdn.common.network.NetworkUtils
 import net.csdn.common.settings.Settings
+import net.csdn.jpa.QuillDB.ctx._
+import net.csdn.jpa.QuillDB.ctx
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
+import tech.mlsql.quill_model.MlsqlJob
 import tech.mlsql.service.{QuillScriptFileService, RestService}
 import tech.mlsql.utils.JSONTool
 
@@ -25,7 +28,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
 
     val proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl
     else engineUrl
-    
+
     val proxy = RestService.client(proxyUrl)
     var newparams = params().asScala.toMap
     val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
@@ -66,7 +69,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
       tagsMap.get(MlsqlUser.NORMAL_TAG_TYPE).getOrElse("")
     }
 
-    if(tags==null){
+    if (tags == null) {
       tags = ""
     }
 
@@ -81,11 +84,33 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
     newparams += ("skipAuth" -> (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center).toString)
     newparams += ("skipGrammarValidate" -> "false")
+    newparams += ("callback" -> s"${myUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     newparams += ("sql" -> sql)
-    
+
+    def buildJob(status: Int, reason: String) = {
+      val job = MlsqlJob(0, newparams("jobName"), sql, status, user.getId, reason, System.currentTimeMillis(), -1,"[]")
+      job
+    }
+
+    val isSaveQuery = newparams.getOrElse("queryType","human") == "human"
+    val isAsync = newparams.getOrElse("async","false").toBoolean
+
     val response = proxy.runScript(newparams)
     if (response.getStatus == -1) {
-      render(500, genErrorMessage(s"Request ${response.getUrl} [${response.getContent}]. Please check the backend is alive."))
+      val msg = genErrorMessage(s"Request ${response.getUrl} [${response.getContent}]. Please check the backend is alive.")
+      if(isSaveQuery){
+        ctx.run(query[MlsqlJob].insert(lift(buildJob(MlsqlJob.FAIL, msg))))
+      }
+      render(500, msg)
+    }
+    if(isSaveQuery){
+      ctx.run(query[MlsqlJob].insert(lift(buildJob(MlsqlJob.RUNNING, ""))))
+    }
+    if(!isAsync && newparams.contains("jobName")){
+      ctx.run(query[MlsqlJob].filter(_.name == lift(newparams("jobName"))).
+        update(_.status -> lift(MlsqlJob.SUCCESS),
+          _.response -> lift(response.getContent),
+          _.finishAt -> lift(System.currentTimeMillis())))
     }
     render(response.getStatus, response.getContent)
   }

@@ -28,16 +28,16 @@ self.__precacheManifest = [
     "url": "/static/js/main.0a6c1df6.chunk.js"
   },
   {
-    "revision": "9baec0ab0bc3096fb9fe865d6ae29d1d",
-    "url": "/static/media/icons-20.9baec0ab.woff"
+    "revision": "d75e6370295e046dd0b170ee42c3fa44",
+    "url": "/static/media/icons-16.d75e6370.ttf"
   },
   {
     "revision": "c6e7874eefb0dacfd50dad73a2de5a17",
     "url": "/static/media/icons-20.c6e7874e.eot"
   },
   {
-    "revision": "d75e6370295e046dd0b170ee42c3fa44",
-    "url": "/static/media/icons-16.d75e6370.ttf"
+    "revision": "9baec0ab0bc3096fb9fe865d6ae29d1d",
+    "url": "/static/media/icons-20.9baec0ab.woff"
   },
   {
     "revision": "99773b46ae2a464b8d48",
