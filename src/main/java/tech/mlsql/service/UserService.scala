@@ -14,9 +14,13 @@ object UserService {
     ctx.run(query[MlsqlUser].filter(_.id == lift(id))).headOption
   }
 
-  def createUser(name: String, password: String, token: String) = {
+  def systemIsConfigured = {
     val appInfo = AppService.appInfo
-    val role = if (!appInfo.isEmpty && appInfo.getOrElse(AppKv.CONFIGURED, "false").toBoolean) {
+    !appInfo.isEmpty && appInfo.getOrElse(AppKv.CONFIGURED, "false").toBoolean
+  }
+
+  def createUser(name: String, password: String, token: String) = {
+    val role = if (!systemIsConfigured) {
       ctx.run(query[AppKv].insert(_.name -> lift(AppKv.CONFIGURED), _.value -> lift("true")))
       USER_ROLE_ADMIN
     } else USER_ROLE_DEVELOPER

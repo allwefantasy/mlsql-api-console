@@ -6,7 +6,7 @@ import java.util.UUID
 import net.csdn.annotation.rest._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
-import tech.mlsql.service.UserService
+import tech.mlsql.service.{AppService, UserService}
 import tech.mlsql.utils.JSONTool
 
 
@@ -40,11 +40,11 @@ class UserController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/user/register"), types = Array(Method.POST))
   def userRegister = {
 
-    if (!UserService.isRegisterEnabled) {
+    if (!UserService.isRegisterEnabled && UserService.systemIsConfigured) {
       render(400, s"""{"msg":"Register is not enabled"}""")
     }
     val token = UUID.randomUUID().toString
-    if (UserService.findUser(param("userName")) == null) {
+    if (UserService.findUser(param("userName")).isEmpty) {
       user = UserService.createUser(param("userName"), md5(param("password")), token)
     } else {
       render(400, s"""{"msg":"${param("userName")} have be taken"}""")
@@ -52,7 +52,7 @@ class UserController extends ApplicationController with AuthModule {
 
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
 
-    render(200, "{}")
+    render(200, JSONTool.toJsonStr(user.copy(password = "")))
   }
 
   @Action(
