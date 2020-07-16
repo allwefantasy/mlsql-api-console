@@ -38,7 +38,7 @@ class JobController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/job/list"), types = Array(Method.POST, Method.GET))
   def jobList = {
     tokenAuth()
-    val items = ctx.run(query[MlsqlJob].filter(_.mlsqlUserId == lift(user.getId)).sortBy(_.createdAt)(Ord.descNullsLast).take(100))
+    val items = ctx.run(query[MlsqlJob].filter(_.mlsqlUserId == lift(user.id)).sortBy(_.createdAt)(Ord.descNullsLast).take(100))
     render(JSONTool.toJsonStr(items.map(_.render)))
   }
 
@@ -46,7 +46,7 @@ class JobController extends ApplicationController with AuthModule {
   def job = {
     tokenAuth()
     val jobName = param("jobName")
-    ctx.run(query[MlsqlJob].filter(_.name == lift(jobName)).filter(_.mlsqlUserId == lift(user.getId))).headOption match {
+    ctx.run(query[MlsqlJob].filter(_.name == lift(jobName)).filter(_.mlsqlUserId == lift(user.id))).headOption match {
       case Some(item) => render(JSONTool.toJsonStr(item))
       case None => render(404, "{}")
     }
@@ -57,7 +57,7 @@ class JobController extends ApplicationController with AuthModule {
   def jobKill = {
     tokenAuth()
     val jobName = param("jobName")
-    ctx.run(query[MlsqlJob].filter(_.name == lift(jobName)).filter(_.mlsqlUserId == lift(user.getId)).
+    ctx.run(query[MlsqlJob].filter(_.name == lift(jobName)).filter(_.mlsqlUserId == lift(user.id)).
       update(_.status -> lift(MlsqlJob.KILLED), _.finishAt -> lift(System.currentTimeMillis()))
     )
     render("{}")

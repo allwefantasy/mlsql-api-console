@@ -1,7 +1,7 @@
 package net.csdn.modules.http
 
-import tech.mlsql.model.{AccessToken, MlsqlUser}
-import tech.mlsql.service.RestService
+import tech.mlsql.quill_model.{AccessToken, MlsqlUser}
+import tech.mlsql.service.{RestService, UserService}
 
 /**
   * 2018-12-02 WilliamZhu(allwefantasy@gmail.com)
@@ -21,13 +21,13 @@ trait AuthModule {
 
       //to interact with service
       if (accessToken == RestService.auth_secret) {
-        user = MlsqlUser.findByName(param("owner"))
+        user = UserService.findUser(param("owner")).head
       } else {
-        val token = AccessToken.token(accessToken)
-        if (isNull(token)) {
+        val token = UserService.token(accessToken)
+        if (token.isEmpty) {
           render(401,"""{"msg":"accessToken is invalidate"}""")
         }
-        user = token.mlsqlUser().fetch().get(0).asInstanceOf[MlsqlUser]
+        user = UserService.findUserById(token.head.mlsqlUserId).head
       }
 
 

@@ -41,7 +41,7 @@ class ClusterProxyController extends ApplicationController with AuthModule {
       case "python" =>
         val scriptId = newparams("scriptId").toInt
         val projectName = quileFileService.findProjectNameFileIn(scriptId)
-        val buffer = quileFileService.findProjectFiles(user.getName, projectName).toList
+        val buffer = quileFileService.findProjectFiles(user.name, projectName).toList
 
         val currentScriptFile = buffer.filter(_.scriptFile.id == scriptId).head
 
@@ -57,9 +57,9 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     }
 
     val tagsMap = try {
-      JSONTool.parseJson[Map[String, String]](user.getBackendTags)
+      JSONTool.parseJson[Map[String, String]](user.backendTags)
     } catch {
-      case e: Exception => Map(MlsqlUser.NORMAL_TAG_TYPE -> user.getBackendTags)
+      case e: Exception => Map(MlsqlUser.NORMAL_TAG_TYPE -> user.backendTags)
     }
 
 
@@ -81,14 +81,14 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("context.__auth_server_url__" -> s"${myUrl}/api_v1/table/auth")
     newparams += ("context.__auth_secret__" -> RestService.auth_secret)
     newparams += ("tags" -> tags)
-    newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.getName}")
+    newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.name}")
     newparams += ("skipAuth" -> (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center).toString)
     newparams += ("skipGrammarValidate" -> "false")
     newparams += ("callback" -> s"${myUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     newparams += ("sql" -> sql)
 
     def buildJob(status: Int, reason: String) = {
-      val job = MlsqlJob(0, newparams("jobName"), sql, status, user.getId, reason, System.currentTimeMillis(), -1,"[]")
+      val job = MlsqlJob(0, newparams("jobName"), sql, status, user.id, reason, System.currentTimeMillis(), -1,"[]")
       job
     }
 

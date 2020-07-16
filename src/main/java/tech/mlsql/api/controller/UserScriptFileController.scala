@@ -6,7 +6,7 @@ import net.csdn.jpa.model.Model
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule, ViewType}
 import tech.mlsql.model.{MlsqlUser, ScriptFile}
-import tech.mlsql.service.{ScriptFileRender, ScriptFileService}
+import tech.mlsql.service.{ScriptFileRender, ScriptFileService, UserService}
 import tech.mlsql.utils.ModelCleaner
 
 @OpenAPIDefinition(
@@ -23,6 +23,18 @@ import tech.mlsql.utils.ModelCleaner
   servers = Array()
 )
 class UserScriptFileController extends ApplicationController with AuthModule {
+
+  def oldUser = {
+    val oldNew = new MlsqlUser()
+    oldNew.setId(user.id)
+    oldNew.setName(user.name)
+    oldNew.setRole(user.role)
+    oldNew.setBackendTags(user.backendTags)
+    oldNew.setStatus(user.status)
+    oldNew
+  }
+
+
   @Action(
     summary = "You can use this API to create a directory or MLSQL script file", description = ""
   )
@@ -43,7 +55,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     if (hasParam("id")) {
       val sf = ScriptFile.getItem(param("id").toInt)
       if (hasParam("content")) {
-        if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+        if (user.status == MlsqlUser.STATUS_PAUSE) {
           render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
         }
         sf.setContent(param("content"))
@@ -53,12 +65,12 @@ class UserScriptFileController extends ApplicationController with AuthModule {
       }
       sf.save()
     } else {
-      if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+      if (user.status == MlsqlUser.STATUS_PAUSE) {
         render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
       }
       val parentId = paramAsInt("parentId", -1)
       scriptFileService.createFile(
-        user.getName,
+        user.name,
         param("fileName"),
         paramAsBoolean("isDir", true),
         param("content"), parentId
@@ -71,10 +83,10 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/script_file/remove"), types = Array(Method.DELETE, Method.GET, Method.POST))
   def removeScriptFile = {
     tokenAuth()
-    if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
+    if (user.status == MlsqlUser.STATUS_PAUSE) {
       render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
     }
-    scriptFileService.removeFile(paramAsInt("id", -1), user)
+    scriptFileService.removeFile(paramAsInt("id", -1), oldUser)
     render(200, "{}")
   }
 
@@ -89,17 +101,17 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/script_file"), types = Array(Method.GET))
   def listScriptFile = {
     tokenAuth()
-    var result = scriptFileService.listScriptFileByUser(user)
+    var result = scriptFileService.listScriptFileByUser(oldUser)
     if (result == "[]") {
       scriptFileService.createFile(
-        user.getName,
+        user.name,
         "MLSQL_SCRIPT_CENTOR",
         true,
         null, -1
       )
       Model.commit()
     }
-    result = scriptFileService.listScriptFileByUser(user)
+    result = scriptFileService.listScriptFileByUser(oldUser)
     render(200, result)
   }
 
@@ -115,18 +127,18 @@ class UserScriptFileController extends ApplicationController with AuthModule {
 
   @At(path = Array("/api_v1/script_file/include"), types = Array(Method.GET))
   def includeScriptFile = {
-    user = MlsqlUser.findByName(param("owner"))
+    user = UserService.findUser(param("owner")).head
     val path = param("path")
-    val node = scriptFileService.findScriptFileByPath(user, path)
+    val node = scriptFileService.findScriptFileByPath(oldUser, path)
     render(200, node.getContent())
   }
 
   @At(path = Array("/api_v1/script_file/path/id"), types = Array(Method.GET))
   def pathId = {
     tokenAuth()
-    user = MlsqlUser.findByName(param("owner"))
+    user = UserService.findUser(param("owner")).head
     val path = param("path")
-    val node = scriptFileService.findScriptFileByPath(user, path)
+    val node = scriptFileService.findScriptFileByPath(oldUser, path)
     render(200, node.getId,ViewType.string)
   }
 

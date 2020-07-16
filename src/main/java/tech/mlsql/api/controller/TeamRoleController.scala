@@ -10,13 +10,25 @@ import tech.mlsql.utils.JSONTool
 import scala.collection.JavaConverters._
 
 /**
-  * 2019-03-07 WilliamZhu(allwefantasy@gmail.com)
-  */
+ * 2019-03-07 WilliamZhu(allwefantasy@gmail.com)
+ */
 class TeamRoleController extends ApplicationController with AuthModule {
+
+  def oldUser = {
+    val oldNew = new MlsqlUser()
+    oldNew.setId(user.id)
+    oldNew.setName(user.name)
+    oldNew.setRole(user.role)
+    oldNew.setBackendTags(user.backendTags)
+    oldNew.setStatus(user.status)
+    oldNew
+  }
+
   @At(path = Array("/api_v1/team/create"), types = Array(Method.POST))
   def teamCreate = {
     tokenAuth()
-    val res = TeamRoleService.createTeam(user, param("name"))
+
+    val res = TeamRoleService.createTeam(oldUser, param("name"))
     render(map("msg", res))
   }
 
@@ -33,7 +45,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
     if (!TeamRoleService.checkTeamNameValid(param("name"))) {
       scalaRender(400, Map("msg" -> s"team name ${param("name")} has been taken"))
     }
-    val groups = TeamRoleService.teams(user, MlsqlGroupUser.Status.owner).asScala.map(f => Map("name" -> f.getName))
+    val groups = TeamRoleService.teams(oldUser, MlsqlGroupUser.Status.owner).asScala.map(f => Map("name" -> f.getName))
     scalaRender(200, groups)
   }
 
@@ -41,21 +53,21 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/team/in"), types = Array(Method.POST))
   def teamIn = {
     tokenAuth()
-    val groups = TeamRoleService.teamsIn(user).asScala.map(f => Map("name" -> f.getName))
+    val groups = TeamRoleService.teamsIn(oldUser).asScala.map(f => Map("name" -> f.getName))
     scalaRender(200, groups)
   }
 
   @At(path = Array("/api_v1/team/joined"), types = Array(Method.POST))
   def teamJoined = {
     tokenAuth()
-    val groups = TeamRoleService.teams(user, MlsqlGroupUser.Status.confirmed).asScala.map(f => Map("name" -> f.getName))
+    val groups = TeamRoleService.teams(oldUser, MlsqlGroupUser.Status.confirmed).asScala.map(f => Map("name" -> f.getName))
     scalaRender(200, groups)
   }
 
   @At(path = Array("/api_v1/team/invited"), types = Array(Method.POST))
   def teamInvited = {
     tokenAuth()
-    val groups = TeamRoleService.teams(user, MlsqlGroupUser.Status.invited).asScala.map(f => Map("name" -> f.getName))
+    val groups = TeamRoleService.teams(oldUser, MlsqlGroupUser.Status.invited).asScala.map(f => Map("name" -> f.getName))
     scalaRender(200, groups)
   }
 
@@ -76,7 +88,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/team/member/accept"), types = Array(Method.POST))
   def accpetTeamMemberAdd = {
     tokenAuth()
-    TeamRoleService.updateMemberStatus(user, param("teamName"), MlsqlGroupUser.Status.confirmed)
+    TeamRoleService.updateMemberStatus(oldUser, param("teamName"), MlsqlGroupUser.Status.confirmed)
     scalaRender(200, Map("msg" -> "success"))
   }
 
@@ -90,7 +102,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/team/member/refuse"), types = Array(Method.POST))
   def refuseTeamMemberAdd = {
     tokenAuth()
-    val res = TeamRoleService.updateMemberStatus(user, param("teamName"), MlsqlGroupUser.Status.refused)
+    val res = TeamRoleService.updateMemberStatus(oldUser, param("teamName"), MlsqlGroupUser.Status.refused)
     scalaRender(200, Map("msg" -> "success"))
   }
 
@@ -155,7 +167,7 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/role/table/add"), types = Array(Method.POST))
   def RoleTableAdd = {
     tokenAuth()
-    
+
     TeamRoleService.addTableForRole(param("teamName"),
       param("roleName"),
       paramAsStringArray("tableName", null).toList.map(f => new Integer(f.toInt)).asJava,

@@ -3,9 +3,6 @@ package tech.mlsql.quill_model
 import org.joda.time.DateTime
 import tech.mlsql.MlsqlJobRender
 
-/**
- * 16/1/2020 WilliamZhu(allwefantasy@gmail.com)
- */
 case class ScriptFile(id: Int,
                       name: String,
                       hasCaret: Int,
@@ -64,17 +61,43 @@ case class MlsqlJob(id: Int, name: String,
   }
 }
 
-case class MlsqlWorkshopTable(id: Int, tableName: String, content: String, mlsqlUserId: Int, sessionId: String,status:Int){
+case class AppKv(id: Int, name: String, value: String)
+
+object AppKv {
+  val CONFIGURED = "configured"
+  val LOGIN = "login"
+  val REGISTER = "register"
+}
+
+case class MlsqlEngine(id: Int, name: String, url: String)
+
+case class MlsqlWorkshopTable(id: Int,
+                              tableName: String,
+                              content: String,
+                              mlsqlUserId: Int,
+                              sessionId: String,
+                              status: Int,
+                              tableSchema: String,
+                              jobName: String
+                             ) {
   def statusStr = {
     status match {
       case 1 => "persisting"
       case 2 => "persisted"
       case 3 => "fail"
       case 4 => "killed"
+      case 5 => "un_persisted"
     }
   }
 }
 
+object MlsqlWorkshopTable {
+  val RUNNING = 1
+  val SUCCESS = 2
+  val FAIL = 3
+  val KILLED = 4
+  val VIEW = 5
+}
 
 
 object MlsqlJob {

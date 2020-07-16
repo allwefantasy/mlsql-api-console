@@ -10,7 +10,7 @@ development:
     mysql:
       host: 127.0.0.1
       port: 3306
-      database: mlsql_console
+      database: mlsql-console2
       username: root
       password: mlsql
       initialSize: 8

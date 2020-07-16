@@ -6,7 +6,7 @@ import java.util.UUID
 import net.csdn.annotation.rest._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
-import tech.mlsql.model.{AccessToken, MlsqlUser}
+import tech.mlsql.service.UserService
 import tech.mlsql.utils.JSONTool
 
 
@@ -39,18 +39,18 @@ class UserController extends ApplicationController with AuthModule {
   ))
   @At(path = Array("/api_v1/user/register"), types = Array(Method.POST))
   def userRegister = {
-    tokenAuth(true)
+
+    if (!UserService.isRegisterEnabled) {
+      render(400, s"""{"msg":"Register is not enabled"}""")
+    }
     val token = UUID.randomUUID().toString
-    if (MlsqlUser.findByName(param("userName")) == null) {
-      user = MlsqlUser.createUser(param("userName"), md5(param("password")), token)
+    if (UserService.findUser(param("userName")) == null) {
+      user = UserService.createUser(param("userName"), md5(param("password")), token)
     } else {
       render(400, s"""{"msg":"${param("userName")} have be taken"}""")
     }
 
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
-    AccessToken.loginToken(user, token)
-
-    user.createDefaultTeamAndRole()
 
     render(200, "{}")
   }
@@ -69,62 +69,62 @@ class UserController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/user/userName"), types = Array(Method.GET, Method.POST))
   def userName = {
     tokenAuth()
-    if (user.getStatus == MlsqlUser.STATUS_LOCK) {
+    if (user.status == UserService.USER_STATUS_LOCK) {
       render(400, s"""{"msg":"userName${param("userName")} has been lock"}""")
     }
-    render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
+    render(200, map("userName", user.name, "backendTags", user.backendTags, "role", user.role))
   }
 
   @At(path = Array("/api_v1/users"), types = Array(Method.GET, Method.POST))
   def users = {
     tokenAuth()
-    val userNames = MlsqlUser.items("name")
-    render(200, userNames)
+    val userNames = UserService.users
+    render(200, JSONTool.toJsonStr(userNames))
   }
 
   @At(path = Array("/api_v1/user/tags/update"), types = Array(Method.GET, Method.POST))
   def userTagsUpdate = {
-    tokenAuth()
-    if (hasParam("backendTags")) {
-
-      def updateTags(user: MlsqlUser) = {
-        val res = if (user.getBackendTags != null) {
-          try {
-            JSONTool.parseJson[Map[String, String]](user.getBackendTags)
-          } catch {
-            case e: Exception =>
-              Map(MlsqlUser.NORMAL_TAG_TYPE -> user.getBackendTags)
-          }
-
-        } else Map[String, String]()
-
-        def appendTag(tags: String) = {
-          if (paramAsBoolean("append", false)) {
-            tags + "," + param("backendTags")
-          } else {
-            param("backendTags")
-          }
-        }
-
-        val tagType = if (paramAsBoolean("isScheduler", false)) MlsqlUser.SCHEDULER_TAG_TYPE else MlsqlUser.NORMAL_TAG_TYPE
-
-        val tempMap = res.get(tagType) match {
-          case Some(tags) =>
-            Map(tagType -> appendTag(tags))
-
-          case None => Map(tagType -> param("backendTags"))
-        }
-
-        val finalMap = res ++ tempMap
-
-        user.setBackendTags(JSONTool.toJsonStr(finalMap))
-        user.save()
-      }
-
-      updateTags(user)
-
-    }
-    render(200, map("userName", user.getName, "backendTags", user.getBackendTags, "role", user.getRole))
+    //    tokenAuth()
+    //    if (hasParam("backendTags")) {
+    //
+    //      def updateTags(user: MlsqlUser) = {
+    //        val res = if (user.getBackendTags != null) {
+    //          try {
+    //            JSONTool.parseJson[Map[String, String]](user.getBackendTags)
+    //          } catch {
+    //            case e: Exception =>
+    //              Map(MlsqlUser.NORMAL_TAG_TYPE -> user.getBackendTags)
+    //          }
+    //
+    //        } else Map[String, String]()
+    //
+    //        def appendTag(tags: String) = {
+    //          if (paramAsBoolean("append", false)) {
+    //            tags + "," + param("backendTags")
+    //          } else {
+    //            param("backendTags")
+    //          }
+    //        }
+    //
+    //        val tagType = if (paramAsBoolean("isScheduler", false)) MlsqlUser.SCHEDULER_TAG_TYPE else MlsqlUser.NORMAL_TAG_TYPE
+    //
+    //        val tempMap = res.get(tagType) match {
+    //          case Some(tags) =>
+    //            Map(tagType -> appendTag(tags))
+    //
+    //          case None => Map(tagType -> param("backendTags"))
+    //        }
+    //
+    //        val finalMap = res ++ tempMap
+    //
+    //        user.setBackendTags(JSONTool.toJsonStr(finalMap))
+    //        user.save()
+    //      }
+    //
+    //      updateTags(user)
+    //
+    //    }
+    //    render(200, map("userName", user.name, "backendTags", user.backendTags, "role", user.role))
   }
 
 
@@ -151,22 +151,25 @@ class UserController extends ApplicationController with AuthModule {
   ))
   @At(path = Array("/api_v1/user/login"), types = Array(Method.POST))
   def userLogin = {
-    tokenAuth(true)
-
-    val user = MlsqlUser.findByName(param("userName"))
-    if (user == null) {
+    val userOpt = UserService.findUser(param("userName"))
+    if (userOpt.isEmpty) {
       render(400, s"""{"msg":"userName${param("userName")} is not exists"}""")
     }
+    user = userOpt.head
 
-    if (user.getPassword != md5(param("password"))) {
+    if (!UserService.isLoginEnabled && user.role != UserService.USER_ROLE_ADMIN) {
+      render(400, s"""{"msg":"Register is not enabled"}""")
+    }
+    
+    if (user.password != md5(param("password"))) {
       render(400, s"""{"msg":"password  is not correct"}""")
     }
-    if (user.getStatus == MlsqlUser.STATUS_LOCK) {
+    if (user.status == UserService.USER_STATUS_LOCK) {
       render(400, s"""{"msg":"userName${param("userName")} has been lock"}""")
     }
     val token = UUID.randomUUID().toString
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
-    AccessToken.loginToken(user, token)
+    UserService.login(user, token)
 
     render(200, "{}")
   }
@@ -175,18 +178,17 @@ class UserController extends ApplicationController with AuthModule {
   def changepassword = {
     tokenAuth(false)
 
-    if (user.getStatus == MlsqlUser.STATUS_LOCK) {
-      render(400, s"""{"msg":"userName${user.getName} has been lock"}""")
+    if (user.status == UserService.USER_STATUS_LOCK) {
+      render(400, s"""{"msg":"userName${user.name} has been lock"}""")
     }
 
-    if (user.getStatus == MlsqlUser.STATUS_PAUSE) {
-      render(400, s"""{"msg":"userName${user.getName} has been paused"}""")
+    if (user.status == UserService.USER_STATUS_PAUSE) {
+      render(400, s"""{"msg":"userName${user.name} has been paused"}""")
     }
 
 
-    if (user.getPassword == md5(param("password"))) {
-      user.setPassword(md5(param("newPassword")))
-      user.save()
+    if (user.password == md5(param("password"))) {
+      UserService.updatePassword(user.name, md5(param("newPassword")))
     } else {
       render(200, JSONTool.toJsonStr(Map("msg" -> "change password fail")))
     }
