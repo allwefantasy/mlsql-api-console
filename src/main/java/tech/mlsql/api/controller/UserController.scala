@@ -6,7 +6,7 @@ import java.util.UUID
 import net.csdn.annotation.rest._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
-import tech.mlsql.service.{AppService, UserService}
+import tech.mlsql.service.UserService
 import tech.mlsql.utils.JSONTool
 
 
@@ -160,7 +160,7 @@ class UserController extends ApplicationController with AuthModule {
     if (!UserService.isLoginEnabled && user.role != UserService.USER_ROLE_ADMIN) {
       render(400, s"""{"msg":"Register is not enabled"}""")
     }
-    
+
     if (user.password != md5(param("password"))) {
       render(400, s"""{"msg":"password  is not correct"}""")
     }
@@ -171,6 +171,13 @@ class UserController extends ApplicationController with AuthModule {
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
     UserService.login(user, token)
 
+    render(200, JSONTool.toJsonStr(user.copy(password = "")))
+  }
+
+  @At(path = Array("/api_v1/user/logout"), types = Array(Method.POST))
+  def userLogout = {
+    tokenAuth()
+    UserService.logout(accessToken)
     render(200, "{}")
   }
 
@@ -200,6 +207,8 @@ class UserController extends ApplicationController with AuthModule {
     logger.info(toJson(params()))
     render(200, "{}")
   }
+
+
 
 }
 

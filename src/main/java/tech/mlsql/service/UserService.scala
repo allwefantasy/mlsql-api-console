@@ -19,6 +19,10 @@ object UserService {
     !appInfo.isEmpty && appInfo.getOrElse(AppKv.CONFIGURED, "false").toBoolean
   }
 
+  def logout(tokeName:String) = {
+     ctx.run(query[AccessToken].filter(_.name==lift(tokeName)).delete)
+  }
+
   def createUser(name: String, password: String, token: String) = {
     val role = if (!systemIsConfigured) {
       ctx.run(query[AppKv].insert(_.name -> lift(AppKv.CONFIGURED), _.value -> lift("true")))
