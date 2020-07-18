@@ -11,7 +11,7 @@ import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
 import tech.mlsql.quill_model.MlsqlJob
-import tech.mlsql.service.{QuillScriptFileService, RestService}
+import tech.mlsql.service.{EngineService, QuillScriptFileService, RestService}
 import tech.mlsql.utils.JSONTool
 
 import scala.collection.JavaConverters._
@@ -26,9 +26,14 @@ class ClusterProxyController extends ApplicationController with AuthModule {
   def runScript = {
     tokenAuth()
 
-    val proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl
-    else engineUrl
-
+    // get engineName or 
+    val proxyUrl =  EngineService.findByName(param("engineName","")).map(_.url).getOrElse{
+         EngineService.list().headOption.map(_.url).getOrElse{
+           if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl
+           else engineUrl
+         }
+     }
+    
     val proxy = RestService.client(proxyUrl)
     var newparams = params().asScala.toMap
     val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {

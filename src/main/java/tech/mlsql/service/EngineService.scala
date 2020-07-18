@@ -12,4 +12,8 @@ object EngineService {
   def save(name: String, url: String) = {
     ctx.run(query[MlsqlEngine].insert(lift(MlsqlEngine(0, name, url))))
   }
+
+  def list() = {
+    ctx.run(query[MlsqlEngine]).toList
+  }
 }
