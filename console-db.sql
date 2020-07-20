@@ -6,11 +6,10 @@
 # http://code.google.com/p/sequel-pro/
 #
 # Host: 127.0.0.1 (MySQL 5.7.28-log)
-# Database: mlsql_console
-# Generation Time: 2020-04-19 04:10:05 +0000
+# Database: mlsql-console2
+# Generation Time: 2020-07-20 00:05:20 +0000
 # ************************************************************
 
-create database mlsql_console;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -55,6 +54,21 @@ CREATE TABLE `aliyun_cluster_process` (
 
 
 
+# Dump of table app_kv
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `app_kv`;
+
+CREATE TABLE `app_kv` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `value` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table mlsql_backend_proxy
 # ------------------------------------------------------------
 
@@ -67,6 +81,20 @@ CREATE TABLE `mlsql_backend_proxy` (
   PRIMARY KEY (`id`),
   KEY `backend_name` (`backend_name`),
   KEY `mlsql_group_id` (`mlsql_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table mlsql_engine
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_engine`;
+
+CREATE TABLE `mlsql_engine` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `url` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -151,6 +179,27 @@ CREATE TABLE `mlsql_group_user` (
 
 
 
+# Dump of table mlsql_job
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_job`;
+
+CREATE TABLE `mlsql_job` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `content` text,
+  `status` int(11) DEFAULT NULL,
+  `mlsql_user_id` int(11) DEFAULT NULL,
+  `created_at` bigint(20) DEFAULT NULL,
+  `finish_at` bigint(20) DEFAULT NULL,
+  `script_file_id` int(11) DEFAULT NULL,
+  `reason` text,
+  `response` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table mlsql_role_member
 # ------------------------------------------------------------
 
@@ -198,6 +247,25 @@ CREATE TABLE `mlsql_user` (
   `status` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table mlsql_workshop_table
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_workshop_table`;
+
+CREATE TABLE `mlsql_workshop_table` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `table_name` varchar(256) DEFAULT NULL,
+  `content` text,
+  `mlsql_user_id` int(11) DEFAULT NULL,
+  `session_id` varchar(256) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `table_schema` text,
+  `job_name` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
