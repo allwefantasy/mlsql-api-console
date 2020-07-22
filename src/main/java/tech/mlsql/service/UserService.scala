@@ -16,7 +16,7 @@ object UserService {
 
   def systemIsConfigured = {
     val appInfo = AppService.appInfo
-    !appInfo.isEmpty && appInfo.getOrElse(AppKv.CONFIGURED, "false").toBoolean
+    !appInfo.isEmpty && appInfo.getOrElse(AppKv.CONFIGURED, false)
   }
 
   def logout(tokeName:String) = {
@@ -43,11 +43,11 @@ object UserService {
   }
 
   def isRegisterEnabled = {
-     AppService.appInfo.getOrElse(AppKv.REGISTER,"false").toBoolean
+     AppService.appInfo.getOrElse(AppKv.REGISTER,false)
   }
 
   def isLoginEnabled = {
-    AppService.appInfo.getOrElse(AppKv.LOGIN,"false").toBoolean
+    AppService.appInfo.getOrElse(AppKv.LOGIN,false)
   }
 
   def token(tokenName: String) = {

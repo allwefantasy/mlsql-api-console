@@ -9,8 +9,16 @@ import tech.mlsql.quill_model.AppKv
  */
 object AppService {
      def appInfo = {
-        ctx.run(query[AppKv]).filter{item=>
-          List(AppKv.CONFIGURED,AppKv.LOGIN,AppKv.REGISTER).contains(item.name)
-        }.map(item=>(item.name->item.value)).toMap
+        ctx.run(query[AppKv]).map{item=>
+          val value = item.name match {
+            case AppKv.CONFIGURED=>
+              item.value.toBoolean
+            case AppKv.LOGIN =>
+              item.value.toBoolean
+            case AppKv.REGISTER =>
+              item.value.toBoolean
+          }
+          (item.name->value)
+        }.toMap
      }
 }
