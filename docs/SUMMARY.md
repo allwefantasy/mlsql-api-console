@@ -11,6 +11,8 @@
 
    * [界面简介](analysis-workshop/interface.md)
    * [简单使用示例](analysis-workshop/simple-example.md)
+   * [可视化](analysis-workshop/dash.md)
+   * [使用窗口进行数据分析](analysis-workshop/window.md)
 
 * [MLSQL语言控制台使用](console/README.md)
 

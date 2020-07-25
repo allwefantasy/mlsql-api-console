@@ -9,6 +9,7 @@ import net.csdn.jpa.QuillDB.ctx
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig
+import tech.mlsql.common.utils.log.Logging
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
 import tech.mlsql.quill_model.MlsqlJob
 import tech.mlsql.service.{EngineService, QuillScriptFileService, RestService}
@@ -17,7 +18,7 @@ import tech.mlsql.utils.JSONTool
 import scala.collection.JavaConverters._
 
 
-class ClusterProxyController extends ApplicationController with AuthModule {
+class ClusterProxyController extends ApplicationController with AuthModule with Logging {
 
   val clusterUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url
   val engineUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_engine_url
@@ -91,6 +92,8 @@ class ClusterProxyController extends ApplicationController with AuthModule {
     newparams += ("skipGrammarValidate" -> "false")
     newparams += ("callback" -> s"${myUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     newparams += ("sql" -> sql)
+
+    logInfo(sql)
 
     def buildJob(status: Int, reason: String) = {
       val job = MlsqlJob(0, newparams("jobName"), sql, status, user.id, reason, System.currentTimeMillis(), -1,"[]")
