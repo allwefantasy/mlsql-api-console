@@ -19,9 +19,17 @@ load delta.`example.simpleData` as output;
 
 ![](http://docs.mlsql.tech/upload_images/ee9cd924-5883-41c7-a0a1-6855051ef8fc.png)
 
-插件【tech/mlsql/console/example/SimpleData】会在你的delta的example库下，建立一个simpleData表。
+如果你需要自定义存储表，可以设置【targetTableName】,如下示例：
 
-现在数据准备好了。
+```sql
+set targetTableName="example.simpleData2";
+include store.`tech/mlsql/console/example/SimpleData`;
+load delta.`example.simpleData2` as output;
+```
+
+插件【tech/mlsql/console/example/SimpleData】默认会在你的delta的example库下，建立一个simpleData表。
+
+simpleData有三个字段，分别是部门名，雇员名，以及薪水。我们现在的需求是，对按部门分组，统计每个雇员的薪水排名。
 
 ## 绘制报表
 

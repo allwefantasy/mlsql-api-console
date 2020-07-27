@@ -69,7 +69,16 @@ object AppKv {
   val REGISTER = "register"
 }
 
-case class MlsqlEngine(id: Int, name: String, url: String)
+case class MlsqlEngine(id: Int, name: String, url: String,home:String,
+                       consoleUrl:String,
+                       fileServerUrl:String,
+                       authServerUrl:String,
+                       skipAuth:Int)
+
+object  MlsqlEngine {
+  val SKIP_AUTH = 1
+  val AUTH = 2
+}
 
 case class MlsqlWorkshopTable(id: Int,
                               tableName: String,

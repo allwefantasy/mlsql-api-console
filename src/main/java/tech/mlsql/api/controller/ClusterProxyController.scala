@@ -10,8 +10,9 @@ import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.common.utils.log.Logging
+import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
-import tech.mlsql.quill_model.MlsqlJob
+import tech.mlsql.quill_model.{MlsqlEngine, MlsqlJob}
 import tech.mlsql.service.{EngineService, QuillScriptFileService, RestService}
 import tech.mlsql.utils.JSONTool
 
@@ -27,21 +28,30 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
   def runScript = {
     tokenAuth()
 
-    // get engineName or 
-    val proxyUrl =  EngineService.findByName(param("engineName","")).map(_.url).getOrElse{
-         EngineService.list().headOption.map(_.url).getOrElse{
-           if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl
-           else engineUrl
-         }
-     }
-    
-    val proxy = RestService.client(proxyUrl)
-    var newparams = params().asScala.toMap
-    val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
+    val engineConfigOpt = EngineService.findByName(param("engineName",""))
+
+    val _proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl else engineUrl
+    val _myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
       s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
     } else {
       MLSQLConsoleCommandConfig.commandConfig.my_url
     }
+    val _home = s"${MLSQLConsoleCommandConfig.commandConfig.user_home}"
+    val _skipAuth = if(!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center) MlsqlEngine.SKIP_AUTH else MlsqlEngine.AUTH
+
+    val engineConfig = engineConfigOpt match {
+      case Some(engineConfig) =>  engineConfig
+      case None =>   EngineService.list().headOption.getOrElse(MlsqlEngine(
+        0,"",_proxyUrl,_home,_myUrl,_myUrl,_myUrl,_skipAuth
+      ))
+    }
+
+
+
+    
+    val proxy = RestService.client(engineConfig.url)
+    var newparams = params().asScala.toMap
+    
     val quileFileService = findService(classOf[QuillScriptFileService])
     val sql = newparams.getOrElse("runMode", "mlsql") match {
       case "python" =>
@@ -79,18 +89,18 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
       tags = ""
     }
 
-    newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
-    newparams += ("context.__default__console_url__" -> s"${myUrl}")
-    newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
-    newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
+    newparams += ("context.__default__include_fetch_url__" -> s"${engineConfig.consoleUrl}/api_v1/script_file/include")
+    newparams += ("context.__default__console_url__" -> s"${engineConfig.consoleUrl}")
+    newparams += ("context.__default__fileserver_url__" -> s"${engineConfig.fileServerUrl}/api_v1/file/download")
+    newparams += ("context.__default__fileserver_upload_url__" -> s"${engineConfig.fileServerUrl}/api_v1/file/upload")
     newparams += ("context.__auth_client__" -> s"streaming.dsl.auth.meta.client.MLSQLConsoleClient")
-    newparams += ("context.__auth_server_url__" -> s"${myUrl}/api_v1/table/auth")
+    newparams += ("context.__auth_server_url__" -> s"${engineConfig.authServerUrl}/api_v1/table/auth")
     newparams += ("context.__auth_secret__" -> RestService.auth_secret)
     newparams += ("tags" -> tags)
-    newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.name}")
-    newparams += ("skipAuth" -> (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center).toString)
+    newparams += ("defaultPathPrefix" -> PathFun(engineConfig.home).add(user.name).toPath)
+    newparams += ("skipAuth" -> (MlsqlEngine.SKIP_AUTH==engineConfig.skipAuth).toString)
     newparams += ("skipGrammarValidate" -> "false")
-    newparams += ("callback" -> s"${myUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
+    newparams += ("callback" -> s"${engineConfig.consoleUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     newparams += ("sql" -> sql)
 
     logInfo(sql)

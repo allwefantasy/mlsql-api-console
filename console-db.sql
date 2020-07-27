@@ -6,8 +6,8 @@
 # http://code.google.com/p/sequel-pro/
 #
 # Host: 127.0.0.1 (MySQL 5.7.28-log)
-# Database: mlsql-console2
-# Generation Time: 2020-07-20 00:05:20 +0000
+# Database: mlsql_console
+# Generation Time: 2020-07-27 05:56:11 +0000
 # ************************************************************
 
 
@@ -94,6 +94,11 @@ CREATE TABLE `mlsql_engine` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(256) DEFAULT NULL,
   `url` varchar(1024) DEFAULT NULL,
+  `home` varchar(1024) DEFAULT NULL,
+  `console_url` varchar(1024) DEFAULT NULL,
+  `file_server_url` varchar(1024) DEFAULT NULL,
+  `auth_server_url` varchar(1024) DEFAULT NULL,
+  `skip_auth` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

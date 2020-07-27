@@ -14,7 +14,7 @@
 
 ## 准备数据
 
-我们需要准备一些测试数据，我们可以直接使用插件完成数据的准备。首先进入 Console，输入如下代码：
+我们需要准备一些测试数据，这里直接使用插件完成数据的准备。首先进入 Console，输入如下代码：
 
 ```sql
 include store.`tech/mlsql/console/example/SimpleData`;
@@ -25,7 +25,15 @@ load delta.`example.simpleData` as output;
 
 ![](http://docs.mlsql.tech/upload_images/ee9cd924-5883-41c7-a0a1-6855051ef8fc.png)
 
-插件【tech/mlsql/console/example/SimpleData】会在你的delta的example库下，建立一个simpleData表。
+如果你需要自定义存储表，可以设置【targetTableName】,如下示例：
+
+```sql
+set targetTableName="example.simpleData2";
+include store.`tech/mlsql/console/example/SimpleData`;
+load delta.`example.simpleData2` as output;
+```
+
+插件【tech/mlsql/console/example/SimpleData】默认会在你的delta的example库下，建立一个simpleData表。
 
 simpleData有三个字段，分别是部门名，雇员名，以及薪水。我们现在的需求是，对按部门分组，统计每个雇员的薪水排名。
 
@@ -48,7 +56,7 @@ simpleData有三个字段，分别是部门名，雇员名，以及薪水。我�
 
 ![](http://docs.mlsql.tech/upload_images/30555c69-ec15-4c48-ae0f-f7acb816d75b.png)
 
-我们计算两个值，一个是部门薪水总和，一个是雇员薪水排名。
+我们对窗口计算两个值，一个是部门薪水总和，一个是雇员薪水排名。
 先看如何计算薪水综合：
 
 ![](http://docs.mlsql.tech/upload_images/42f937a3-6114-4eee-aff8-2cb0e6ce9ed9.png)
@@ -69,7 +77,8 @@ simpleData有三个字段，分别是部门名，雇员名，以及薪水。我�
 
 添加完成后，点击 【Apply】即可看到结果：
 
-![](http://docs.mlsql.tech/upload_images/4d97f834-5456-474e-a22b-0c98e632ef03.png)
+![](http://docs.mlsql.tech/upload_images/94e98fba-2aca-432f-a524-f1739a3a00a4.png)
+
 
 如果需要可视化该图的话，进入【Dash】标签填写必要信息即可：
 
