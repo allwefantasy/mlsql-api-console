@@ -41,6 +41,13 @@ class AnalysisController extends ApplicationController with AuthModule {
 
   }
 
+  @At(path = Array("/api_v1/analysis/table/delete"), types = Array(Method.POST, Method.GET))
+  def delete() = {
+    tokenAuth()
+    ctx.run(query[MlsqlWorkshopTable].filter(_.tableName == lift(param("tableName"))).delete)
+    render(200,"{}")
+  }
+
   @At(path = Array("/api_v1/analysis/tables/save"), types = Array(Method.POST))
   def save = {
     tokenAuth()

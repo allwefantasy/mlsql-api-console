@@ -82,49 +82,15 @@ class UserController extends ApplicationController with AuthModule {
     render(200, JSONTool.toJsonStr(userNames))
   }
 
-  @At(path = Array("/api_v1/user/tags/update"), types = Array(Method.GET, Method.POST))
+  @At(path = Array("/api_v1/user/extra/update"), types = Array(Method.GET, Method.POST))
   def userTagsUpdate = {
-    //    tokenAuth()
-    //    if (hasParam("backendTags")) {
-    //
-    //      def updateTags(user: MlsqlUser) = {
-    //        val res = if (user.getBackendTags != null) {
-    //          try {
-    //            JSONTool.parseJson[Map[String, String]](user.getBackendTags)
-    //          } catch {
-    //            case e: Exception =>
-    //              Map(MlsqlUser.NORMAL_TAG_TYPE -> user.getBackendTags)
-    //          }
-    //
-    //        } else Map[String, String]()
-    //
-    //        def appendTag(tags: String) = {
-    //          if (paramAsBoolean("append", false)) {
-    //            tags + "," + param("backendTags")
-    //          } else {
-    //            param("backendTags")
-    //          }
-    //        }
-    //
-    //        val tagType = if (paramAsBoolean("isScheduler", false)) MlsqlUser.SCHEDULER_TAG_TYPE else MlsqlUser.NORMAL_TAG_TYPE
-    //
-    //        val tempMap = res.get(tagType) match {
-    //          case Some(tags) =>
-    //            Map(tagType -> appendTag(tags))
-    //
-    //          case None => Map(tagType -> param("backendTags"))
-    //        }
-    //
-    //        val finalMap = res ++ tempMap
-    //
-    //        user.setBackendTags(JSONTool.toJsonStr(finalMap))
-    //        user.save()
-    //      }
-    //
-    //      updateTags(user)
-    //
-    //    }
-    //    render(200, map("userName", user.name, "backendTags", user.backendTags, "role", user.role))
+    tokenAuth()
+    import scala.collection.JavaConverters._
+    var extraOpt = JSONTool.parseJson[Map[String, String]](user.backendTags)
+    extraOpt = extraOpt ++ params().asScala.toMap
+    UserService.updateExtraOptions(user.name, JSONTool.toJsonStr(extraOpt))
+    val newUser = UserService.findUser(user.name).get
+    render(200, JSONTool.toJsonStr(newUser.copy(password = "")))
   }
 
 
@@ -158,7 +124,7 @@ class UserController extends ApplicationController with AuthModule {
     user = userOpt.head
 
     if (!UserService.isLoginEnabled && user.role != UserService.USER_ROLE_ADMIN) {
-      render(400, s"""{"msg":"Register is not enabled"}""")
+      render(400, s"""{"msg":"Login is not enabled"}""")
     }
 
     if (user.password != md5(param("password"))) {
@@ -207,7 +173,6 @@ class UserController extends ApplicationController with AuthModule {
     logger.info(toJson(params()))
     render(200, "{}")
   }
-
 
 
 }

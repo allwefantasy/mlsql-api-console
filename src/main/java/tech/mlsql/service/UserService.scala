@@ -2,6 +2,7 @@ package tech.mlsql.service
 
 import net.csdn.jpa.QuillDB.ctx
 import net.csdn.jpa.QuillDB.ctx._
+import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.quill_model.{AccessToken, AppKv, MlsqlUser}
 
 object UserService {
@@ -59,6 +60,15 @@ object UserService {
      //findUser(name).head
   }
 
+  def updateExtraOptions(name:String,backendTags:String) = {
+    ctx.run(query[MlsqlUser].filter(_.name == lift(name)).update(_.backendTags-> lift(backendTags)))
+
+  }
+
+  def getBackendName(user:MlsqlUser) = {
+    JSONTool.parseJson[Map[String,String]](user.backendTags).get(EXTRA_DEFAULT_BACKEND)
+  }
+
   def findUserByToken(tokenName:String) = {
     ctx.run(query[AccessToken].filter(_.name == lift(tokenName)).leftJoin(query[MlsqlUser]).on{case (token,user)=>
       token.mlsqlUserId == user.id
@@ -81,5 +91,8 @@ object UserService {
 
   val USER_ROLE_ADMIN = "admin"
   val USER_ROLE_DEVELOPER = "developer"
+
+  val EXTRA_DEFAULT_BACKEND = "backend"
 }
+
 
