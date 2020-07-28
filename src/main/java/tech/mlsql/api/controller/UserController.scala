@@ -72,7 +72,7 @@ class UserController extends ApplicationController with AuthModule {
     if (user.status == UserService.USER_STATUS_LOCK) {
       render(400, s"""{"msg":"userName${param("userName")} has been lock"}""")
     }
-    render(200, map("userName", user.name, "backendTags", user.backendTags, "role", user.role))
+    render(200, map("userName", user.name, "backendTags", if (user.backendTags == "") "{}" else user.backendTags, "role", user.role))
   }
 
   @At(path = Array("/api_v1/users"), types = Array(Method.GET, Method.POST))
@@ -86,7 +86,12 @@ class UserController extends ApplicationController with AuthModule {
   def userTagsUpdate = {
     tokenAuth()
     import scala.collection.JavaConverters._
-    var extraOpt = JSONTool.parseJson[Map[String, String]](user.backendTags)
+    var extraOpt = try {
+      JSONTool.parseJson[Map[String, String]](user.backendTags)
+    } catch {
+      case e: Exception =>
+        Map()
+    }
     extraOpt = extraOpt ++ params().asScala.toMap
     UserService.updateExtraOptions(user.name, JSONTool.toJsonStr(extraOpt))
     val newUser = UserService.findUser(user.name).get
@@ -137,7 +142,8 @@ class UserController extends ApplicationController with AuthModule {
     restResponse.httpServletResponse().setHeader(ACCESS_TOKEN_NAME, token)
     UserService.login(user, token)
 
-    render(200, JSONTool.toJsonStr(user.copy(password = "")))
+    val backendTags = if (user.backendTags == "") "{}" else user.backendTags
+    render(200, JSONTool.toJsonStr(user.copy(password = "",backendTags=backendTags)))
   }
 
   @At(path = Array("/api_v1/user/logout"), types = Array(Method.POST))

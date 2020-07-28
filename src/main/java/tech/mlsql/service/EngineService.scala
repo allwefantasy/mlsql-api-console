@@ -44,7 +44,7 @@ object EngineService {
       option.getOrElse("consoleUrl", myUrl),
       option.getOrElse("fileServerUrl", myUrl),
       option.getOrElse("authServerUrl", myUrl),
-      convertSkipAuth(option("skipAuth"))
+      convertSkipAuth(option.getOrElse("skipAuth","true"))
     )
     )))
   }

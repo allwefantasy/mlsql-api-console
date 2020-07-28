@@ -2,6 +2,8 @@ package tech.mlsql.quill_model
 
 import org.joda.time.DateTime
 import tech.mlsql.MlsqlJobRender
+import tech.mlsql.common.utils.serder.json.JSONTool
+import tech.mlsql.service.UserService.EXTRA_DEFAULT_BACKEND
 
 case class ScriptFile(id: Int,
                       name: String,
@@ -30,7 +32,8 @@ case class MlsqlUser(id: Int,
                      backendTags: String,
                      role: String,
                      status: String
-                    )
+                    ){   
+}
 
 case class AccessToken(id: Int, name: String, mlsqlUserId: Int, createAt: Long)
 

@@ -31,7 +31,7 @@ object UserService {
     } else USER_ROLE_DEVELOPER
 
     ctx.run(query[MlsqlUser].insert(
-      lift(MlsqlUser(0, name, password, "", role, USER_STATUS_NORMAL))
+      lift(MlsqlUser(0, name, password, "{}", role, USER_STATUS_NORMAL))
     ))
 
     val user = findUser(name).head
@@ -66,7 +66,10 @@ object UserService {
   }
 
   def getBackendName(user:MlsqlUser) = {
-    JSONTool.parseJson[Map[String,String]](user.backendTags).get(EXTRA_DEFAULT_BACKEND)
+    if(user.backendTags!=null && !user.backendTags.isEmpty){
+       JSONTool.parseJson[Map[String,String]](user.backendTags).get(EXTRA_DEFAULT_BACKEND)
+    } else None
+
   }
 
   def findUserByToken(tokenName:String) = {
