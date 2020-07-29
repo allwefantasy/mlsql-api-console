@@ -111,6 +111,11 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     }
 
     val isSaveQuery = newparams.getOrElse("queryType","human") == "human"
+
+    if(newparams.getOrElse("queryType","human")=="analysis_workshop_apply_action"){
+       newparams += ("timeout" -> (user.apply_timeout * 1000).toString)
+    }
+
     val isAsync = newparams.getOrElse("async","false").toBoolean
 
     val response = proxy.runScript(newparams)

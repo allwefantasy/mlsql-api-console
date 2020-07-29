@@ -3,7 +3,6 @@ package tech.mlsql.quill_model
 import org.joda.time.DateTime
 import tech.mlsql.MlsqlJobRender
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.service.UserService.EXTRA_DEFAULT_BACKEND
 
 case class ScriptFile(id: Int,
                       name: String,
@@ -32,7 +31,15 @@ case class MlsqlUser(id: Int,
                      backendTags: String,
                      role: String,
                      status: String
-                    ){   
+                    ) {
+  def apply_timeout = {
+    try {
+      val opts = JSONTool.parseJson[Map[String, String]](backendTags)
+      opts("apply_timeout").toInt
+    } catch {
+      case e: Exception => 10
+    }
+  }
 }
 
 case class AccessToken(id: Int, name: String, mlsqlUserId: Int, createAt: Long)
@@ -72,13 +79,13 @@ object AppKv {
   val REGISTER = "register"
 }
 
-case class MlsqlEngine(id: Int, name: String, url: String,home:String,
-                       consoleUrl:String,
-                       fileServerUrl:String,
-                       authServerUrl:String,
-                       skipAuth:Int)
+case class MlsqlEngine(id: Int, name: String, url: String, home: String,
+                       consoleUrl: String,
+                       fileServerUrl: String,
+                       authServerUrl: String,
+                       skipAuth: Int)
 
-object  MlsqlEngine {
+object MlsqlEngine {
   val SKIP_AUTH = 1
   val AUTH = 2
 }

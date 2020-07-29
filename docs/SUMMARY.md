@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](README.md)
+* [简介](README.md)
 
 * [基本安装](howtouse/README.md)
 
@@ -13,6 +13,7 @@
    * [简单使用示例](analysis-workshop/simple-example.md)
    * [可视化](analysis-workshop/dash.md)
    * [使用窗口进行数据分析](analysis-workshop/window.md)
+   * [复杂组合条件过滤](analysis-workshop/complex-filter.md)
 
 * [MLSQL语言控制台使用](console/README.md)
 
