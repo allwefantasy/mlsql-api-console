@@ -8,11 +8,12 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.jpa.QuillDB.ctx
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
+import net.sf.json.JSONObject
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.common.utils.log.Logging
 import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
-import tech.mlsql.quill_model.{MlsqlEngine, MlsqlJob}
+import tech.mlsql.quill_model.{MlsqlApply, MlsqlEngine, MlsqlJob}
 import tech.mlsql.service.{EngineService, QuillScriptFileService, RestService, UserService}
 import tech.mlsql.utils.JSONTool
 
@@ -117,7 +118,7 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     }
 
     val isAsync = newparams.getOrElse("async","false").toBoolean
-
+    val startTime = System.currentTimeMillis()
     val response = proxy.runScript(newparams)
     if (response.getStatus == -1) {
       val msg = genErrorMessage(s"Request ${response.getUrl} [${response.getContent}]. Please check the backend is alive.")
@@ -126,6 +127,20 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
       }
       render(500, msg)
     }
+
+    if(newparams.getOrElse("queryType","human")=="analysis_workshop_apply_action"){
+      ctx.run(query[MlsqlApply].insert(
+        _.name-> lift(param("analysis_workshop_table_name")),
+        _.mlsqlUserId-> lift(user.id),
+        _.content -> lift(sql),
+        _.response -> lift(response.getContent),
+        _.createdAt -> lift(startTime),
+        _.finishAt -> lift(System.currentTimeMillis()),
+        _.status -> lift(response.getStatus),
+        _.applySql -> lift(param("analysis_workshop_sql"))
+      ))
+    }
+
     if(isSaveQuery){
       ctx.run(query[MlsqlJob].insert(lift(buildJob(MlsqlJob.RUNNING, ""))))
     }

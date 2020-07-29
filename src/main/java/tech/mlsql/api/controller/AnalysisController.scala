@@ -6,7 +6,7 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.quill_model.{MlsqlJob, MlsqlWorkshopTable}
+import tech.mlsql.quill_model.{MlsqlApply, MlsqlJob, MlsqlWorkshopTable}
 
 /**
  * 10/7/2020 WilliamZhu(allwefantasy@gmail.com)
@@ -21,6 +21,21 @@ class AnalysisController extends ApplicationController with AuthModule {
     }
     val items = ctx.run(query[MlsqlWorkshopTable].filter(_.mlsqlUserId == lift(user.id)))
     render(200, JSONTool.toJsonStr(items))
+  }
+
+  @At(path = Array("/api_v1/analysis/apply"), types = Array(Method.GET))
+  def apply = {
+    tokenAuth()
+    val items = ctx.run(
+      query[MlsqlApply].filter(_.name == lift(param("name"))).filter(_.mlsqlUserId==lift(user.id))
+    )
+    items.headOption match{
+      case Some(item)=>
+        render(200, JSONTool.toJsonStr(item))
+      case None =>
+        render(404, JSONTool.toJsonStr(Map()))
+    }
+
   }
 
   @At(path = Array("/api_v1/analysis/table/get"), types = Array(Method.POST, Method.GET))

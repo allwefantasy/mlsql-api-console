@@ -71,6 +71,21 @@ case class MlsqlJob(id: Int, name: String,
   }
 }
 
+case class MlsqlApply(id: Int, name: String,
+                    content: String,
+                    status: Int,
+                    mlsqlUserId: Int,
+                    reason: String,
+                    createdAt: Long,
+                    finishAt: Long, response: String,applySql:String) {
+
+  def timeFormat = "yyyy-MM-dd HH:mm:SS"
+
+  def createAtStr = new DateTime(createdAt).toString(timeFormat)
+
+  def finishAtStr = new DateTime(finishAt).toString(timeFormat)
+}
+
 case class AppKv(id: Int, name: String, value: String)
 
 object AppKv {
