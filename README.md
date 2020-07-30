@@ -5,3 +5,4 @@
 * 重写Comapre, 输入框联动 [完成]
 * Rollback 缓存 [完成]
 * 国际化，支持中英文 [启动]
+* [workshop table管理](支持)
