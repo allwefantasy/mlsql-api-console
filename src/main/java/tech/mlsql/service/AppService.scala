@@ -11,11 +11,7 @@ object AppService {
      def appInfo = {
         ctx.run(query[AppKv]).map{item=>
           val value = item.name match {
-            case AppKv.CONFIGURED=>
-              item.value.toBoolean
-            case AppKv.LOGIN =>
-              item.value.toBoolean
-            case AppKv.REGISTER =>
+            case AppKv.CONFIGURED | AppKv.LOGIN |  AppKv.REGISTER |AppKv.CONSOLE=>
               item.value.toBoolean
           }
           (item.name->value)

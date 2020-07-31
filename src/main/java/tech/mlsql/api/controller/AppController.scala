@@ -43,6 +43,17 @@ class AppController extends ApplicationController with AuthModule {
       }
 
     }
+
+    if (hasParam("console")) {
+      appInfo.get(AppKv.CONSOLE) match {
+        case Some(item) =>
+          ctx.run(query[AppKv].filter(_.name == lift(AppKv.CONSOLE)).update(_.value -> lift(param("console"))))
+        case None =>
+          ctx.run(query[AppKv].insert(lift(AppKv(0, AppKv.CONSOLE, param("console")))))
+      }
+
+    }
+
     render(200, "{}")
   }
 

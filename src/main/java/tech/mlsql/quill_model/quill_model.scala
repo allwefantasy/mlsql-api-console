@@ -92,6 +92,7 @@ object AppKv {
   val CONFIGURED = "configured"
   val LOGIN = "login"
   val REGISTER = "register"
+  val CONSOLE = "console"
 }
 
 case class MlsqlEngine(id: Int, name: String, url: String, home: String,
