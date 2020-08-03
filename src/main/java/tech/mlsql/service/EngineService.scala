@@ -8,9 +8,7 @@ import net.csdn.jpa.QuillDB.ctx._
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.quill_model.{MlsqlEngine, MlsqlUser}
 
-import scala.reflect.{ClassTag, classTag}
-import scala.reflect.runtime.{universe => ru}
-import scala.reflect.runtime.universe._
+
 
 object EngineService {
   def findByName(name: String) = {
@@ -52,11 +50,5 @@ object EngineService {
   def list() = {
     ctx.run(query[MlsqlEngine]).toList
   }
-
-  def extractClassName[T: TypeTag : ClassTag] = {
-    val rm = runtimeMirror(classTag[T].runtimeClass.getClassLoader)
-    val classTest = typeOf[T].typeSymbol.asClass
-    val constructor = typeOf[T].decl(termNames.CONSTRUCTOR).asMethod
-    constructor.paramLists.flatten.map((param: Symbol) => param.name.toString)
-  }
+  
 }

@@ -1,7 +1,10 @@
 package tech.mlsql.quill_model
 
+import net.csdn.jpa.QuillDB.ctx
+import net.csdn.jpa.QuillDB.ctx._
 import org.joda.time.DateTime
 import tech.mlsql.MlsqlJobRender
+import tech.mlsql.api.controller.JDBCD
 import tech.mlsql.common.utils.serder.json.JSONTool
 
 case class ScriptFile(id: Int,
@@ -42,6 +45,70 @@ case class MlsqlUser(id: Int,
   }
 }
 
+case class MlsqlDs(id: Int, name: String, format: String, params: String, mlsqlUserId: Int)
+
+object MlsqlDs {
+  def save(mlsqlDs: MlsqlDs) = {
+    ctx.run(query[MlsqlDs].insert(lift(mlsqlDs)).returningGenerated(_.id))
+  }
+
+  def delete(user: MlsqlUser,id:Int) = {
+    ctx.run(query[MlsqlDs].filter(_.id==lift(id)).filter(_.mlsqlUserId==lift(user.id)).delete)
+  }
+
+  def list(user: MlsqlUser) = {
+    ctx.run(query[MlsqlDs].filter(_.mlsqlUserId == lift(user.id)))
+  }
+
+  def get(user: MlsqlUser,name:String,format:String) = {
+    ctx.run(query[MlsqlDs].filter(_.mlsqlUserId == lift(user.id)).filter(_.name==lift(name)).filter(_.format==lift(format)))
+  }
+
+  def getConnect(name:String,user: MlsqlUser) = {
+    MlsqlDs.get(user, name, "jdbc").map(item => {
+      JSONTool.parseJson[JDBCD](item.params)
+    }).map(item => {
+      s"""
+         |connect jdbc where
+         | url="${item.url}"
+         | and driver="${item.driver}"
+         | and user="${item.user}"
+         | and password="${item.password}"
+         | as ${item.name};
+         |""".stripMargin
+    }).head
+  }
+}
+
+case class MlsqlGroup(id: Int, name: String)
+
+object MlsqlGroup {
+  def save(name: String, user: MlsqlUser): Unit = {
+    ctx.transaction {
+      val id = ctx.run(query[MlsqlGroup].insert(_.name -> lift(name)).returningGenerated(_.id))
+      ctx.run(query[MlsqlGroupUser].insert(_.mlsqlGroupId -> lift(id), _.mlsqlUserId -> lift(user.id)))
+    }
+  }
+
+  def list(user: MlsqlUser) = {
+    ctx.run(query[MlsqlGroupUser].
+      filter(_.mlsqlUserId == lift(user.id)).
+      filter(_.status == lift(MlsqlGroupUser.owner)).leftJoin(query[MlsqlGroup]).on(_.mlsqlGroupId == _.id).map { case (_, groupOpt) =>
+      groupOpt
+    }
+    ).toList
+  }
+}
+
+case class MlsqlGroupUser(id: Int, mlsqlGroupId: Int, mlsqlUserId: Int, status: Int)
+
+object MlsqlGroupUser {
+  val invited = 1
+  val confirmed = 2
+  val refused = 3
+  val owner = 4
+}
+
 case class AccessToken(id: Int, name: String, mlsqlUserId: Int, createAt: Long)
 
 case class MlsqlJob(id: Int, name: String,
@@ -72,12 +139,12 @@ case class MlsqlJob(id: Int, name: String,
 }
 
 case class MlsqlApply(id: Int, name: String,
-                    content: String,
-                    status: Int,
-                    mlsqlUserId: Int,
-                    reason: String,
-                    createdAt: Long,
-                    finishAt: Long, response: String,applySql:String) {
+                      content: String,
+                      status: Int,
+                      mlsqlUserId: Int,
+                      reason: String,
+                      createdAt: Long,
+                      finishAt: Long, response: String, applySql: String) {
 
   def timeFormat = "yyyy-MM-dd HH:mm:SS"
 

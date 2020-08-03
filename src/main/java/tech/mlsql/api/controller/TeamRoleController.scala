@@ -27,7 +27,9 @@ class TeamRoleController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/team/create"), types = Array(Method.POST))
   def teamCreate = {
     tokenAuth()
-
+    if (!TeamRoleService.checkTeamNameValid(param("name"))) {
+      scalaRender(400, Map("msg" -> s"team name ${param("name")} has been taken"))
+    }
     val res = TeamRoleService.createTeam(oldUser, param("name"))
     render(map("msg", res))
   }
@@ -39,12 +41,9 @@ class TeamRoleController extends ApplicationController with AuthModule {
     scalaRender(200, Map("msg" -> res))
   }
 
-  @At(path = Array("/api_v1/team"), types = Array(Method.POST))
+  @At(path = Array("/api_v1/team"), types = Array(Method.POST,Method.GET))
   def team = {
     tokenAuth()
-    if (!TeamRoleService.checkTeamNameValid(param("name"))) {
-      scalaRender(400, Map("msg" -> s"team name ${param("name")} has been taken"))
-    }
     val groups = TeamRoleService.teams(oldUser, MlsqlGroupUser.Status.owner).asScala.map(f => Map("name" -> f.getName))
     scalaRender(200, groups)
   }

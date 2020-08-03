@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.28-log)
 # Database: mlsql_console
-# Generation Time: 2020-07-29 11:04:47 +0000
+# Generation Time: 2020-08-03 11:26:34 +0000
 # ************************************************************
 
 
@@ -105,6 +105,22 @@ CREATE TABLE `mlsql_backend_proxy` (
   PRIMARY KEY (`id`),
   KEY `backend_name` (`backend_name`),
   KEY `mlsql_group_id` (`mlsql_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table mlsql_ds
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_ds`;
+
+CREATE TABLE `mlsql_ds` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `format` varchar(256) DEFAULT NULL,
+  `params` text,
+  `mlsql_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

@@ -6,13 +6,14 @@ import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.quill_model.{MlsqlEngine, MlsqlUser}
 import tech.mlsql.service.EngineService
+import tech.mlsql.utils.RenderHelper
 
 import scala.collection.JavaConverters._
 
 /**
  * 16/7/2020 WilliamZhu(allwefantasy@gmail.com)
  */
-class EngineController extends ApplicationController with AuthModule {
+class EngineController extends ApplicationController with AuthModule with RenderHelper {
   @At(path = Array("/api_v1/engine/add"), types = Array(Method.POST))
   def addEngine = {
     tokenAuth(false)
@@ -32,8 +33,7 @@ class EngineController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/engine/list"), types = Array(Method.POST,Method.GET))
   def list = {
     tokenAuth(false)
-    val fields = EngineService.extractClassName[MlsqlEngine]
-    render(200,JSONTool.toJsonStr(Map("schema"->fields,"data"->EngineService.list())))
+    renderWithSchema[MlsqlEngine](EngineService.list())
   }
 
 }

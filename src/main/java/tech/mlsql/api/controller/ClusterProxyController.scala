@@ -4,16 +4,15 @@ import net.csdn.ServiceFramwork
 import net.csdn.annotation.rest._
 import net.csdn.common.network.NetworkUtils
 import net.csdn.common.settings.Settings
-import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.jpa.QuillDB.ctx
+import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
-import net.sf.json.JSONObject
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.common.utils.log.Logging
 import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.model.{MlsqlBackendProxy, MlsqlUser}
-import tech.mlsql.quill_model.{MlsqlApply, MlsqlEngine, MlsqlJob}
+import tech.mlsql.quill_model.{MlsqlApply, MlsqlDs, MlsqlEngine, MlsqlJob}
 import tech.mlsql.service.{EngineService, QuillScriptFileService, RestService, UserService}
 import tech.mlsql.utils.JSONTool
 
@@ -29,7 +28,7 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
   def runScript = {
     tokenAuth()
 
-    val engineConfigOpt = EngineService.findByName(param("engineName",UserService.getBackendName(user).getOrElse("")))
+    val engineConfigOpt = EngineService.findByName(param("engineName", UserService.getBackendName(user).getOrElse("")))
 
     val _proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl else engineUrl
     val _myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
@@ -38,21 +37,19 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
       MLSQLConsoleCommandConfig.commandConfig.my_url
     }
     val _home = s"${MLSQLConsoleCommandConfig.commandConfig.user_home}"
-    val _skipAuth = if(!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center) MlsqlEngine.SKIP_AUTH else MlsqlEngine.AUTH
+    val _skipAuth = if (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center) MlsqlEngine.SKIP_AUTH else MlsqlEngine.AUTH
 
     val engineConfig = engineConfigOpt match {
-      case Some(engineConfig) =>  engineConfig
-      case None =>   EngineService.list().headOption.getOrElse(MlsqlEngine(
-        0,"",_proxyUrl,_home,_myUrl,_myUrl,_myUrl,_skipAuth
+      case Some(engineConfig) => engineConfig
+      case None => EngineService.list().headOption.getOrElse(MlsqlEngine(
+        0, "", _proxyUrl, _home, _myUrl, _myUrl, _myUrl, _skipAuth
       ))
     }
 
 
-
-    
     val proxy = RestService.client(engineConfig.url)
     var newparams = params().asScala.toMap
-    
+
     val quileFileService = findService(classOf[QuillScriptFileService])
     val sql = newparams.getOrElse("runMode", "mlsql") match {
       case "python" =>
@@ -99,39 +96,47 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     newparams += ("context.__auth_secret__" -> RestService.auth_secret)
     newparams += ("tags" -> tags)
     newparams += ("defaultPathPrefix" -> PathFun(engineConfig.home).add(user.name).toPath)
-    newparams += ("skipAuth" -> (MlsqlEngine.SKIP_AUTH==engineConfig.skipAuth).toString)
+    newparams += ("skipAuth" -> (MlsqlEngine.SKIP_AUTH == engineConfig.skipAuth).toString)
     newparams += ("skipGrammarValidate" -> "false")
     newparams += ("callback" -> s"${engineConfig.consoleUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     newparams += ("sql" -> sql)
 
-    logInfo(sql)
+    if (!sql.contains("connect") && !sql.contains("jdbc")) {
+      logInfo(sql)
+    }
+    
+    if (hasParam("__connect__")) {
+      val connect = MlsqlDs.getConnect(param("__connect__"), user)
+      val newSql = connect + sql
+      newparams += ("sql" -> newSql)
+    }
 
     def buildJob(status: Int, reason: String) = {
-      val job = MlsqlJob(0, newparams("jobName"), sql, status, user.id, reason, System.currentTimeMillis(), -1,"[]")
+      val job = MlsqlJob(0, newparams("jobName"), sql, status, user.id, reason, System.currentTimeMillis(), -1, "[]")
       job
     }
 
-    val isSaveQuery = newparams.getOrElse("queryType","human") == "human"
+    val isSaveQuery = newparams.getOrElse("queryType", "human") == "human"
 
-    if(newparams.getOrElse("queryType","human")=="analysis_workshop_apply_action"){
-       newparams += ("timeout" -> (user.apply_timeout * 1000).toString)
+    if (newparams.getOrElse("queryType", "human") == "analysis_workshop_apply_action") {
+      newparams += ("timeout" -> (user.apply_timeout * 1000).toString)
     }
 
-    val isAsync = newparams.getOrElse("async","false").toBoolean
+    val isAsync = newparams.getOrElse("async", "false").toBoolean
     val startTime = System.currentTimeMillis()
     val response = proxy.runScript(newparams)
     if (response.getStatus == -1) {
       val msg = genErrorMessage(s"Request ${response.getUrl} [${response.getContent}]. Please check the backend is alive.")
-      if(isSaveQuery){
+      if (isSaveQuery) {
         ctx.run(query[MlsqlJob].insert(lift(buildJob(MlsqlJob.FAIL, msg))))
       }
       render(500, msg)
     }
 
-    if(newparams.getOrElse("queryType","human")=="analysis_workshop_apply_action"){
+    if (newparams.getOrElse("queryType", "human") == "analysis_workshop_apply_action") {
       ctx.run(query[MlsqlApply].insert(
-        _.name-> lift(param("analysis_workshop_table_name")),
-        _.mlsqlUserId-> lift(user.id),
+        _.name -> lift(param("analysis_workshop_table_name")),
+        _.mlsqlUserId -> lift(user.id),
         _.content -> lift(sql),
         _.response -> lift(response.getContent),
         _.createdAt -> lift(startTime),
@@ -141,10 +146,10 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
       ))
     }
 
-    if(isSaveQuery){
+    if (isSaveQuery) {
       ctx.run(query[MlsqlJob].insert(lift(buildJob(MlsqlJob.RUNNING, ""))))
     }
-    if(!isAsync && newparams.contains("jobName")){
+    if (!isAsync && newparams.contains("jobName")) {
       ctx.run(query[MlsqlJob].filter(_.name == lift(newparams("jobName"))).
         update(_.status -> lift(MlsqlJob.SUCCESS),
           _.response -> lift(response.getContent),
