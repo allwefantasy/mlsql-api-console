@@ -75,7 +75,7 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
     tokenAuth()
     val columnName = param("columnName")
     val dbName = param("dbName")
-    val tableName = param("tableNamed")
+    val tableName = param("tableName")
 
     def showTables(db: JDBCD) = {
       var conn: Connection = null
