@@ -166,7 +166,7 @@ case class MlsqlEngine(id: Int, name: String, url: String, home: String,
                        consoleUrl: String,
                        fileServerUrl: String,
                        authServerUrl: String,
-                       skipAuth: Int)
+                       skipAuth: Int,extraOpts:String,accessToken:String)
 
 object MlsqlEngine {
   val SKIP_AUTH = 1

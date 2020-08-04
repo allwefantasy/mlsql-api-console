@@ -42,7 +42,7 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     val engineConfig = engineConfigOpt match {
       case Some(engineConfig) => engineConfig
       case None => EngineService.list().headOption.getOrElse(MlsqlEngine(
-        0, "", _proxyUrl, _home, _myUrl, _myUrl, _myUrl, _skipAuth
+        0, "", _proxyUrl, _home, _myUrl, _myUrl, _myUrl, _skipAuth,"{}",""
       ))
     }
 
@@ -95,15 +95,23 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     newparams += ("context.__auth_server_url__" -> s"${engineConfig.authServerUrl}/api_v1/table/auth")
     newparams += ("context.__auth_secret__" -> RestService.auth_secret)
     newparams += ("tags" -> tags)
+    newparams += ("access_token" -> engineConfig.accessToken)
     newparams += ("defaultPathPrefix" -> PathFun(engineConfig.home).add(user.name).toPath)
     newparams += ("skipAuth" -> (MlsqlEngine.SKIP_AUTH == engineConfig.skipAuth).toString)
     newparams += ("skipGrammarValidate" -> "false")
     newparams += ("callback" -> s"${engineConfig.consoleUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     newparams += ("sql" -> sql)
 
-    if (!sql.contains("connect") && !sql.contains("jdbc")) {
-      logInfo(sql)
+    def cleanSql(sql:String)={
+      try {
+        sql.split("\n").filterNot(line=>line.contains("password")).mkString("\n")
+      }catch {
+        case e:Exception=>
+          sql
+      }
     }
+
+    logInfo(cleanSql(sql))
     
     if (hasParam("__connect__")) {
       val connect = MlsqlDs.getConnect(param("__connect__"), user)

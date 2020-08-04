@@ -25,7 +25,9 @@ object EngineService {
       option("consoleUrl"),
       option("fileServerUrl"),
       option("authServerUrl"),
-      convertSkipAuth(option("skipAuth"))
+      convertSkipAuth(option("skipAuth")),
+      option("extraOpts"),
+      option("accessToken")
     )
     )))
   }
@@ -42,7 +44,9 @@ object EngineService {
       option.getOrElse("consoleUrl", myUrl),
       option.getOrElse("fileServerUrl", myUrl),
       option.getOrElse("authServerUrl", myUrl),
-      convertSkipAuth(option.getOrElse("skipAuth","true"))
+      convertSkipAuth(option.getOrElse("skipAuth","true")),
+      option.getOrElse("extraOpts", "{}"),
+      option.getOrElse("accessToken", "")
     )
     )))
   }
