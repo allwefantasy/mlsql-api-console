@@ -16,9 +16,18 @@
 
 ## 版本记录
 
-### 2020-08-03
+### 2020-08-04
 
-1. 修改数据库mlsql_engine, 添加extra_opts,access_token两个字段
+1. 修改数据库mlsql_engine, 添加extra_opts,access_token两个字段,配套升级了mlsql engine
+
+
+### Build 20200805.102004
+
+1. 侧边树状栏增加虚拟scroll.
+2. 打开hive表显示分区的时候，分区降序展示，同时允许用户输入过滤
+3. 修正了AnalysisWorkshop打开新表时没有清理之前的SQL的问题。
+
+
 
 
 
