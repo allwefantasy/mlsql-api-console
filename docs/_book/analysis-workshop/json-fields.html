@@ -1,0 +1,457 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Json字段展开 · MLSQL Console 文档</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-lightbox/css/lightbox.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/image.css">
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../console/" />
+    
+    
+    <link rel="prev" href="ds-mysql.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../howtouse/">
+            
+                <a href="../howtouse/">
+            
+                    
+                    基本安装
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../howtouse/install.html">
+            
+                <a href="../howtouse/install.html">
+            
+                    
+                    MLSQL Console 安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../howtouse/setup.html">
+            
+                <a href="../howtouse/setup.html">
+            
+                    
+                    MLSQL Console 初始配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Analysis Workshop使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="interface.html">
+            
+                <a href="interface.html">
+            
+                    
+                    软件界面介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="simple-example.html">
+            
+                <a href="simple-example.html">
+            
+                    
+                    简单使用示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="dash.html">
+            
+                <a href="dash.html">
+            
+                    
+                    可视化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="window.html">
+            
+                <a href="window.html">
+            
+                    
+                    使用窗口进行数据分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="complex-filter.html">
+            
+                <a href="complex-filter.html">
+            
+                    
+                    复杂组合条件过滤
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="ds-mysql.html">
+            
+                <a href="ds-mysql.html">
+            
+                    
+                    MySQL数据库配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.7" data-path="json-fields.html">
+            
+                <a href="json-fields.html">
+            
+                    
+                    Json字段展开
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../console/">
+            
+                <a href="../console/">
+            
+                    
+                    MLSQL语言控制台使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../console/interface.html">
+            
+                <a href="../console/interface.html">
+            
+                    
+                    界面简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../console/simple-example.html">
+            
+                <a href="../console/simple-example.html">
+            
+                    
+                    简单使用示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../developer/">
+            
+                <a href="../developer/">
+            
+                    
+                    MLSQL Console API指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Json字段展开</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="json&#x5B57;&#x6BB5;&#x5C55;&#x5F00;">Json&#x5B57;&#x6BB5;&#x5C55;&#x5F00;</h1>
+<p>&#x5B9E;&#x9645;&#x4E1A;&#x52A1;&#x573A;&#x666F;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5F88;&#x591A;&#x5B57;&#x6BB5;&#x4F1A;&#x662F;Json&#x6587;&#x672C;&#x3002;AnalysisWorkshop &#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#x4F9B;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x3002;&#x4E00;&#x79CD;&#x662F;&#x9700;&#x8981;&#x5B66;&#x4E60;&#x51FD;&#x6570;&#xFF0C;&#x4E00;&#x79CD;&#x5219;&#x4E0D;&#x9700;&#x8981;&#x3002;</p>
+<h3 id="&#x65E0;&#x9700;&#x51FD;&#x6570;&#x5C55;&#x5F00;json&#x5B57;&#x6BB5;">&#x65E0;&#x9700;&#x51FD;&#x6570;&#x5C55;&#x5F00;Json&#x5B57;&#x6BB5;</h3>
+<p>&#x5728;AnalysisWorkshop&#x91CC;&#x6253;&#x5F00;&#x8868;&#xFF0C;&#x7136;&#x540E;&#x8FDB;&#x5165;&#x3010;&#x64CD;&#x4F5C;&#x533A;&#x3011;&#x7684; &#x3010;&#x5B57;&#x6BB5;&#x3011;/&#x3010;Json&#x5B57;&#x6BB5;&#x5C55;&#x5F00;&#x3011;&#x680F;&#x76EE;&#xFF0C;&#x9009;&#x62E9;&#x5305;&#x542B;json&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x6BB5;&#xFF1A;</p>
+<p></p><div class="image-wrapper analysis-workshop-json-fields"><a href="http://docs.mlsql.tech/upload_images/aba838b3-a5ae-4e04-943b-86ae92b78034.png" data-lightbox="4fca7ff5-41ce-42fe-958a-867b79f86925" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/aba838b3-a5ae-4e04-943b-86ae92b78034.png" alt=""></a></div><p></p>
+<p>&#x52FE;&#x9009;&#x540E;&#xFF0C;&#x4F1A;&#x51FA;&#x73B0;&#x4E00;&#x4E2A; &#x6DFB;&#x52A0; &#x7B26;&#x53F7;&#xFF1A;</p>
+<p></p><div class="image-wrapper analysis-workshop-json-fields"><a href="http://docs.mlsql.tech/upload_images/04c7b3f5-48b1-4c66-b949-4af1027b3261.png" data-lightbox="3c36fdcb-e73c-4ac8-aec3-fbb139e00ffb" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/04c7b3f5-48b1-4c66-b949-4af1027b3261.png" alt=""></a></div><p></p>
+<p>&#x70B9;&#x51FB;&#x540E;&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x7F57;&#x5217;&#x51FA;json&#x5B57;&#x6BB5;&#x91CC;&#x6240;&#x6709;&#x7684;&#x8DEF;&#x5F84;&#x3002;</p>
+<p></p><div class="image-wrapper analysis-workshop-json-fields"><a href="http://docs.mlsql.tech/upload_images/fce65f54-5285-402c-8c8b-3286ba2fa518.png" data-lightbox="ac398399-0ef8-4285-bb2a-242f7b324da5" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/fce65f54-5285-402c-8c8b-3286ba2fa518.png" alt=""></a></div><p></p>
+<p>&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x9009;&#x62E9; web_paltform&#x5B57;&#x6BB5;&#xFF0C;&#x7136;&#x540E;&#x53D6;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x540D;&#x5B57;,&#x70B9;&#x51FB;Apply&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x4F60;&#x64CD;&#x4F5C;&#x7684;&#x6570;&#x636E;&#x5C31;&#x591A;&#x4E86;&#x4E00;&#x5217; web_platform&#x4E86;&#xFF1A;</p>
+<p></p><div class="image-wrapper analysis-workshop-json-fields"><a href="http://docs.mlsql.tech/upload_images/e49c67f2-9de2-47cd-869e-bd3735eccdf2.png" data-lightbox="a86d2975-fd7f-4a5d-8f4d-06265ebbbf7d" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/e49c67f2-9de2-47cd-869e-bd3735eccdf2.png" alt=""></a></div><p></p>
+<h2 id="&#x4F7F;&#x7528;&#x51FD;&#x6570;">&#x4F7F;&#x7528;&#x51FD;&#x6570;</h2>
+<p>&#x7528;&#x6237;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;get_json_object&#x51FD;&#x6570;&#xFF0C;&#x8FDB;&#x5165;&#x3010;&#x64CD;&#x4F5C;&#x533A;&#x3011;&#x7684; &#x3010;&#x5B57;&#x6BB5;&#x3011;/&#x3010;&#x8F6C;&#x6362;&#x5B57;&#x6BB5;&#x3011;&#x680F;&#x76EE;&#xFF0C;&#x586B;&#x5199;&#x51FD;&#x6570;&#x548C;&#x5B57;&#x6BB5;&#x540D;&#x79F0;&#xFF1A;</p>
+<p></p><div class="image-wrapper analysis-workshop-json-fields"><a href="http://docs.mlsql.tech/upload_images/c82486c4-27e3-4a4c-b26f-5aa2d925f50e.png" data-lightbox="f17835e2-66c0-4f3c-8ca7-b453e30f849a" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/c82486c4-27e3-4a4c-b26f-5aa2d925f50e.png" alt=""></a></div><p></p>
+<p>&#x70B9;&#x51FB;Apply&#x540E;&#x4E5F;&#x80FD;&#x5F97;&#x5230;&#x548C;&#x524D;&#x9762;&#x76F8;&#x540C;&#x7684;&#x6548;&#x679C;&#x3002;&#x4E0D;&#x8FC7;&#x8FD9;&#x91CC;&#x9700;&#x8981;&#x7528;&#x6237;&#x638C;&#x63E1;get_json_object&#x51FD;&#x6570;&#x7684;&#x7528;&#x6CD5;&#x4EE5;&#x53CA;XPath&#x7684;&#x4F7F;&#x7528;&#x89C4;&#x5219;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ds-mysql.html" class="navigation navigation-prev " aria-label="Previous page: MySQL数据库配置">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../console/" class="navigation navigation-next " aria-label="Next page: MLSQL语言控制台使用">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Json字段展开","level":"1.3.7","depth":2,"next":{"title":"MLSQL语言控制台使用","level":"1.4","depth":1,"path":"console/README.md","ref":"console/README.md","articles":[{"title":"界面简介","level":"1.4.1","depth":2,"path":"console/interface.md","ref":"console/interface.md","articles":[]},{"title":"简单使用示例","level":"1.4.2","depth":2,"path":"console/simple-example.md","ref":"console/simple-example.md","articles":[]}]},"previous":{"title":"MySQL数据库配置","level":"1.3.6","depth":2,"path":"analysis-workshop/ds-mysql.md","ref":"analysis-workshop/ds-mysql.md","articles":[]},"dir":"ltr"},"config":{"plugins":["image-class","lightbox"],"styles":{"website":"styles/image.css"},"pluginsConfig":{"image-class":{},"lightbox":{"jquery":true,"sameUuid":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"analysis-workshop/json-fields.md","mtime":"2020-08-06T06:30:59.574Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-06T06:34:10.301Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-lightbox/js/lightbox.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
