@@ -11,11 +11,13 @@
 
    * [软件界面介绍](analysis-workshop/interface.md)
    * [简单使用示例](analysis-workshop/simple-example.md)
+   * [透视表](analysis-workshop/pivot.md)
    * [可视化](analysis-workshop/dash.md)
    * [使用窗口进行数据分析](analysis-workshop/window.md)
    * [复杂组合条件过滤](analysis-workshop/complex-filter.md)
    * [MySQL数据库配置](analysis-workshop/ds-mysql.md)
    * [Json字段展开](analysis-workshop/json-fields.md)
+
 
 * [MLSQL语言控制台使用](console/README.md)
 

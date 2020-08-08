@@ -15,7 +15,8 @@
 
 点击后，系统会罗列出json字段里所有的路径。
 
-![](http://docs.mlsql.tech/upload_images/fce65f54-5285-402c-8c8b-3286ba2fa518.png)
+![](http://docs.mlsql.tech/upload_images/41c0d987-17b2-4f33-bed0-a449953f867a.png)
+
 
 假设我们选择 web_paltform字段，然后取一个新的名字,点击Apply，这个时候你操作的数据就多了一列 web_platform了：
 
