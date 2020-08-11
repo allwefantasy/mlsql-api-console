@@ -25,3 +25,6 @@
    * [简单使用示例](console/simple-example.md)
 
 * [MLSQL Console API指南](developer/README.md)
+
+   * [脚本获取接口](developer/script_api.md)
+   * [脚本执行代理接口](developer/script_run_api.md)

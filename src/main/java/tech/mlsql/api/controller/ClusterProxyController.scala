@@ -99,8 +99,15 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     newparams += ("defaultPathPrefix" -> PathFun(engineConfig.home).add(user.name).toPath)
     newparams += ("skipAuth" -> (MlsqlEngine.SKIP_AUTH == engineConfig.skipAuth).toString)
     newparams += ("skipGrammarValidate" -> "false")
-    newparams += ("callback" -> s"${engineConfig.consoleUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
+    if(!hasParam("callback")){
+      newparams += ("callback" -> s"${engineConfig.consoleUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
+    }
     newparams += ("sql" -> sql)
+    newparams += ("owner" -> user.name)
+
+    if(!hasParam("schemaInferUrl")){
+       newparams += ("schemaInferUrl" -> (engineConfig.url+"/run/script"))
+    }
 
     def cleanSql(sql:String)={
       try {

@@ -1,5 +1,7 @@
 # Analysis Workshop使用
 
+> 1.7.0-SNAPSHOT/1.7.0 及以上版本可用
+
 Analysis Workshop 提供了非常强大的数据分析功能,用户无需任何编程和SQL方面的知识，即可实现对数据分析。
 
 其特点有：

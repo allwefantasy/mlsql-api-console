@@ -116,7 +116,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   }
 
 
-  @At(path = Array("/api_v1/script_file/get"), types = Array(Method.GET))
+  @At(path = Array("/api_v1/script_file/get"), types = Array(Method.GET,Method.POST))
   def getScriptFile = {
     tokenAuth()
     val sf = ScriptFile.getItem(paramAsInt("id", -1))
@@ -125,8 +125,9 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   }
 
 
-  @At(path = Array("/api_v1/script_file/include"), types = Array(Method.GET))
+  @At(path = Array("/api_v1/script_file/include"), types = Array(Method.GET,Method.POST))
   def includeScriptFile = {
+    tokenAuth()
     user = UserService.findUser(param("owner")).head
     val path = param("path")
     val node = scriptFileService.findScriptFileByPath(oldUser, path)
