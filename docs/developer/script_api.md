@@ -2,7 +2,7 @@
 
 > 1.7.0-SNAPSHOT/1.7.0 及以上版本可用
 
-MLSQL Console本身提供了脚本管理功能，你可以在在书写，调试以及运行脚本。 在一些特定场景中，我们需要其他程序能够访问这些脚本，然后将这些脚本发送给引擎执行。典型场景如调度服务。
+MLSQL Console本身提供了脚本管理功能，你可以书写，调试以及运行脚本。 在一些特定场景中，我们需要其他程序能够访问这些脚本，然后将这些脚本发送给引擎执行。典型场景如调度服务。
 
 ## 接口1：
 
@@ -21,7 +21,7 @@ http://[mlsql-console-url]/api_v1/script_file/get
 
 ![](http://docs.mlsql.tech/upload_images/bd9f05c2-b254-435b-b7e3-ced3c562fd49.png)
 
-## 接口1：
+## 接口2：
 
 ```
 http://[mlsql-console-url]/api_v1/script_file/include

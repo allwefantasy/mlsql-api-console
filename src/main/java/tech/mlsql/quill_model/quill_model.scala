@@ -52,19 +52,19 @@ object MlsqlDs {
     ctx.run(query[MlsqlDs].insert(lift(mlsqlDs)).returningGenerated(_.id))
   }
 
-  def delete(user: MlsqlUser,id:Int) = {
-    ctx.run(query[MlsqlDs].filter(_.id==lift(id)).filter(_.mlsqlUserId==lift(user.id)).delete)
+  def delete(user: MlsqlUser, id: Int) = {
+    ctx.run(query[MlsqlDs].filter(_.id == lift(id)).filter(_.mlsqlUserId == lift(user.id)).delete)
   }
 
   def list(user: MlsqlUser) = {
     ctx.run(query[MlsqlDs].filter(_.mlsqlUserId == lift(user.id)))
   }
 
-  def get(user: MlsqlUser,name:String,format:String) = {
-    ctx.run(query[MlsqlDs].filter(_.mlsqlUserId == lift(user.id)).filter(_.name==lift(name)).filter(_.format==lift(format)))
+  def get(user: MlsqlUser, name: String, format: String) = {
+    ctx.run(query[MlsqlDs].filter(_.mlsqlUserId == lift(user.id)).filter(_.name == lift(name)).filter(_.format == lift(format)))
   }
 
-  def getConnect(name:String,user: MlsqlUser) = {
+  def getConnect(name: String, user: MlsqlUser) = {
     MlsqlDs.get(user, name, "jdbc").map(item => {
       JSONTool.parseJson[JDBCD](item.params)
     }).map(item => {
@@ -166,12 +166,14 @@ case class MlsqlEngine(id: Int, name: String, url: String, home: String,
                        consoleUrl: String,
                        fileServerUrl: String,
                        authServerUrl: String,
-                       skipAuth: Int,extraOpts:String,accessToken:String)
+                       skipAuth: Int, extraOpts: String, accessToken: String)
 
 object MlsqlEngine {
   val SKIP_AUTH = 1
   val AUTH = 2
 }
+
+case class MlsqlAnalysisPlugin(id: Int, name: String, content: String, mlsqlUserId: Int)
 
 case class MlsqlWorkshopTable(id: Int,
                               tableName: String,

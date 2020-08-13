@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.28-log)
 # Database: mlsql_console
-# Generation Time: 2020-08-05 03:18:16 +0000
+# Generation Time: 2020-08-13 03:34:21 +0000
 # ************************************************************
 
 
@@ -65,6 +65,22 @@ CREATE TABLE `app_kv` (
   `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table mlsql_analysis_plugin
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_analysis_plugin`;
+
+CREATE TABLE `mlsql_analysis_plugin` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `content` mediumtext,
+  `mlsql_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

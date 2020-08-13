@@ -143,6 +143,8 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     render(200, node.getId,ViewType.string)
   }
 
+  
+
   def scriptFileService = ServiceFramwork.injector.getInstance(classOf[ScriptFileService])
 
 }
