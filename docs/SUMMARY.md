@@ -10,6 +10,7 @@
 * [Analysis Workshop使用](analysis-workshop/README.md)
 
    * [软件界面介绍](analysis-workshop/interface.md)
+   * [Admin管理后台之Engine配置](analysis-workshop/admin-engine.md)
    * [简单使用示例](analysis-workshop/simple-example.md)
    * [透视表](analysis-workshop/pivot.md)
    * [可视化](analysis-workshop/dash.md)
@@ -17,6 +18,7 @@
    * [复杂组合条件过滤](analysis-workshop/complex-filter.md)
    * [MySQL数据库配置](analysis-workshop/ds-mysql.md)
    * [Json字段展开](analysis-workshop/json-fields.md)
+   * [用MLSQL为Analysis Workshop开发插件](analysis-workshop/aw-plugin.md)
 
 
 * [MLSQL语言控制台使用](console/README.md)
