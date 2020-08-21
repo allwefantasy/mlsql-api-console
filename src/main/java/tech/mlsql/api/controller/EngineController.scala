@@ -36,4 +36,14 @@ class EngineController extends ApplicationController with AuthModule with Render
     renderWithSchema[MlsqlEngine](EngineService.list())
   }
 
+  @At(path = Array("/api_v1/engine/remove"), types = Array(Method.POST,Method.GET))
+  def remove = {
+    tokenAuth(false)
+    if(user.role == "admin") {
+      EngineService.remove(user,param("id").toInt)
+    }
+    renderWithSchema[MlsqlEngine](EngineService.list())
+  }
+
+
 }

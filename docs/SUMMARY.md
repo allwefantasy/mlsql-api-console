@@ -2,6 +2,11 @@
 
 * [简介](README.md)
 
+* 所有版本
+   * [MLSQL Stack版本管理策略](release-notes/version.md)
+   * [MLSQL Stack 2.0.0版发布](release-notes/2.0.0.md)
+   * [MLSQL Stack 2.0.0 Bug 合集](release-notes/2.0.0-bug.md)
+
 * [基本安装](howtouse/README.md)
 
    * [MLSQL Console 安装](howtouse/install.md)

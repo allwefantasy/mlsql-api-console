@@ -27,9 +27,11 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
   @At(path = Array("/api_v1/run/script"), types = Array(Method.POST))
   def runScript = {
     tokenAuth()
-
-    val engineConfigOpt = EngineService.findByName(param("engineName", UserService.getBackendName(user).getOrElse("")))
-
+    val engineName = if(param("engineName")=="undefined" || !hasParam("engineName")){
+       UserService.getBackendName(user).getOrElse("")
+    }  else param("engineName")
+    val engineConfigOpt = EngineService.findByName(engineName)
+    
     val _proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl else engineUrl
     val _myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
       s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
