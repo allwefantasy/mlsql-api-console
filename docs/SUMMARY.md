@@ -6,9 +6,9 @@
    * [MLSQL Stack版本管理策略](release-notes/version.md)
    * [MLSQL Stack 2.0.0版发布](release-notes/2.0.0.md)
    * [MLSQL Stack 2.0.0 Bug 合集](release-notes/2.0.0-bug.md)
+   * [MLSQL Stack体验站点](http://jielongping.com:65092/)
 
 * [基本安装](howtouse/README.md)
-
    * [MLSQL Console 安装](howtouse/install.md)
    * [MLSQL Console 初始配置](howtouse/setup.md)
 
@@ -35,3 +35,6 @@
 
    * [脚本获取接口](developer/script_api.md)
    * [脚本执行代理接口](developer/script_run_api.md)
+
+* [博客]()
+   * [MLSQL Stack体验站点火爆来袭](blog/demo.md)

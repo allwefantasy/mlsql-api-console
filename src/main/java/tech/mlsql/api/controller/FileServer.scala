@@ -19,7 +19,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.io.FileUtils
 import tech.mlsql.MLSQLConsoleCommandConfig
 import tech.mlsql.common.utils.path.PathFun
-import tech.mlsql.service.RestService
+import tech.mlsql.quill_model.MlsqlEngine
+import tech.mlsql.service.{EngineService, RestService, UserService}
 import tech.mlsql.utils.DownloadRunner
 
 import scala.collection.JavaConversions._
@@ -110,16 +111,40 @@ class FileServer extends ApplicationController with AuthModule {
         "show_stack" -> "false",
         "tags" -> user.backendTags
       )
-      val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
+
+      val engineName = if(param("engineName")=="undefined" || !hasParam("engineName")){
+        UserService.getBackendName(user).getOrElse("")
+      }  else param("engineName")
+      val engineConfigOpt = EngineService.findByName(engineName)
+
+      val _proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl else engineUrl
+      val _myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
         s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
       } else {
         MLSQLConsoleCommandConfig.commandConfig.my_url
       }
-      newparams += ("context.__default__include_fetch_url__" -> s"${myUrl}/api_v1/script_file/include")
-      newparams += ("context.__default__fileserver_url__" -> s"${myUrl}/api_v1/file/download")
-      newparams += ("context.__default__fileserver_upload_url__" -> s"${myUrl}/api_v1/file/upload")
+      val _home = s"${MLSQLConsoleCommandConfig.commandConfig.user_home}"
+      val _skipAuth = if (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center) MlsqlEngine.SKIP_AUTH else MlsqlEngine.AUTH
+
+      val engineConfig = engineConfigOpt match {
+        case Some(engineConfig) => engineConfig
+        case None => EngineService.list().headOption.getOrElse(MlsqlEngine(
+          0, "", _proxyUrl, _home, _myUrl, _myUrl, _myUrl, _skipAuth,"{}",""
+        ))
+      }
+      
+      newparams += ("context.__default__include_fetch_url__" -> s"${engineConfig.consoleUrl}/api_v1/script_file/include")
+      newparams += ("context.__default__console_url__" -> s"${engineConfig.consoleUrl}")
+      newparams += ("context.__default__fileserver_url__" -> s"${engineConfig.fileServerUrl}/api_v1/file/download")
+      newparams += ("context.__default__fileserver_upload_url__" -> s"${engineConfig.fileServerUrl}/api_v1/file/upload")
+      newparams += ("context.__auth_client__" -> s"streaming.dsl.auth.meta.client.MLSQLConsoleClient")
+      newparams += ("context.__auth_server_url__" -> s"${engineConfig.authServerUrl}/api_v1/table/auth")
       newparams += ("context.__auth_secret__" -> RestService.auth_secret)
-      newparams += ("defaultPathPrefix" -> s"${MLSQLConsoleCommandConfig.commandConfig.user_home}/${user.name}")
+      newparams += ("access_token" -> engineConfig.accessToken)
+      newparams += ("defaultPathPrefix" -> PathFun(engineConfig.home).add(user.name).toPath)
+      newparams += ("skipAuth" -> (MlsqlEngine.SKIP_AUTH == engineConfig.skipAuth).toString)
+      newparams += ("skipGrammarValidate" -> "false")
+      
       val response = proxy.runScript(newparams)
       if (response.getStatus != 200) {
         render(500, WowCollections.map("msg", response.getContent), ViewType.json)
