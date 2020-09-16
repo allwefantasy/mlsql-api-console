@@ -13,7 +13,6 @@
    * [MLSQL Console 初始配置](howtouse/setup.md)
 
 * [Analysis Workshop使用](analysis-workshop/README.md)
-
    * [软件界面介绍](analysis-workshop/interface.md)
    * [Admin管理后台之Engine配置](analysis-workshop/admin-engine.md)
    * [简单使用示例](analysis-workshop/simple-example.md)
@@ -27,14 +26,19 @@
 
 
 * [MLSQL语言控制台使用](console/README.md)
-
    * [界面简介](console/interface.md)
    * [简单使用示例](console/simple-example.md)
+   * [开发python脚本](http://docs.mlsql.tech/mlsql-engine/python/)
+   
+* [MLSQL 脚本商店](store/README.md)
+   * [脚本插件save_excel](store/save_excel.md)
 
 * [MLSQL Console API指南](developer/README.md)
-
    * [脚本获取接口](developer/script_api.md)
    * [脚本执行代理接口](developer/script_run_api.md)
 
 * [博客]()
    * [MLSQL Stack体验站点火爆来袭](blog/demo.md)
+   * [神奇语言MLSQL](blog/mlsql_magic.md)
+   * [对中国开源基金会【开放原子】的碎碎念](blog/openatom.md)
+   * [云原生的价值以及几点趋势](blog/cloud-navive-and-your-futrure.md)

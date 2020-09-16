@@ -15,6 +15,7 @@ http://[mlsql-console-url]/api_v1/script_file/get
 
 | 参数名 | 类型 | 含义   |
 |-----|----|------|
+| owner  | 字符串 | 拥有脚本的用户名 |
 | id  | 数字 | 脚本id |
 
 因为安全方面的原因，你还需要在header里传递`access-token`. access-token 对应的值在 MLSQL Console的application.yml配置文件里。 这个token具有很高的权限，请勿泄露。
@@ -33,7 +34,7 @@ http://[mlsql-console-url]/api_v1/script_file/include
 | 参数名 | 类型 | 含义   |
 |-----|----|------|
 | owner  | 字符串 | 拥有脚本的用户名 |
-| path  | 脚本路径 | 拥有脚本的用户名 |
+| path  | 脚本路径 |  |
 
 同样，因为安全方面的原因，你还需要在请求header里传递`access-token`. access-token 对应的值在 MLSQL Console的application.yml配置文件里。
 
