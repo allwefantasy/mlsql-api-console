@@ -43,6 +43,30 @@ case class MlsqlUser(id: Int,
       case e: Exception => 10
     }
   }
+
+  def getEngines = {
+    val engines = ctx.run(
+      ctx.query[MlsqlGroupUser].filter(_.mlsqlUserId == lift(id)).
+        filter(groupUser => liftQuery(List(MlsqlGroupUser.owner, MlsqlGroupUser.confirmed)).contains(groupUser.status)).
+        join(ctx.query[MlsqlGroup]).
+        on(_.mlsqlGroupId == _.id).
+        map(group => group._2).
+        join(ctx.query[MlsqlBackendProxy]).on(_.id == _.mlsqlGroupId).map(_._2).
+        join(ctx.query[MlsqlEngine]).on(_.backendName == _.name).map(_._2)
+    )
+
+    val engines2 = ctx.run(query[MlsqlEngine]).filter { engine =>
+      try {
+        val config = JSONTool.parseJson[Map[String, String]](engine.extraOpts)
+        config.get("public").map(_.toBoolean).getOrElse(false)
+      } catch {
+        case e: Exception =>
+          false
+      }
+
+    }
+    engines ++ engines2
+  }
 }
 
 case class MlsqlDs(id: Int, name: String, format: String, params: String, mlsqlUserId: Int)
@@ -83,20 +107,30 @@ object MlsqlDs {
 case class MlsqlGroup(id: Int, name: String)
 
 object MlsqlGroup {
-  def save(name: String, user: MlsqlUser): Unit = {
+  def save(name: String, user: MlsqlUser,status:Int): Unit = {
     ctx.transaction {
       val id = ctx.run(query[MlsqlGroup].insert(_.name -> lift(name)).returningGenerated(_.id))
-      ctx.run(query[MlsqlGroupUser].insert(_.mlsqlGroupId -> lift(id), _.mlsqlUserId -> lift(user.id)))
+      ctx.run(query[MlsqlGroupUser].insert(_.mlsqlGroupId -> lift(id), _.mlsqlUserId -> lift(user.id),_.status->lift(status)))
     }
   }
 
   def list(user: MlsqlUser) = {
     ctx.run(query[MlsqlGroupUser].
       filter(_.mlsqlUserId == lift(user.id)).
-      filter(_.status == lift(MlsqlGroupUser.owner)).leftJoin(query[MlsqlGroup]).on(_.mlsqlGroupId == _.id).map { case (_, groupOpt) =>
+      filter(_.status == lift(MlsqlGroupUser.owner)).
+      join(query[MlsqlGroup]).on(_.mlsqlGroupId == _.id).map { case (_, groupOpt) =>
       groupOpt
     }
     ).toList
+  }
+
+}
+
+case class MlsqlBackendProxy(id: Int, mlsqlGroupId: Int, backendName: String)
+
+object MlsqlBackendProxy {
+  def save(group: MlsqlGroup, backend: MlsqlEngine): Unit = {
+    ctx.run(ctx.query[MlsqlBackendProxy].insert(_.mlsqlGroupId -> lift(group.id), _.backendName -> lift(backend.name)))
   }
 }
 

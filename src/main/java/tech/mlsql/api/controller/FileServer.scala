@@ -36,7 +36,9 @@ class FileServer extends ApplicationController with AuthModule {
     val engineName = if(param("engineName")=="undefined" || !hasParam("engineName")){
       UserService.getBackendName(user).getOrElse("")
     }  else param("engineName")
-    val engineConfigOpt = EngineService.findByName(engineName)
+
+    val engines = user.getEngines
+    val engineConfigOpt = engines.filter(_.name==engineName).headOption
 
     val _proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl else engineUrl
     val _myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {

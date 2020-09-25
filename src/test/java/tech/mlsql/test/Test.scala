@@ -8,8 +8,9 @@ import org.apache.http.client.fluent.{Form, Request}
  */
 object Test {
   def main(args: Array[String]): Unit = {
-    registerTable(9004)
-    testSuggest(9004)
+//    registerTable(9004)
+//    testSuggest(9004)
+    'x'.isControl
   }
 
   def testMLSQL = {

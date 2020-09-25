@@ -30,6 +30,10 @@ class MLSQLConsoleCommandConfig(params: ParamsUtil) {
     params.getParam("mlsql_engine_url", "http://127.0.0.1:9003")
   }
 
+  def mlsql_cloud_proxy = {
+    params.getParam("mlsql_cloud_proxy", "http://127.0.0.1:8090")
+  }
+
   def my_url = {
     params.getParam("my_url", "")
   }
