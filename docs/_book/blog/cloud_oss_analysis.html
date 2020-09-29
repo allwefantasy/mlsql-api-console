@@ -1,0 +1,749 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>轻松分析阿里云OSS数据 · MLSQL Console 文档</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-lightbox/css/lightbox.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/image.css">
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="cloud-navive-and-your-futrure.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    所有版本
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../release-notes/version.html">
+            
+                <a href="../release-notes/version.html">
+            
+                    
+                    MLSQL Stack版本管理策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../release-notes/2.0.0.html">
+            
+                <a href="../release-notes/2.0.0.html">
+            
+                    
+                    MLSQL Stack 2.0.0版发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../release-notes/2.0.0-bug.html">
+            
+                <a href="../release-notes/2.0.0-bug.html">
+            
+                    
+                    MLSQL Stack 2.0.0 Bug 合集
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <a target="_blank" href="http://jielongping.com:65092/">
+            
+                    
+                    MLSQL Stack体验站点
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../howtouse/">
+            
+                <a href="../howtouse/">
+            
+                    
+                    基本安装
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../howtouse/install.html">
+            
+                <a href="../howtouse/install.html">
+            
+                    
+                    MLSQL Console 安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../howtouse/setup.html">
+            
+                <a href="../howtouse/setup.html">
+            
+                    
+                    MLSQL Console 初始配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../analysis-workshop/">
+            
+                <a href="../analysis-workshop/">
+            
+                    
+                    Analysis Workshop使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../analysis-workshop/interface.html">
+            
+                <a href="../analysis-workshop/interface.html">
+            
+                    
+                    软件界面介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../analysis-workshop/admin-engine.html">
+            
+                <a href="../analysis-workshop/admin-engine.html">
+            
+                    
+                    Admin管理后台之Engine配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="../analysis-workshop/simple-example.html">
+            
+                <a href="../analysis-workshop/simple-example.html">
+            
+                    
+                    简单使用示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="../analysis-workshop/pivot.html">
+            
+                <a href="../analysis-workshop/pivot.html">
+            
+                    
+                    透视表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.5" data-path="../analysis-workshop/dash.html">
+            
+                <a href="../analysis-workshop/dash.html">
+            
+                    
+                    可视化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.6" data-path="../analysis-workshop/window.html">
+            
+                <a href="../analysis-workshop/window.html">
+            
+                    
+                    使用窗口进行数据分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.7" data-path="../analysis-workshop/complex-filter.html">
+            
+                <a href="../analysis-workshop/complex-filter.html">
+            
+                    
+                    复杂组合条件过滤
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.8" data-path="../analysis-workshop/ds-mysql.html">
+            
+                <a href="../analysis-workshop/ds-mysql.html">
+            
+                    
+                    MySQL数据库配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.9" data-path="../analysis-workshop/json-fields.html">
+            
+                <a href="../analysis-workshop/json-fields.html">
+            
+                    
+                    Json字段展开
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.10" data-path="../analysis-workshop/aw-plugin.html">
+            
+                <a href="../analysis-workshop/aw-plugin.html">
+            
+                    
+                    用MLSQL为Analysis Workshop开发插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../console/">
+            
+                <a href="../console/">
+            
+                    
+                    MLSQL语言控制台使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../console/interface.html">
+            
+                <a href="../console/interface.html">
+            
+                    
+                    界面简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../console/simple-example.html">
+            
+                <a href="../console/simple-example.html">
+            
+                    
+                    简单使用示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" >
+            
+                <a target="_blank" href="http://docs.mlsql.tech/mlsql-engine/python/">
+            
+                    
+                    开发python脚本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../store/">
+            
+                <a href="../store/">
+            
+                    
+                    MLSQL 脚本商店
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../store/save_excel.html">
+            
+                <a href="../store/save_excel.html">
+            
+                    
+                    脚本插件save_excel
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../developer/">
+            
+                <a href="../developer/">
+            
+                    
+                    MLSQL Console API指南
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="../developer/script_api.html">
+            
+                <a href="../developer/script_api.html">
+            
+                    
+                    脚本获取接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3.2" data-path="../developer/script_run_api.html">
+            
+                <a href="../developer/script_run_api.html">
+            
+                    
+                    脚本执行代理接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" >
+            
+                <span>
+            
+                    
+                    博客
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.4.1" data-path="demo.html">
+            
+                <a href="demo.html">
+            
+                    
+                    MLSQL Stack体验站点火爆来袭
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.2" data-path="mlsql_magic.html">
+            
+                <a href="mlsql_magic.html">
+            
+                    
+                    神奇语言MLSQL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.3" data-path="openatom.html">
+            
+                <a href="openatom.html">
+            
+                    
+                    对中国开源基金会【开放原子】的碎碎念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4.4" data-path="cloud-navive-and-your-futrure.html">
+            
+                <a href="cloud-navive-and-your-futrure.html">
+            
+                    
+                    云原生的价值以及几点趋势
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4.5" data-path="cloud_oss_analysis.html">
+            
+                <a href="cloud_oss_analysis.html">
+            
+                    
+                    轻松分析阿里云OSS数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >轻松分析阿里云OSS数据</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x8F7B;&#x677E;&#x5206;&#x6790;&#x963F;&#x91CC;&#x4E91;oss&#x6570;&#x636E;">&#x8F7B;&#x677E;&#x5206;&#x6790;&#x963F;&#x91CC;&#x4E91;OSS&#x6570;&#x636E;</h1>
+<p>MLSQL Engine &#x7EC8;&#x4E8E;&#x539F;&#x751F;&#x652F;&#x6301;&#x963F;&#x91CC;&#x4E91;&#x4E86;&#x3002;&#x4E0E;&#x4E4B;&#x914D;&#x5957;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x53D1;&#x5E03;&#x4E86;&#x65B0;&#x7248;MLSQL Conole&#xFF0C;<code>analysis.mlsql.tech</code>,&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5728;Console&#x91CC;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x963F;&#x91CC;&#x4E91;&#x7684;Engine. </p>
+<p>&#x5177;&#x4F53;&#x539F;&#x7406;&#x662F;&#xFF0C;&#x7528;&#x6237;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x5177;&#x6709;&#x5728;&#x963F;&#x91CC;&#x4E91;&#x521B;&#x5EFA;ASK&#x7684;AccessKey&#xFF0C;MLSQL Console&#x4F1A;&#x4F7F;&#x7528;&#x8BE5;AccessKey&#x5728;&#x7528;&#x6237;&#x7684;&#x8D26;&#x53F7;&#x4E0B;&#x521B;&#x5EFA;&#x5BF9;&#x5E94;&#x7684;MLSQL Engine&#xFF0C;&#x7136;&#x540E;&#x8FD4;&#x56DE;&#x8BBF;&#x95EE;&#x5730;&#x5740;&#x3002;&#x4E4B;&#x540E;&#x7528;&#x6237;&#x5728;MLSQL Console &#x6CE8;&#x518C;&#x4E0B;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x5C31;&#x884C;&#x3002;</p>
+<h2 id="&#x521B;&#x5EFA;">&#x521B;&#x5EFA;</h2>
+<p>&#x6CE8;&#x518C;&#x767B;&#x5F55;&#x540E;&#xFF0C;&#x8FDB;&#x5165;&#x8BBE;&#x7F6E;&#x9875;&#x9762;&#xFF1A;</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/566b085d-1ba6-483a-8a74-60665edfe6b2.png" data-lightbox="09936acd-2864-40c5-a63a-17b64c79b21d" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/566b085d-1ba6-483a-8a74-60665edfe6b2.png" alt=""></a></div><p></p>
+<p>&#x5728;&#x5DE6;&#x4FA7;&#x83DC;&#x5355;&#x680F;&#x9009;&#x62E9;<code>&#x521B;&#x5EFA;&#x4E91;&#x5F15;&#x64CE;</code>:</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/446cbb1d-5837-436e-9a02-4de861bfe94a.png" data-lightbox="c5768971-8a7c-4310-8479-b28899012d26" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/446cbb1d-5837-436e-9a02-4de861bfe94a.png" alt=""></a></div><p></p>
+<p>&#x586B;&#x5199;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#xFF1A;</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/3e9c51a5-3bf9-40bd-9dd0-049fe1ab80fb.png" data-lightbox="edb24b6d-3762-47d1-a072-c1d450af6530" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/3e9c51a5-3bf9-40bd-9dd0-049fe1ab80fb.png" alt=""></a></div><p></p>
+<blockquote>
+<p>OSS AccessKey&#x662F;&#x5FC5;&#x987B;&#x4E00;&#x76F4;&#x6709;&#x6548;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;MLSQL Engine&#x4F1A;&#x5C06;&#x5176;&#x4F5C;&#x4E3A;&#x5E95;&#x5C42;&#x5206;&#x5E03;&#x5F0F;&#x5B58;&#x50A8;&#x3002;
+&#x4F46;AccessKey&#x4E00;&#x65E6;&#x96C6;&#x7FA4;&#x521B;&#x5EFA;&#x5B8C;&#x6BD5;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5220;&#x9664;&#x3002;&#x907F;&#x514D;&#x53D1;&#x751F;&#x6CC4;&#x9732;&#x540E;&#x9020;&#x6210;&#x635F;&#x5931;&#x3002;</p>
+</blockquote>
+<p>&#x70B9;&#x51FB;&#x786E;&#x8BA4;&#x540E;&#xFF0C;&#x5C31;&#x4F1A;&#x8FDB;&#x5165;&#x4E00;&#x4E2A;&#x65E5;&#x5FD7;&#x754C;&#x9762;&#xFF0C;&#x524D;&#x5341;&#x79D2;&#x53EF;&#x80FD;&#x6CA1;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x5927;&#x5BB6;&#x7A0D;&#x5FAE;&#x8010;&#x5FC3;&#xFF0C;&#x65E5;&#x5FD7;&#x4F1A;&#x81EA;&#x52A8;&#x5237;&#x65B0;&#x3002;&#x9014;&#x4E2D;&#x7EA2;&#x7EBF;&#x6846;&#x90E8;&#x5206;&#x6807;&#x8BB0;&#x6211;&#x4EEC;&#x6210;&#x529F;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;Engine&#xFF1A;</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/c523a0e0-ad42-4791-9669-ea97d761245a.png" data-lightbox="55a2d328-461f-4e95-a60d-04620d89b378" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/c523a0e0-ad42-4791-9669-ea97d761245a.png" alt=""></a></div><p></p>
+<p>&#x540C;&#x65F6;&#xFF0C;&#x5728;&#x4F60;&#x7684;&#x963F;&#x91CC;&#x4E91;<code>&#x5BB9;&#x5668;&#x670D;&#x52A1; - Kubernetes</code>&#x63A7;&#x5236;&#x53F0;&#x4E0A;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6211;&#x4EEC;&#x65B0;&#x521B;&#x5EFA;&#x7684;ASK&#x96C6;&#x7FA4;&#xFF0C;&#x70B9;&#x51FB;&#x8FDB;&#x53BB;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x975E;&#x5E38;&#x8BE6;&#x7EC6;&#x7684;MLSQL Engine&#x76F8;&#x5173;&#x7684;&#x4FE1;&#x606F;&#xFF1A;</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/9118cfed-69c8-4671-89ac-de044b785084.png" data-lightbox="ba1ec833-512f-486f-b2ad-b2041b4fb0c7" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/9118cfed-69c8-4671-89ac-de044b785084.png" alt=""></a></div><p></p>
+<p>&#x62FF;&#x5230;&#x4E0A;&#x9762;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x6CE8;&#x518C;&#x5F15;&#x64CE;&#x4FE1;&#x606F;&#x5230;MLSQL Console&#x4E86;&#xFF1A;</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/0c4dd15f-18b4-4f0f-9cf7-9ae5f4a32ddf.png" data-lightbox="f01d0211-e408-48d8-9611-1a099d0c2380" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/0c4dd15f-18b4-4f0f-9cf7-9ae5f4a32ddf.png" alt=""></a></div><p></p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x5C06;&#x5176;&#x8BBE;&#x7F6E;&#x4E3A;&#x81EA;&#x5DF1;&#x7684;&#x9ED8;&#x8BA4;&#x5F15;&#x64CE;&#xFF1A;
+</p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/5291abc6-3880-4b0a-a676-adcd30ccd74a.png" data-lightbox="0d60dcac-728e-44ad-a1ef-72200869dd3a" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/5291abc6-3880-4b0a-a676-adcd30ccd74a.png" alt=""></a></div><p></p>
+<p>&#x5982;&#x679C;&#x5FD8;&#x8BB0;&#x4E86;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5230;&#x8FD9;&#x91CC;&#x67E5;&#x770B;&#xFF1A;
+</p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/e9cef92f-c040-4fff-9905-b75a39dd2756.png" data-lightbox="38308496-49f9-4b88-8028-94b8e9f42c0e" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/e9cef92f-c040-4fff-9905-b75a39dd2756.png" alt=""></a></div><p></p>
+<p>&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x5220;&#x9664;&#x5F15;&#x64CE;&#xFF1A;</p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/f49a9135-2bb8-49d1-91e7-aba633f7c298.png" data-lightbox="4bcfa87d-8788-4892-874d-edd346045609" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/f49a9135-2bb8-49d1-91e7-aba633f7c298.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper blog-cloud_oss_analysis"><a href="http://docs.mlsql.tech/upload_images/8a39bed4-0325-49e9-9994-764c7c19cd13.png" data-lightbox="0c24de5b-78dd-451b-8484-12665b214263" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/8a39bed4-0325-49e9-9994-764c7c19cd13.png" alt=""></a></div><p></p>
+<p>&#x5982;&#x679C;&#x5220;&#x9664;&#x5931;&#x8D25;&#xFF0C;&#x53EF;&#x4EE5;&#x4E3B;&#x52A8;&#x5230;&#x963F;&#x91CC;&#x4E91;<code>&#x5BB9;&#x5668;&#x670D;&#x52A1; - Kubernetes</code>&#x63A7;&#x5236;&#x53F0;&#x4E0A;&#x8FDB;&#x884C;&#x5220;&#x9664;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="cloud-navive-and-your-futrure.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 云原生的价值以及几点趋势">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"轻松分析阿里云OSS数据","level":"3.4.5","depth":2,"previous":{"title":"云原生的价值以及几点趋势","level":"3.4.4","depth":2,"path":"blog/cloud-navive-and-your-futrure.md","ref":"blog/cloud-navive-and-your-futrure.md","articles":[]},"dir":"ltr"},"config":{"plugins":["image-class","lightbox"],"styles":{"website":"styles/image.css"},"pluginsConfig":{"image-class":{},"lightbox":{"jquery":true,"sameUuid":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"blog/cloud_oss_analysis.md","mtime":"2020-09-28T05:24:20.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-28T05:24:36.022Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-lightbox/js/lightbox.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

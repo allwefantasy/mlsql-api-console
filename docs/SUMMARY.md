@@ -12,6 +12,7 @@
    * [MLSQL Console 安装](howtouse/install.md)
    * [MLSQL Console 初始配置](howtouse/setup.md)
 
+
 * [Analysis Workshop使用](analysis-workshop/README.md)
    * [软件界面介绍](analysis-workshop/interface.md)
    * [Admin管理后台之Engine配置](analysis-workshop/admin-engine.md)
@@ -42,3 +43,4 @@
    * [神奇语言MLSQL](blog/mlsql_magic.md)
    * [对中国开源基金会【开放原子】的碎碎念](blog/openatom.md)
    * [云原生的价值以及几点趋势](blog/cloud-navive-and-your-futrure.md)
+   * [轻松分析阿里云OSS数据](blog/cloud_oss_analysis.md)

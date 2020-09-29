@@ -13,14 +13,14 @@ class TeamController  extends ApplicationController with AuthModule with RenderH
   @At(path = Array("/api_v1/team"), types = Array(Method.GET))
   def team = {
     tokenAuth()
-    val groups = MlsqlGroup.list(user).map(_.get)
+    val groups = MlsqlGroup.list(user)
     renderWithSchema[MlsqlGroup](groups)
   }
 
   @At(path = Array("/api_v1/team/create"), types = Array(Method.GET))
   def teamCreate = {
     tokenAuth()
-    val groups = MlsqlGroup.list(user).map(_.get)
+    val groups = MlsqlGroup.list(user)
     renderWithSchema[MlsqlGroup](groups)
   }
 }
