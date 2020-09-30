@@ -4,7 +4,9 @@
 
 * 所有版本
    * [MLSQL Stack版本管理策略](release-notes/version.md)
+   * [MLSQL Stack 2.0.1版发布](release-notes/2.0.1.md)
    * [MLSQL Stack 2.0.0版发布](release-notes/2.0.0.md)
+   * [MLSQL Stack 2.0.1 Bug 合集](release-notes/2.0.1-bug.md)
    * [MLSQL Stack 2.0.0 Bug 合集](release-notes/2.0.0-bug.md)
    * [MLSQL Stack体验站点](http://jielongping.com:65092/)
 
