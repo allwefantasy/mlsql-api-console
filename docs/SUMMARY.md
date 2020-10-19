@@ -32,7 +32,19 @@
    * [界面简介](console/interface.md)
    * [简单使用示例](console/simple-example.md)
    * [开发python脚本](http://docs.mlsql.tech/mlsql-engine/python/)
-   
+
+* [MLSQL语法手册](lang/README.md)
+   * [Set语法](lang/set.md)
+   * [Load语法](lang/load.md)
+   * [Select语法](lang/select.md)
+   * [Train/Run/Predict语法](lang/et_statement.md)
+   * [Register语法](lang/register.md)
+   * [Save语法](lang/save.md)
+   * [宏语法](lang/macro.md)
+   * [Include语法](lang/include.md)
+   * [分支语句](http://blog.mlsql.tech/blog/mlsql-ifelse.html)
+   * [MLSQL语法解析接口](lang/analyze.md)
+
 * [MLSQL 脚本商店](store/README.md)
    * [脚本插件save_excel](store/save_excel.md)
 

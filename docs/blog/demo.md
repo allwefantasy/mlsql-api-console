@@ -6,6 +6,10 @@ MLSQL的体验站点终于来了，点这里 [MLSQL Console](http://jielongping.
 
 ## 站点最新更新
 
+### 升级到2.1.0-SNAPSHOT,支持分支语句 (2020-10-06)
+
+[MLSQL 支持条件分支语句](http://blog.mlsql.tech/blog/mlsql-ifelse.html)
+
 ### Excel 支持 (2020-09-01)
 增加excel插件支持，支持在MLSQL中使用python处理excel. 上传你的excel尝试下吧。 [结合Python读取Excel](http://docs.mlsql.tech/mlsql-engine/python/read_excel.html) 
 

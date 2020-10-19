@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>MLSQL 脚本商店 · MLSQL Console 文档</title>
+        <title>Load语法 · MLSQL Console 文档</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -53,10 +53,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="save_excel.html" />
+    <link rel="next" href="select.html" />
     
     
-    <link rel="prev" href="../lang/analyze.html" />
+    <link rel="prev" href="set.html" />
     
 
     </head>
@@ -461,9 +461,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2" data-path="../lang/">
+        <li class="chapter " data-level="3.2" data-path="./">
             
-                <a href="../lang/">
+                <a href="./">
             
                     
                     MLSQL语法手册
@@ -475,9 +475,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.2.1" data-path="../lang/set.html">
+        <li class="chapter " data-level="3.2.1" data-path="set.html">
             
-                <a href="../lang/set.html">
+                <a href="set.html">
             
                     
                     Set语法
@@ -488,9 +488,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.2" data-path="../lang/load.html">
+        <li class="chapter active" data-level="3.2.2" data-path="load.html">
             
-                <a href="../lang/load.html">
+                <a href="load.html">
             
                     
                     Load语法
@@ -501,9 +501,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.3" data-path="../lang/select.html">
+        <li class="chapter " data-level="3.2.3" data-path="select.html">
             
-                <a href="../lang/select.html">
+                <a href="select.html">
             
                     
                     Select语法
@@ -514,9 +514,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.4" data-path="../lang/et_statement.html">
+        <li class="chapter " data-level="3.2.4" data-path="et_statement.html">
             
-                <a href="../lang/et_statement.html">
+                <a href="et_statement.html">
             
                     
                     Train/Run/Predict语法
@@ -527,9 +527,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.5" data-path="../lang/register.html">
+        <li class="chapter " data-level="3.2.5" data-path="register.html">
             
-                <a href="../lang/register.html">
+                <a href="register.html">
             
                     
                     Register语法
@@ -540,9 +540,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.6" data-path="../lang/save.html">
+        <li class="chapter " data-level="3.2.6" data-path="save.html">
             
-                <a href="../lang/save.html">
+                <a href="save.html">
             
                     
                     Save语法
@@ -553,9 +553,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.7" data-path="../lang/macro.html">
+        <li class="chapter " data-level="3.2.7" data-path="macro.html">
             
-                <a href="../lang/macro.html">
+                <a href="macro.html">
             
                     
                     宏语法
@@ -566,9 +566,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.8" data-path="../lang/include.html">
+        <li class="chapter " data-level="3.2.8" data-path="include.html">
             
-                <a href="../lang/include.html">
+                <a href="include.html">
             
                     
                     Include语法
@@ -592,9 +592,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2.10" data-path="../lang/analyze.html">
+        <li class="chapter " data-level="3.2.10" data-path="analyze.html">
             
-                <a href="../lang/analyze.html">
+                <a href="analyze.html">
             
                     
                     MLSQL语法解析接口
@@ -610,9 +610,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.3" data-path="./">
+        <li class="chapter " data-level="3.3" data-path="../store/">
             
-                <a href="./">
+                <a href="../store/">
             
                     
                     MLSQL 脚本商店
@@ -624,9 +624,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.3.1" data-path="save_excel.html">
+        <li class="chapter " data-level="3.3.1" data-path="../store/save_excel.html">
             
-                <a href="save_excel.html">
+                <a href="../store/save_excel.html">
             
                     
                     脚本插件save_excel
@@ -801,7 +801,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >MLSQL 脚本商店</a>
+        <a href=".." >Load语法</a>
     </h1>
 </div>
 
@@ -816,18 +816,93 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="mlsql-&#x811A;&#x672C;&#x5546;&#x5E97;">MLSQL &#x811A;&#x672C;&#x5546;&#x5E97;</h1>
-<p>MLSQL &#x4F5C;&#x4E3A;&#x811A;&#x672C;&#x8BED;&#x8A00;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x5F88;&#x591A;&#x53EF;&#x590D;&#x7528;&#x7279;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x5C06;&#x81EA;&#x5DF1;&#x5199;&#x7684;&#x4E00;&#x4E9B;&#x811A;&#x672C;&#x63D0;&#x4F9B;&#x51FA;&#x6765;&#xFF0C;&#x4F9B;&#x5176;&#x4ED6;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x3002;
-MLSQL&#x811A;&#x672C;&#x5546;&#x5E97;&#x76EE;&#x524D;&#x5C31;&#x662F;&#x505A;&#x8FD9;&#x4E2A;&#x7528;&#x9014;&#x7684;&#x3002;</p>
-<blockquote>
-<p>&#x5982;&#x679C;&#x89C9;&#x5F97;&#x81EA;&#x5DF1;&#x7684;MLSQL&#x811A;&#x672C;&#x5F88;&#x9177;&#xFF0C;&#x6B22;&#x8FCE;&#x5230;MLSQL Github ISSUE&#x4E2D;&#x9ECF;&#x8D34;&#x51FA;&#x6765;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x653E;&#x5230;&#x5B98;&#x65B9;&#x4ED3;&#x5E93;&#x91CC;&#x3002;</p>
-</blockquote>
-<p>&#x811A;&#x672C;&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x4EF6;&#x5176;&#x5B9E;&#x6709;&#x5F88;&#x591A;&#x5929;&#x7136;&#x4F18;&#x52BF;&#xFF1A;</p>
+                                <h1 id="load-&#x8BED;&#x6CD5;">Load &#x8BED;&#x6CD5;</h1>
+<p>Load&#x7684;&#x4F5C;&#x7528;&#x4E3B;&#x8981;&#x662F;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x52A0;&#x8F7D;&#x6570;&#x636E;&#x6E90;&#x5E76;&#x4E14;&#x5C06;&#x5176;&#x6620;&#x5C04;&#x4E3A;&#x4E00;&#x5F20;&#x8868;&#x3002;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;&#x6570;&#x636E;&#x7684;&#x6765;&#x6E90;&#x53EF;&#x80FD;&#x662F;&#x5343;&#x5DEE;&#x4E07;&#x522B;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#x53EF;&#x80FD;&#x662F;&#x6D41;&#x5F0F;&#x6570;&#x636E;&#x6E90;Kafka,&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x4F20;&#x7EDF;&#x7684;MySQL. 
+&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x4E00;&#x81F4;&#x7684;&#x8BED;&#x6CD5;&#x5C06;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x6E90;&#x91CC;&#x7684;&#x6570;&#x636E;&#x6620;&#x5C04;&#x6210;MLSQL&#x4E2D;&#x7684;&#x8868;&#x3002;</p>
+<h2 id="&#x57FA;&#x672C;&#x4F7F;&#x7528;">&#x57FA;&#x672C;&#x4F7F;&#x7528;</h2>
+<p>&#x6211;&#x4EEC;&#x5148;&#x6765;&#x770B;&#x4E00;&#x4E2A;&#x6700;&#x7B80;&#x5355;&#x7684;load&#x8BED;&#x53E5;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">set</span> abc=<span class="hljs-string">&apos;&apos;&apos;
+{ &quot;x&quot;: 100, &quot;y&quot;: 200, &quot;z&quot;: 200 ,&quot;dataType&quot;:&quot;A group&quot;}
+{ &quot;x&quot;: 120, &quot;y&quot;: 100, &quot;z&quot;: 260 ,&quot;dataType&quot;:&quot;B group&quot;}
+&apos;&apos;&apos;</span>;
+<span class="hljs-keyword">load</span> jsonStr.<span class="hljs-string">`abc`</span> <span class="hljs-keyword">as</span> table1;
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x524D;&#x9762;&#x5B66;&#x4E60;&#x7684;set&#x8BED;&#x6CD5;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E86;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x8BE5;&#x53D8;&#x91CF;&#x662F;abc, &#x7136;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;load&#x8BED;&#x53E5;&#x5C06;&#x8FD9;&#x6BB5;&#x6587;&#x672C;&#x6CE8;&#x518C;&#x6210;&#x4E00;&#x5F20;&#x89C6;&#x56FE;&#xFF08;&#x8868;&#xFF09;&#x3002;&#x8FD0;&#x884C;
+&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>dataType  x         y   z
+
+A         group    100    200    200
+B         group    120    100    260
+</code></pre><p>&#x6211;&#x4EEC;&#x8FC7;&#x6765;&#x770B;&#x4E0B;load&#x8BED;&#x6CD5;&#x3002;&#x7B2C;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x8BCD;&#x662F;load,&#x7D27;&#x63A5;&#x7740;&#x63A5;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x6E90;&#x6216;&#x8005;&#x683C;&#x5F0F;&#x540D;&#x79F0;&#xFF0C;&#x6BD4;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x662F;<code>jsonStr</code>&#x3002;&#x8FD9;&#x8868;&#x793A;&#x6211;&#x4EEC;&#x8981;&#x52A0;&#x8F7D;&#x4E00;&#x4E2A;json&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;
+&#x5728;&#x540E;&#x9762;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x63A5;.<code>abc</code>.&#x901A;&#x5E38;<code>`&#x5185;&#x662F;&#x4E2A;&#x8DEF;&#x5F84;&#x3002;&#x6BD4;&#x5982; csv.</code>/tmp/csvfile<code>&#xFF0C;&#x5230;&#x8FD9;&#x4E00;&#x6B65;&#xFF0C;MLSQL&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x52A0;&#x8F7D;&#x6570;&#x636E;&#x4E86;&#xFF0C;&#x6211;&#x4EEC;&#x6700;&#x540E;&#x4F7F;&#x7528;</code>as table1`,&#x8868;&#x793A;&#x5C06;&#x6570;&#x636E;
+&#x6CE8;&#x518C;&#x6210;&#x89C6;&#x56FE;&#xFF08;&#x8868;&#xFF09;&#xFF0C;&#x6CE8;&#x518C;&#x7684;&#x4E1C;&#x897F;&#x540E;&#x9762;&#x53EF;&#x4EE5;&#x5F15;&#x7528;&#x3002; &#x6BD4;&#x5982;&#x5728;&#x540E;&#x7EED;&#x7684;select&#x8BED;&#x53E5;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;table1&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">set</span> abc=<span class="hljs-string">&apos;&apos;&apos;
+{ &quot;x&quot;: 100, &quot;y&quot;: 200, &quot;z&quot;: 200 ,&quot;dataType&quot;:&quot;A group&quot;}
+{ &quot;x&quot;: 120, &quot;y&quot;: 100, &quot;z&quot;: 260 ,&quot;dataType&quot;:&quot;B group&quot;}
+&apos;&apos;&apos;</span>;
+<span class="hljs-keyword">load</span> jsonStr.<span class="hljs-string">`abc`</span> <span class="hljs-keyword">as</span> table1;
+<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> table1 <span class="hljs-keyword">as</span> <span class="hljs-keyword">output</span>;
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x548C;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E00;&#x6837;&#x7684;&#x8F93;&#x51FA;&#x3002; load&#x8BED;&#x53E5;&#x8FD8;&#x53EF;&#x4EE5;&#x63A5;&#x4E00;&#x4E9B;&#x53C2;&#x6570;&#xFF0C;&#x6BD4;&#x5982;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">load</span> jdbc.<span class="hljs-string">`db.table`</span>  <span class="hljs-keyword">where</span> <span class="hljs-keyword">url</span>=<span class="hljs-string">&quot;jdbc:postgresql://localhost/test?user=fred&amp;password=secret&quot;</span> 
+<span class="hljs-keyword">as</span> newtable;
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x8FC7;where&#x6761;&#x4EF6;&#x91CC;&#x7684;url&#x53C2;&#x6570;&#x544A;&#x8BC9;jdbc&#x683C;&#x5F0F;&#xFF0C;&#x6211;&#x4EEC;&#x8981;&#x8FDE;&#x63A5;&#x7684;&#x6570;&#x636E;&#x5E93;&#x5730;&#x5740;&#xFF0C;&#x5E76;&#x4E14;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x8BBF;&#x95EE;&#x7684;&#x8DEF;&#x5F84;&#x662F;db&#x6570;&#x636E;&#x5E93;&#x91CC;&#x7684;table&#x8868;&#x3002;&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x5BF9;&#x5E94;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8868;&#x6CE8;&#x518C;&#x6210;
+&#x89C6;&#x56FE;(&#x8868;)newtable&#x3002;</p>
+<p>&#x6709;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x591A;&#x6B21;&#x4E66;&#x5199;load&#x8BED;&#x53E5;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x9700;&#x8981;load&#x591A;&#x5F20;mysql&#x8868;&#xFF0C;&#x90A3;&#x4E48;&#x6BCF;&#x6B21;&#x90FD;&#x586B;&#x5199;&#x8FD9;&#x4E9B;&#x53C2;&#x6570;&#x4F1A;&#x53D8;&#x6210;&#x4E00;&#x4EF6;&#x8BA9;&#x4EBA;&#x538C;&#x70E6;&#x7684;&#x4E8B;&#x60C5;&#x3002;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">load</span> jdbc.<span class="hljs-string">`db.table`</span> options
+<span class="hljs-keyword">and</span> driver=<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>
+<span class="hljs-keyword">and</span> <span class="hljs-keyword">url</span>=<span class="hljs-string">&quot;jdbc:mysql://127.0.0.1:3306/....&quot;</span>
+<span class="hljs-keyword">and</span> <span class="hljs-keyword">user</span>=<span class="hljs-string">&quot;...&quot;</span>
+<span class="hljs-keyword">and</span> <span class="hljs-keyword">password</span>=<span class="hljs-string">&quot;....&quot;</span>
+<span class="hljs-keyword">and</span> prePtnArray = <span class="hljs-string">&quot;age&lt;=10 | age &gt; 10&quot;</span>
+<span class="hljs-keyword">and</span> prePtnDelimiter = <span class="hljs-string">&quot;\|&quot;</span>
+<span class="hljs-keyword">as</span> table1;
+</code></pre>
+<p>&#x6BD4;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x914D;&#x7F6E;&#x5C31;&#x5F88;&#x591A;&#x4E86;&#x3002;&#x4E3A;&#x4E86;&#x51CF;&#x5C11;&#x4E66;&#x5199;&#xFF0C;&#x6211;&#x4EEC;&#x5F15;&#x5165;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x914D;&#x5408;load&#x7684;&#x8BED;&#x6CD5;&#xFF0C;&#x53EB;connect&#xFF1A;</p>
+<pre><code class="lang-sql"> connect jdbc where
+ url=&quot;jdbc:mysql://127.0.0.1:3306/wow?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;tinyInt1isBit=false&quot;
+ and driver=&quot;com.mysql.jdbc.Driver&quot;
+ and user=&quot;${user}&quot;
+ and password=&quot;${password}&quot;
+ as db_1;
+</code></pre>
+<p>connect &#x540E;&#x9762;&#x63A5;&#x6570;&#x636E;&#x683C;&#x5F0F;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;jdbc, &#x7136;&#x540E;&#x540E;&#x9762;&#x63A5;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x3002;&#x6700;&#x540E;&#x5C06;&#x8FD9;&#x4E2A;&#x8FDE;&#x63A5;&#x53D6;&#x4E00;&#x4E2A;&#x540D;&#x5B57;&#xFF0C;&#x53EB;&#x505A;db_1. &#x73B0;&#x5728;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x5199;load&#x8BED;&#x53E5;&#x4E86;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">load</span> jdbc.<span class="hljs-string">`db_1.test1`</span> <span class="hljs-keyword">where</span> directQuery=<span class="hljs-string">&apos;&apos;&apos;
+select * from test1 where a = &quot;b&quot;
+&apos;&apos;&apos;</span> <span class="hljs-keyword">as</span> newtable;
+
+<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> newtable;
+</code></pre>
+<p>&#x6211;&#x4EEC;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x4E66;&#x5199;&#x7E41;&#x7410;&#x7684;&#x914D;&#x7F6E;&#x3002;&#x8BA9;&#x6211;&#x4EEC;&#x518D;&#x56DE;&#x987E;&#x4E0B;&#x4E0A;&#x9762;&#x7684;&#x8BED;&#x6CD5;&#xFF1A;</p>
 <ol>
-<li>&#x65E0;&#x9700;&#x91CD;&#x542F;&#x6216;&#x8005;&#x90E8;&#x7F72;&#x3002;&#x4FEE;&#x6539;&#x5B8C;&#x5373;&#x53EF;&#x751F;&#x6548;&#xFF1B;</li>
-<li>&#x53EF;&#x4EE5;&#x591A;&#x4E2A;&#x7248;&#x672C;&#x540C;&#x65F6;&#x5B58;&#x5728;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x540D;&#x5B57;&#x5373;&#x53EF;&#x3002;</li>
-<li>&#x7ED3;&#x5408;python&#x4EE3;&#x7801;&#x6216;&#x8005;&#x662F;scala/java UDF/UDAF&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x5F88;&#x591A;&#x590D;&#x6742;&#x7684;&#x529F;&#x80FD;&#x3002;</li>
+<li>load/connect &#x90FD;&#x9700;&#x8981;&#x9700;&#x8981;&#x6700;&#x540E;&#x63A5;as&#xFF0C; as &#x8868;&#x793A;&#x4E3A;&#x6CE8;&#x518C;&#xFF0C;&#x524D;&#x9762;&#x662F;&#x6CE8;&#x518C;&#x7684;&#x5185;&#x5BB9;&#xFF0C;as&#x540E;&#x9762;&#x662F;&#x6CE8;&#x518C;&#x540E;&#x7684;&#x540D;&#x5B57;&#x3002;load as &#x662F;&#x6CE8;&#x518C;&#x89C6;&#x56FE;&#xFF08;&#x8868;&#xFF09;&#xFF0C;connect as &#x662F;&#x6CE8;&#x518C;&#x8FDE;&#x63A5;&#x3002;</li>
+<li>&#x6CE8;&#x518C;&#x7684;&#x4E1C;&#x897F;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BED;&#x53E5;&#x4E2D;&#x90FD;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#xFF0C;&#x8FD9;&#x4E5F;&#x662F;MLSQL&#x80FD;&#x6210;&#x4E3A;&#x811A;&#x672C;&#x7684;&#x6839;&#x57FA;&#x4E4B;&#x4E00;&#x3002;</li>
 </ol>
+<p>&#x901A;&#x7528;&#x53C2;&#x6570;withoutColumns&#x3001;withColumns&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;withoutColumns&#x79FB;&#x9664;&#x6389;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x5217;&#xFF0C;withColumns&#x6307;&#x5B9A;&#x9700;&#x8981;&#x7684;&#x5217;&#xFF0C;&#x4E24;&#x8005;&#x53EA;&#x80FD;&#x9009;&#x4E00;&#x4E2A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">set</span> abc=<span class="hljs-string">&apos;&apos;&apos;
+{ &quot;x&quot;: 100, &quot;y&quot;: 200, &quot;z&quot;: 200 ,&quot;dataType&quot;:&quot;A group&quot;}
+{ &quot;x&quot;: 120, &quot;y&quot;: 100, &quot;z&quot;: 260 ,&quot;dataType&quot;:&quot;B group&quot;}
+&apos;&apos;&apos;</span>;
+<span class="hljs-keyword">load</span> jsonStr.<span class="hljs-string">`abc`</span> options withoutColumns=<span class="hljs-string">&quot;x,y&quot;</span> <span class="hljs-keyword">as</span> table1;
+</code></pre>
+<p>Load&#x4E5F;&#x652F;&#x6301; conditionExpr&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x52A0;&#x8F7D;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#x6307;&#x5B9A;&#x6761;&#x4EF6;&#xFF1A;</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">load</span> hive.<span class="hljs-string">`test.test`</span> options conditionExpr=<span class="hljs-string">&quot;dt=20190522&quot;</span> <span class="hljs-keyword">as</span> t;
+</code></pre>
+<h2 id="&#x5982;&#x4F55;&#x9AD8;&#x6548;&#x7684;&#x4E66;&#x5199;load&#x8BED;&#x53E5;">&#x5982;&#x4F55;&#x9AD8;&#x6548;&#x7684;&#x4E66;&#x5199;Load&#x8BED;&#x53E5;</h2>
+<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x4F7F;&#x7528;load&#x8BED;&#x53E5;&#xFF0C;&#x524D;&#x63D0;&#x662F;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x6709;&#x54EA;&#x4E9B;&#x6570;&#x636E;&#x6E90;&#x6216;&#x8005;&#x683C;&#x5F0F;&#x53EF;&#x7528;&#x3002;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x96BE;&#x9898;&#xFF0C;&#x5C31;&#x662F;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x6E90;&#x6216;&#x8005;&#x683C;&#x5F0F;&#x90FD;&#x6709;&#x4EC0;&#x4E48;&#x53EF;&#x9009;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x4EEC;
+&#x524D;&#x9762;&#x770B;&#x5230;&#x7684;where&#x6761;&#x4EF6;&#x8BED;&#x53E5;&#x3002; MLSQL Console&#x63D0;&#x4F9B;&#x4E86;&#x56FE;&#x5F62;&#x5316;&#x7684;&#x754C;&#x9762;&#x4F9B;&#x6211;&#x4EEC;&#x9009;&#x62E9;&#x548C;&#x586B;&#x5199;&#x53C2;&#x6570;&#xFF1A;</p>
+<p></p><div class="image-wrapper lang-load"><a href="http://docs.mlsql.tech/upload_images/WX20190819-152205@2x.png" data-lightbox="31130a98-3f83-4d5a-9103-e698bc085aa2" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/WX20190819-152205@2x.png" alt=""></a></div><p></p>
+<p>&#x586B;&#x5199;&#x5B8C;&#x6210;&#x540E;&#xFF0C;MLSQL&#x4F1A;&#x81EA;&#x52A8;&#x5E2E;&#x6211;&#x4EEC;&#x751F;&#x6210;&#x8BED;&#x53E5;&#x3002;</p>
+<p>&#x53EF;&#x80FD;&#x6709;&#x7684;&#x7528;&#x6237;&#x5E76;&#x4E0D;&#x4F1A;&#x4F7F;&#x7528;Console,&#x90A3;&#x4E48;&#x9664;&#x4E86;&#x6587;&#x6863;&#x4EE5;&#x5916;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x6709;&#x529E;&#x6CD5;&#x53BB;&#x63A2;&#x7D22;&#x6709;&#x54EA;&#x4E9B;&#x53EF;&#x7528;&#x7684;&#x6570;&#x636E;&#x6E90;&#x4EE5;&#x53CA;&#x54CD;&#x5E94;&#x7684;&#x914D;&#x7F6E;&#x4E48;&#xFF1F; MLSQL &#x8FD8;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E9B;&#x5E2E;&#x52A9;&#x6307;&#x4EE4;&#x3002;</p>
+<pre><code class="lang-sql">!<span class="hljs-keyword">show</span> datasources;
+</code></pre>
+<p>&#x901A;&#x8FC7;&#x8BE5;&#x547D;&#x4EE4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5927;&#x90E8;&#x5206;&#x53EF;&#x7528;&#x6570;&#x636E;&#x6E90;&#x3002; &#x63A5;&#x7740;&#xFF0C;&#x4F60;&#x627E;&#x5230;&#x4F60;&#x9700;&#x8981;&#x7684;&#x6570;&#x636E;&#x6E90;&#x540D;&#x79F0;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x83B7;&#x5F97;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x6E90;&#x7684;&#x53C2;&#x6570;&#x4EE5;&#x53CA;&#x6587;&#x6863;(&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x4EE5;CSV&#x4E3A;&#x4F8B;)&#xFF1A;</p>
+<pre><code class="lang-sql">!<span class="hljs-keyword">show</span> <span class="hljs-string">&quot;datasources/params/csv&quot;</span>;
+</code></pre>
+<p>&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x770B;&#x5230;CSV&#x53EF;&#x7528;&#x53C2;&#x6570;&#x6BD4;&#x8F83;&#x8BE6;&#x7EC6;&#x7684;&#x89E3;&#x91CA;&#xFF1A;</p>
+<p></p><div class="image-wrapper lang-load"><a href="http://docs.mlsql.tech/upload_images/WX20190819-152658@2x.png" data-lightbox="be8a909d-189b-453e-90e9-f6b4c287947f" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/WX20190819-152658@2x.png" alt=""></a></div><p></p>
+<p>&#x6211;&#x4EEC;&#x5728;&#x540E;&#x7EED;&#x7AE0;&#x8282;&#x4E2D;&#xFF0C;&#x4F1A;&#x5BF9;&#x5E38;&#x89C1;&#x7684;&#x6570;&#x636E;&#x6E90;&#x6709;&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x4ECB;&#x7ECD;&#x3002;</p>
 
                                 
                                 </section>
@@ -855,12 +930,12 @@ MLSQL&#x811A;&#x672C;&#x5546;&#x5E97;&#x76EE;&#x524D;&#x5C31;&#x662F;&#x505A;&#x
 
             
                 
-                <a href="../lang/analyze.html" class="navigation navigation-prev " aria-label="Previous page: MLSQL语法解析接口">
+                <a href="set.html" class="navigation navigation-prev " aria-label="Previous page: Set语法">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="save_excel.html" class="navigation navigation-next " aria-label="Next page: 脚本插件save_excel">
+                <a href="select.html" class="navigation navigation-next " aria-label="Next page: Select语法">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -871,7 +946,7 @@ MLSQL&#x811A;&#x672C;&#x5546;&#x5E97;&#x76EE;&#x524D;&#x5C31;&#x662F;&#x505A;&#x
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"MLSQL 脚本商店","level":"3.3","depth":1,"next":{"title":"脚本插件save_excel","level":"3.3.1","depth":2,"path":"store/save_excel.md","ref":"store/save_excel.md","articles":[]},"previous":{"title":"MLSQL语法解析接口","level":"3.2.10","depth":2,"path":"lang/analyze.md","ref":"lang/analyze.md","articles":[]},"dir":"ltr"},"config":{"plugins":["image-class","lightbox"],"styles":{"website":"styles/image.css"},"pluginsConfig":{"image-class":{},"lightbox":{"jquery":true,"sameUuid":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"store/README.md","mtime":"2020-09-03T07:49:07.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-16T03:30:50.210Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Load语法","level":"3.2.2","depth":2,"next":{"title":"Select语法","level":"3.2.3","depth":2,"path":"lang/select.md","ref":"lang/select.md","articles":[]},"previous":{"title":"Set语法","level":"3.2.1","depth":2,"path":"lang/set.md","ref":"lang/set.md","articles":[]},"dir":"ltr"},"config":{"plugins":["image-class","lightbox"],"styles":{"website":"styles/image.css"},"pluginsConfig":{"image-class":{},"lightbox":{"jquery":true,"sameUuid":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"lang/load.md","mtime":"2020-01-09T09:55:19.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-16T03:30:50.210Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
