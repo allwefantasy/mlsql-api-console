@@ -1,6 +1,10 @@
-# MLSQL Console 使用入门
+# MLSQL Stack 使用入门
 
 > MLSQL Console是MLSQL Stack 套件中非常重要的一款直接面向普通用户的产品。 MLSQL Console支持无编码所见即所得的交互性数据分析，同时也提供了面向大数据和AI的语言MLSQL的支持，拥有诸如脚本管理，代码补全，执行等功能。
+
+## 项目官网
+
+[MLSQL官网](http://www.mlsql.tech)
 
 ## 无编码数据分析台
 
@@ -10,9 +14,7 @@
 
 ![](http://docs.mlsql.tech/upload_images/14d35c30-f4b8-4815-b3b7-33cc91068418.png)
 
-## 项目官网
 
-[MLSQL官网](https://www.mlsql.tech)
 
 ## 欢迎捐赠
 

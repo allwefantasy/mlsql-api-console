@@ -1,7 +1,7 @@
 {
   "title": "MLSQL Console 文档",
   "description": "MLSQL Console官方文档",
-  "plugins" : [ "image-class","lightbox"],
+  "plugins" : [ "image-class","lightbox","expandable-chapters"],
   "styles": {
     "website": "styles/image.css"
   }
