@@ -6,15 +6,17 @@
 
 [MLSQL官网](http://www.mlsql.tech)
 
-## 无编码数据分析台
+## 不会SQL的看这里
 
 ![](http://docs.mlsql.tech/upload_images/e60ce740-b7fe-4f73-b904-3a1095e73142.png)
 
-## MLSQL语言数据分析台
+[分析工坊文档地址](http://docs.mlsql.tech/mlsql-console/analysis-workshop/)
+
+## 会SQL的看这里
 
 ![](http://docs.mlsql.tech/upload_images/14d35c30-f4b8-4815-b3b7-33cc91068418.png)
 
-
+[控制台文档地址](http://docs.mlsql.tech/mlsql-console/console/)
 
 ## 欢迎捐赠
 

@@ -1,8 +1,43 @@
 {
   "title": "MLSQL Console 文档",
   "description": "MLSQL Console官方文档",
-  "plugins" : [ "image-class","lightbox","expandable-chapters"],
+  "plugins" : [ "-sharing",
+    "image-class",
+    "lightbox",
+    "back-to-top-button",
+    "chapter-fold",
+    "code",
+    "-lunr",
+    "-search",
+    "search-pro",
+    "emphasize",
+    "splitter",
+    "auto-scroll-table",
+    "anchor-navigation-ex",
+    "emphasize",
+    "alerts",
+    "page-footer-ex"],
+  "pluginsConfig": {
+    "anchor-navigation-ex": {
+      "showLevel": false,
+      "showGoTop": false,
+      "mode": "float",
+      "float": {
+        "floatIcon": "fa fa-navicon",
+        "showLevelIcon": false,
+        "level1Icon": "fa fa-hand-o-right",
+        "level2Icon": "fa fa-hand-o-right",
+        "level3Icon": "fa fa-hand-o-right"
+      }
+    },
+    "page-footer-ex": {
+      "copyright": "",
+      "markdown": false,
+      "update_label": "<i>该文件修订时间：</i>",
+      "update_format": "YYYY-MM-DD HH:mm:ss"
+    }
+  },
   "styles": {
-    "website": "styles/image.css"
+    "website": "styles/website.css"
   }
 }
