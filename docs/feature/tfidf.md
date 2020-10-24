@@ -1,11 +1,5 @@
 # TFIDF
 
-【文档更新日志：2020-04-14】
-
-> Note: 本文档适用于MLSQL Engine 1.2.0 及以上版本。  
-> 对应的Spark版本可支持2.3.2/2.4.3
->
-
 假设我们有如下的数据
 
 ```sql
@@ -59,11 +53,13 @@ select * from tfTable as output;
 |priority||对于优先级高的词典里，我们应该提权多少倍|
 |nGrams|None|词组合，比如设置为2,3则表示分别以两个词，三个词进行组合得到新词|
 |split|可选，如果你不想用分词，可以自己定义切分字符||
-|ignoreNature|分词后是否在每个词上都带上词性。请设置为true||
+|ignoreNature|分词后是否在每个词上都带上词性。请设置为true|-|
 
-此处有坑:
 
->请将ignoreNature设置为true
+> **[danger] 此处有坑警告**
+>
+> 请将ignoreNature设置为true
+>
 
 ## 如何在预测时使用
 

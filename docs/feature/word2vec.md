@@ -48,11 +48,12 @@ load parquet.`/tmp/word2vec/data` as lwys_corpus_with_featurize;
 |length|None|文本最大长度|
 |stopWordPath|停用词词典||
 |split|如果不分词，使用什么进行分隔||
-|minCount|词最少出现的次数，低于该次数不会为词生成一个向量||
+|minCount|词最少出现的次数，低于该次数不会为词生成一个向量|-|
 
-此处有坑:
-
->请将ignoreNature设置为true
+> **[danger] 此处有坑警告**
+>
+> 请将ignoreNature设置为true
+>
 
 ## 如何在预测时使用
 

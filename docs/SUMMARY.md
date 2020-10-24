@@ -133,15 +133,15 @@
    * [Scala UDAF](udf/scala_udaf.md)
    * [Java UDF](udf/java_udf.md)
 
-## 数据安全
+## 安全与隐私
 
-* [数据安全](security/sum.md)
-   * [MLSQL Engine访问安全加固](security/README.md)
+* [安全与隐私](security/sum.md)
+   * [MLSQL Engine 接口访问控制](security/README.md)
        * [接口访问Token设置](security/token_control.md)
        * [自定义接口访问策略](security/custom_control.md)
-   * [数据访问控制]()
+   * [授权用户对数据的访问控制](security/sum2.md)
        * [解析时表权限]()
-       * [运行时表权限表以及列权限]()
+       * [运行时表/列权限]()
        * [客户端开发]()
        * [服务端开发]()
 
