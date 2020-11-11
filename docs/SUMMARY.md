@@ -145,6 +145,12 @@
        * [客户端开发]()
        * [服务端开发]()
 
+## 性能与资源
+
+* [动态资源调整](resources/dynamic_resource.md)
+//* [监控]()
+
+
 ## 插件/API/商店
 
 * [MLSQL 脚本商店和插件](store/README.md)
@@ -159,9 +165,17 @@
        * [脚本执行代理接口](developer/script_run_api.md)
     * [MLSQL Engine Rest接口详解](api/README.md)
        * [/run/script](api/run-script.md)
+    * [MLSQL Engine Liveness探针](resources/liveness.md)
+    * [MLSQL Engine Readness探针](resources/readiness.md)
 
 
-* [常见问题]()
+* [常见问题](qa/README.md)
+    * [文件上传失败怎么办](qa/upload_file.md)
+    * [个人主目录是个啥](qa/home.md)
+    * [会话隔离/并发执行/调试执行/定时任务](qa/session_isolated.md)
+    * [CDH/HDP 怎么运行MLSQL Engine](qa/cdh_hdp.md)
+    * [排查错误，三个系统的日志你都要看](qa/debug_log.md)
+    * [听说mlsql-cluster暂时不更新了，mlsql-cluster是个啥？](qa/mlsql_cluster.md)
 * [最佳实践]()
 
 ## 附录

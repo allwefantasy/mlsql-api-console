@@ -25,9 +25,17 @@ Engine URL 请填写实际Engine内网地址。 请注意你需要添加 http://
 
 进入该标签,你可以开启注册和登录功能：
 
-![](http://docs.mlsql.tech/upload_images/3bfcd45b-6863-4e89-be7c-e2e39401a03d.png)
+![](http://docs.mlsql.tech/upload_images/cf7111ce-26b1-4ab7-a73f-7ca81421be23.png)
 
 这样其他用户知道地址后，就可以注册和登录了。
+
+默认没有开启Console界面，用户可以将Enable Console选项打开：
+
+![](http://docs.mlsql.tech/upload_images/cec1ab06-c785-433e-86a3-fc98f1975b80.png)
+
+这样才会有控制台选项：
+
+![](http://docs.mlsql.tech/upload_images/fd8e735a-5a6c-4b10-9cef-46575bebbbd8.png)
 
 到目前为止，我们已经可以正常使用Console了。
 

@@ -1,8 +1,6 @@
 package tech.mlsql.api.controller
 
 import net.csdn.annotation.rest.At
-import net.csdn.jpa.QuillDB.ctx
-import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
@@ -46,7 +44,7 @@ class EngineController extends ApplicationController with AuthModule with Render
         case Some(group) =>
           MlsqlBackendProxy.save(group, engine)
         case None =>
-          MlsqlGroup.save("default", user,MlsqlGroupUser.owner)
+          MlsqlGroup.save("default", user, MlsqlGroupUser.owner)
           val group = MlsqlGroup.list(user).filter(_.name == "default").head
           MlsqlBackendProxy.save(group, engine)
       }
@@ -63,6 +61,12 @@ class EngineController extends ApplicationController with AuthModule with Render
     else {
       renderWithSchema[MlsqlEngine](user.getEngines)
     }
+  }
+
+  @At(path = Array("/api_v1/engine/current"), types = Array(Method.POST, Method.GET))
+  def current = {
+    tokenAuth(false)
+
   }
 
   @At(path = Array("/api_v1/engine/remove"), types = Array(Method.POST, Method.GET))

@@ -5,8 +5,9 @@
 
 ## data
 
-如果你使用了foreach/map_iter 等高阶函数，则使用data模式。
+简单场景是，如果你使用了foreach/map_iter 等高阶函数，并且设置了Ray地址，则使用data模式。
+如果从更深入的角度来看，就是你的数据会经过ray分布式处理并且不通过ray client端回流到MLSQL,则需要设置为data模式。
 
 ## model
 
-其他情况使用model即可。
+如果你只是用ray client,则使用model即可。
