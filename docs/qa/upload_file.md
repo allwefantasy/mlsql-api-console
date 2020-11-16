@@ -15,8 +15,11 @@ MLSQL Console文件上传的路口在这里：
 2. 临时目录大小是否超过配额
 3. Engine/Console之间是否确认互通
 
-其中临时目录配额默认是125M。临时目录的文件会保留2个小时。也就是说假设你第一次传了一个120M的文件，接着你再上传需要等两个小时。
-你也可以通过修改 启动脚本`start.sh` 来修改配置：
+其中临时目录配额默认是125M，是MLSQL Console用于中转文件的目录。通常用户上传的文件，先要上传到MLSQL Console,然后MLSQL Console再发指令
+给Engine,拉取到HDFS目录。
+
+临时目录的文件会保留2个小时。也就是说假设你第一次传了一个120M的文件，接着你再上传需要等两个小时。
+你也可以通过修改MLSQL Console启动脚本`start.sh` 来修改配置：
 
 ```
 java -cp .:${MLSQL_CONSOLE_JAR} tech.mlsql.MLSQLConsole \
