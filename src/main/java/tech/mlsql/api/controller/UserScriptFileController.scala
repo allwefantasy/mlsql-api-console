@@ -58,7 +58,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     }
 
     if (hasParam("id")) {
-      if (!quillScriptFileService.isScriptFileBelongsToUser( paramAsInt("id"),user.id)) {
+      if (!quillScriptFileService.isScriptFileBelongsToUser(paramAsInt("id"), user.id)) {
         render(400, s"""{"msg":"The script ${paramAsInt("id")} do not belongs to you."}""")
       }
       val sf = ScriptFile.getItem(param("id").toInt)
@@ -72,6 +72,9 @@ class UserScriptFileController extends ApplicationController with AuthModule {
       sf.save()
     } else {
       val parentId = paramAsInt("parentId", -1)
+      if (!quillScriptFileService.isScriptFileBelongsToUser(parentId, user.id)) {
+        render(400, s"""{"msg":"The script ${paramAsInt("id")} do not belongs to you."}""")
+      }
       scriptFileService.createFile(
         user.name,
         param("fileName"),
@@ -88,6 +91,9 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     tokenAuth()
     if (user.status == MlsqlUser.STATUS_PAUSE) {
       render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
+    }
+    if (!quillScriptFileService.isScriptFileBelongsToUser(paramAsInt("id"), user.id)) {
+      render(400, s"""{"msg":"The script ${paramAsInt("id")} do not belongs to you."}""")
     }
     scriptFileService.removeFile(paramAsInt("id", -1), oldUser)
     render(200, "{}")
@@ -121,7 +127,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
 
   @At(path = Array("/api_v1/script_file/share"), types = Array(Method.GET))
   def getShareScriptFile = {
-        tokenAuth()
+    tokenAuth()
     render(200, JSONTool.toJsonStr(quillScriptFileService.getPublicFileList))
   }
 
