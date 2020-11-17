@@ -135,6 +135,7 @@ object MlsqlBackendProxy {
 }
 
 case class MlsqlGroupUser(id: Int, mlsqlGroupId: Int, mlsqlUserId: Int, status: Int)
+case class MlsqlGroupScriptFile(id: Int, mlsqlGroupId: Int, scriptFileId: Int, status: Int)
 
 object MlsqlGroupUser {
   val invited = 1

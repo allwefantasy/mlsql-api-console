@@ -5,8 +5,9 @@ import net.csdn.annotation.rest._
 import net.csdn.jpa.model.Model
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule, ViewType}
+import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.model.{MlsqlUser, ScriptFile}
-import tech.mlsql.service.{ScriptFileRender, ScriptFileService, UserService}
+import tech.mlsql.service.{QuillScriptFileService, ScriptFileRender, ScriptFileService, UserService}
 import tech.mlsql.utils.ModelCleaner
 
 @OpenAPIDefinition(
@@ -52,12 +53,17 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   def scriptFile = {
     tokenAuth()
 
+    if (user.status == MlsqlUser.STATUS_PAUSE) {
+      render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
+    }
+
     if (hasParam("id")) {
+      if (!quillScriptFileService.isScriptFileBelongsToUser( paramAsInt("id"),user.id)) {
+        render(400, s"""{"msg":"The script ${paramAsInt("id")} do not belongs to you."}""")
+      }
       val sf = ScriptFile.getItem(param("id").toInt)
       if (hasParam("content")) {
-        if (user.status == MlsqlUser.STATUS_PAUSE) {
-          render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
-        }
+
         sf.setContent(param("content"))
       }
       if (hasParam("isExpanded")) {
@@ -65,9 +71,6 @@ class UserScriptFileController extends ApplicationController with AuthModule {
       }
       sf.save()
     } else {
-      if (user.status == MlsqlUser.STATUS_PAUSE) {
-        render(400, s"""{"msg":"you can not operate because this account have be set pause"}""")
-      }
       val parentId = paramAsInt("parentId", -1)
       scriptFileService.createFile(
         user.name,
@@ -116,7 +119,24 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   }
 
 
-  @At(path = Array("/api_v1/script_file/get"), types = Array(Method.GET,Method.POST))
+  @At(path = Array("/api_v1/script_file/share"), types = Array(Method.GET))
+  def getShareScriptFile = {
+        tokenAuth()
+    render(200, JSONTool.toJsonStr(quillScriptFileService.getPublicFileList))
+  }
+
+  @At(path = Array("/api_v1/script_file/share"), types = Array(Method.POST))
+  def shareScriptFile = {
+    tokenAuth()
+
+    if (!quillScriptFileService.isScriptFileBelongsToUser(paramAsInt("id"), user.id)) {
+      render(400, s"""{"msg":"The script ${paramAsInt("id")} do not belongs to you."}""")
+    }
+    quillScriptFileService.sharePublic(paramAsInt("id", -1), user.id)
+    render(200, "{}")
+  }
+
+  @At(path = Array("/api_v1/script_file/get"), types = Array(Method.GET, Method.POST))
   def getScriptFile = {
     tokenAuth()
     val sf = ScriptFile.getItem(paramAsInt("id", -1))
@@ -125,7 +145,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   }
 
 
-  @At(path = Array("/api_v1/script_file/include"), types = Array(Method.GET,Method.POST))
+  @At(path = Array("/api_v1/script_file/include"), types = Array(Method.GET, Method.POST))
   def includeScriptFile = {
     tokenAuth()
     user = UserService.findUser(param("owner")).head
@@ -140,11 +160,12 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     user = UserService.findUser(param("owner")).head
     val path = param("path")
     val node = scriptFileService.findScriptFileByPath(oldUser, path)
-    render(200, node.getId,ViewType.string)
+    render(200, node.getId, ViewType.string)
   }
 
-  
 
   def scriptFileService = ServiceFramwork.injector.getInstance(classOf[ScriptFileService])
+
+  def quillScriptFileService = ServiceFramwork.injector.getInstance(classOf[QuillScriptFileService])
 
 }

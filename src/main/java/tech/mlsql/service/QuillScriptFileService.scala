@@ -6,6 +6,7 @@ import net.csdn.jpa.QuillDB.ctx._
 import tech.mlsql.quill_model
 import tech.mlsql.utils.IDParentID
 
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 /**
@@ -16,6 +17,62 @@ class QuillScriptFileService {
 
   def findScriptFile(scriptId: Int) = {
     ctx.run(query[quill_model.ScriptFile].filter(_.id == lift(scriptId))).head
+  }
+
+  def isScriptFileBelongsToUser(scriptId: Int, userId: Int) = {
+    val wow = ctx.run(
+      query[quill_model.ScriptUserRw].
+        filter(_.mlsqlUserId == lift(userId)).
+        filter(_.scriptFileId == lift(scriptId)).filter(_.isOwner == 1)
+    )
+    wow.size > 0
+  }
+
+  def getSharePublic(scriptId: Int, userId: Int) = {
+    ctx.run(
+      query[quill_model.MlsqlGroupScriptFile].filter(
+        _.mlsqlGroupId == lift(-2)).filter(_.scriptFileId == lift(scriptId))
+    ).headOption
+  }
+
+  def getPublicFileList = {
+    //我们第一节只支持project级别的分享，所以这里拿到的scriptFiles应该都是project
+    val scriptFiles = ctx.run(
+      query[quill_model.MlsqlGroupScriptFile].filter(
+        _.mlsqlGroupId == lift(-2)).join(query[quill_model.ScriptFile]).on((a, b) => a.scriptFileId == b.id).map { case (_, b) =>
+        b
+      }
+    )
+
+    //    val tempMap = mutable.HashMap[IDParentID, quill_model.ScriptFile]()
+    val bufferMap = mutable.HashMap[Int, List[ScriptFileRender]]()
+
+    def fetchChildren(sfs: List[quill_model.ScriptFile]): List[quill_model.ScriptFile] = {
+      sfs.flatMap { temp =>
+        val items = ctx.run(query[quill_model.ScriptFile].filter(_.parentId == lift(temp.id)))
+        if (items.length > 0) {
+          items ++ fetchChildren(items)
+        } else List()
+      }
+    }
+
+    scriptFiles.foreach(item => {
+      //      val temp = buildTree(List(item) ++ fetchChildren(List(item)))
+      val temp = List(item) ++ fetchChildren(List(item))
+      bufferMap += (item.id -> temp.map(sf => ScriptFileRender(sf.id, sf.icon, sf.label, sf.parentId, sf.isDir == 1, sf.isExpanded == 1)).toList)
+    })
+    bufferMap.values.toList
+  }
+
+  def sharePublic(scriptId: Int, userId: Int): Unit = {
+    //-2 表示所有人公开
+    if (getSharePublic(scriptId, userId).isDefined) return
+    ctx.run(
+      query[quill_model.MlsqlGroupScriptFile].insert(
+        _.mlsqlGroupId -> lift(-2),
+        _.scriptFileId -> lift(scriptId),
+        _.status -> 0)
+    )
   }
 
   def buildFullPath(scriptFile: quill_model.ScriptFile) = {
@@ -75,7 +132,7 @@ class QuillScriptFileService {
 
   def isInPackage(currentScriptFile: FullPathAndScriptFile, projectFiles: List[FullPathAndScriptFile]): Boolean = {
     projectFiles.map(sf => sf.path.split("/")).
-      filter(sfArray => sfArray.last=="__init__.py").
+      filter(sfArray => sfArray.last == "__init__.py").
       map(sfArray => sfArray.dropRight(1)).
       filter(f => f.mkString("/") == currentScriptFile.path.split("/").dropRight(1).mkString("/")).size > 0
   }
@@ -99,7 +156,7 @@ class QuillScriptFileService {
     val items = scriptFiles.map(sf => IDParentID(sf.id, sf.parentId, sf.name, ArrayBuffer()))
 
     val ROOTS = ArrayBuffer[IDParentID]()
-    val tempMap = scala.collection.mutable.HashMap[Any, Int]()
+    val tempMap = mutable.HashMap[Any, Int]()
     val itemsWithIndex = items.zipWithIndex
     itemsWithIndex.foreach { case (item, index) =>
       tempMap(item.id) = index
@@ -107,7 +164,11 @@ class QuillScriptFileService {
     itemsWithIndex.foreach { case (item, index) =>
 
       if (item.parentID != null && item.parentID != 0) {
-        items(tempMap(item.parentID)).children += item
+        if (!tempMap.contains(item.parentID)) {
+          ROOTS += item
+        } else {
+          items(tempMap(item.parentID)).children += item
+        }
       } else {
         ROOTS += item
       }
