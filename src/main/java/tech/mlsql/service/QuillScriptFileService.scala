@@ -49,7 +49,11 @@ class QuillScriptFileService {
 
     def fetchChildren(sfs: List[quill_model.ScriptFile]): List[quill_model.ScriptFile] = {
       sfs.flatMap { temp =>
-        val items = ctx.run(query[quill_model.ScriptFile].filter(_.parentId == lift(temp.id)))
+        val items = ctx.run(
+          query[quill_model.ScriptFile].filter(_.parentId == lift(temp.id)).
+            join(query[quill_model.ScriptUserRw]).
+            on((a, b) => a.id == b.scriptFileId).filter(_._2.isOwner == 1).filter(_._2.isDelete == 2).map(_._1)
+        )
         if (items.length > 0) {
           items ++ fetchChildren(items)
         } else List()
