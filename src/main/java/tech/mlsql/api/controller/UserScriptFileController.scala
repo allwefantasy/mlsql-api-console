@@ -73,7 +73,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
     } else {
       val parentId = paramAsInt("parentId", -1)
       if (!quillScriptFileService.isScriptFileBelongsToUser(parentId, user.id)) {
-        render(400, s"""{"msg":"The script ${paramAsInt("id")} do not belongs to you."}""")
+        render(400, s"""{"msg":"The script ${parentId} do not belongs to you."}""")
       }
       scriptFileService.createFile(
         user.name,
