@@ -128,7 +128,7 @@ class UserScriptFileController extends ApplicationController with AuthModule {
   @At(path = Array("/api_v1/script_file/share"), types = Array(Method.GET))
   def getShareScriptFile = {
     tokenAuth()
-    render(200, JSONTool.toJsonStr(quillScriptFileService.getPublicFileList))
+    render(200, JSONTool.toJsonStr(quillScriptFileService.getPublicFileList(user.id)))
   }
 
   @At(path = Array("/api_v1/script_file/share"), types = Array(Method.POST))

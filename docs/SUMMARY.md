@@ -176,6 +176,7 @@
     * [CDH/HDP 怎么运行MLSQL Engine](qa/cdh_hdp.md)
     * [排查错误，三个系统的日志你都要看](qa/debug_log.md)
     * [听说mlsql-cluster暂时不更新了，mlsql-cluster是个啥？](qa/mlsql_cluster.md)
+    * [MLSQL K8s部署，镜像环境如何制作](qa/mlsql-docker-image.md)
 * [最佳实践]()
 
 ## 附录

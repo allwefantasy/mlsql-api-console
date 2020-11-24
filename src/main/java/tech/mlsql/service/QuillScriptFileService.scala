@@ -35,14 +35,16 @@ class QuillScriptFileService {
     ).headOption
   }
 
-  def getPublicFileList = {
+  def getPublicFileList(userId: Int) = {
     //我们第一节只支持project级别的分享，所以这里拿到的scriptFiles应该都是project
     val scriptFiles = ctx.run(
       query[quill_model.MlsqlGroupScriptFile].filter(
-        _.mlsqlGroupId == lift(-2)).join(query[quill_model.ScriptFile]).on((a, b) => a.scriptFileId == b.id).map { case (_, b) =>
-        b
-      }
-    )
+        _.mlsqlGroupId == lift(-2)).
+        join(query[quill_model.ScriptFile]).on((a, b) => a.scriptFileId == b.id).
+        map { case (_, b) =>
+          b
+        }.join(query[quill_model.ScriptUserRw]).on((a, b) => a.id == b.scriptFileId)
+    ).toList
 
     //    val tempMap = mutable.HashMap[IDParentID, quill_model.ScriptFile]()
     val bufferMap = mutable.HashMap[Int, List[ScriptFileRender]]()
@@ -52,7 +54,10 @@ class QuillScriptFileService {
         val items = ctx.run(
           query[quill_model.ScriptFile].filter(_.parentId == lift(temp.id)).
             join(query[quill_model.ScriptUserRw]).
-            on((a, b) => a.id == b.scriptFileId).filter(_._2.isOwner == 1).filter(_._2.isDelete == 2).map(_._1)
+            on((a, b) => a.id == b.scriptFileId).
+            filter(_._2.isOwner == 1).
+            filter(_._2.isDelete == 2).
+            map(_._1)
         )
         if (items.length > 0) {
           items ++ fetchChildren(items)
@@ -60,7 +65,8 @@ class QuillScriptFileService {
       }
     }
 
-    scriptFiles.foreach(item => {
+    scriptFiles.filterNot(_._2.mlsqlUserId == userId).foreach(sf => {
+      val item = sf._1
       //      val temp = buildTree(List(item) ++ fetchChildren(List(item)))
       val temp = List(item) ++ fetchChildren(List(item))
       bufferMap += (item.id -> temp.map(sf => ScriptFileRender(sf.id, sf.icon, sf.label, sf.parentId, sf.isDir == 1, sf.isExpanded == 1)).toList)
