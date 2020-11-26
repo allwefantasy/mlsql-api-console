@@ -11,8 +11,8 @@ development:
       host: MYSQL_HOST
       port: 3306
       database: mlsql_console
-      username: root
-      password: mlsql
+      username: xxxxx
+      password: xxxxx
       disable: false
       initialSize: 3
       removeAbandoned: true
@@ -31,8 +31,8 @@ test:
       host: 127.0.0.1
       port: 3306
       database: wow
-      username: root
-      password: mlsql
+      username: xxxxx
+      password: xxxxx
       disable: true
 
 production:
@@ -40,9 +40,9 @@ production:
     mysql:
       host: 127.0.0.1
       port: 3306
-      database: wow
-      username: root
-      password: mlsql
+      database: xxxxx
+      username: xxxxx
+      password: xxxxx
       disable: false
 
 ###############application config##################
