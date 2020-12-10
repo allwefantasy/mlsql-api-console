@@ -107,10 +107,10 @@ object MlsqlDs {
 case class MlsqlGroup(id: Int, name: String)
 
 object MlsqlGroup {
-  def save(name: String, user: MlsqlUser,status:Int): Unit = {
+  def save(name: String, user: MlsqlUser, status: Int): Unit = {
     ctx.transaction {
       val id = ctx.run(query[MlsqlGroup].insert(_.name -> lift(name)).returningGenerated(_.id))
-      ctx.run(query[MlsqlGroupUser].insert(_.mlsqlGroupId -> lift(id), _.mlsqlUserId -> lift(user.id),_.status->lift(status)))
+      ctx.run(query[MlsqlGroupUser].insert(_.mlsqlGroupId -> lift(id), _.mlsqlUserId -> lift(user.id), _.status -> lift(status)))
     }
   }
 
@@ -135,6 +135,7 @@ object MlsqlBackendProxy {
 }
 
 case class MlsqlGroupUser(id: Int, mlsqlGroupId: Int, mlsqlUserId: Int, status: Int)
+
 case class MlsqlGroupScriptFile(id: Int, mlsqlGroupId: Int, scriptFileId: Int, status: Int)
 
 object MlsqlGroupUser {
@@ -189,6 +190,36 @@ case class MlsqlApply(id: Int, name: String,
 }
 
 case class AppKv(id: Int, name: String, value: String)
+
+case class MlsqlIndexer(id: Int,
+                        name: String,
+                        mlsqlUserId: Int,
+                        status: Int,
+                        lastStatus: Int,
+                        lastFailMsg:String,
+                        lastExecuteTime: Long,
+                        syncInterval: Long,
+                        content: String,
+                        indexerConfig:String,
+                        lastJobId:String
+                       ) {
+  def isRealTime = syncInterval == -1
+
+  def isOneTime = syncInterval == 0
+
+  def isRepeat = syncInterval > 0
+}
+
+object MlsqlIndexer {
+  val STATUS_NONE = 0
+  val STATUS_INDEXING = 1
+
+  val LAST_STATUS_SUCCESS = 0
+  val LAST_STATUS_FAIL = 1
+
+  val REAL_TIME = -1
+  val ONE_TIME= 0
+}
 
 object AppKv {
   val CONFIGURED = "configured"

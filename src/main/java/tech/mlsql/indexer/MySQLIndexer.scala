@@ -1,0 +1,245 @@
+package tech.mlsql.indexer
+
+import java.sql.{Connection, DriverManager}
+import java.util.UUID
+
+import net.csdn.jpa.QuillDB.ctx
+import net.csdn.jpa.QuillDB.ctx._
+import tech.mlsql.api.controller.JDBCD
+import tech.mlsql.common.utils.distribute.socket.server.JavaUtils
+import tech.mlsql.common.utils.serder.json.JSONTool
+import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer, MlsqlJob, MlsqlUser}
+import tech.mlsql.service.RunScript
+
+class MySQLIndexer {
+
+
+  def run(user: MlsqlUser, jobName: String, engineName: Option[String]) = {
+    val uuid = UUID.randomUUID().toString
+    ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(_.lastJobId -> lift(uuid)))
+    val job = ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName))).head
+
+    val List(_, fullSyncScript, incrementSyncScript) = JSONTool.parseJson[List[String]](job.content)
+    // execute fullSysncScript
+    var params = Map(
+      "sql" -> fullSyncScript,
+      "owner" -> user.name,
+      "async" -> "true",
+      "jobName" -> uuid
+    )
+
+    if (engineName.isDefined) {
+      params += ("engineName" -> engineName.get)
+    }
+
+    val runScript = new RunScript(user, params)
+
+    val resp = runScript.execute(false)
+    // 在历史任务中生成一条记录
+    runScript.buildFailRecord(resp, (msg) => {
+      //失败提交失败的话 我们要在索引任务里做更新
+      val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_FAIL, lastFailMsg = msg)
+      ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+    })
+    runScript.buildSuccessRecord(resp)
+
+    //因为是异步，所以我们要监控下任务是不是最终成功，如果成功，执行第二步
+    //硬编码等待第一个任务一个小时，因为可能异步通知有问题，导致这边没有接收到
+    val startTime = System.currentTimeMillis()
+    val monitor = new Thread(new Runnable {
+      override def run(): Unit = {
+        var jobInfo = ctx.run(query[MlsqlJob].filter(_.name == lift(uuid)).filter(_.mlsqlUserId == lift(user.id))).head
+        var endTime = System.currentTimeMillis()
+        while (jobInfo.status == MlsqlJob.RUNNING && (endTime - startTime) < 60 * 60 * 1000) {
+          jobInfo = ctx.run(query[MlsqlJob].filter(_.name == lift(uuid)).filter(_.mlsqlUserId == lift(user.id))).head
+          endTime = System.currentTimeMillis()
+          Thread.sleep(5 * 1000)
+        }
+        if (jobInfo.status != MlsqlJob.SUCCESS) {
+          val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_FAIL, lastFailMsg = jobInfo.reason)
+          ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+        } else {
+          //启动一个流式任务
+          val runScript = new RunScript(user, Map(
+            "sql" -> incrementSyncScript,
+            "owner" -> user.name,
+            "async" -> "false",
+            "jobName" -> jobName))
+
+          val resp = runScript.execute(false)
+          // 在历史任务中生成一条记录
+          runScript.buildFailRecord(resp, (msg) => {
+            //失败提交失败的话 我们要在索引任务里做更新
+            val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_FAIL, lastFailMsg = msg)
+            ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+          })
+          runScript.buildSuccessRecord(resp)
+          //任务正常运行的话，就可以更新任务状态了
+          val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_SUCCESS, lastFailMsg = "")
+          ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+
+        }
+      }
+    })
+    monitor.setDaemon(true)
+    monitor.start()
+
+  }
+
+
+  def generate(user: MlsqlUser, params: Map[String, String]): String = {
+    val pb = PartitionBean(
+      upperBound = params("upperBound").toLong,
+      partitionNumValue = params("partitionNumValue").toLong,
+      lowerBound = params("lowerBound").toLong,
+      dbName = params("dbName"),
+      tableName = params("tableName"),
+      indexerType = params("indexerType"),
+      idCols = params("idCols"),
+      partitionColumn = params("partitionColumn")
+    )
+
+    val db: String = pb.dbName
+    val tableName: String = pb.tableName
+    val partitionColumn: String = pb.partitionColumn
+    val partitionNum: Long = pb.partitionNumValue
+    val syncInterval = JavaUtils.timeStringAsSec(params.getOrElse("syncInterval", "60s")).toInt
+
+    val jdbcd = MlsqlDs.get(user, db, "jdbc").map(item => {
+      JSONTool.parseJson[JDBCD](item.params)
+    }).head
+
+    //    val jdbcd = parseUrl(jdbcUrl).copy(name = db, driver = jdbcDriver, user = jdbcUser, password = jdbcPassword)
+    val (min, max) = getTableMinMax(jdbcd, partitionColumn, tableName)
+    val tempName = s"${db}_${tableName}"
+    val jobName = s"Build indexer for ${db}.${tableName}"
+    val fullSyncScript =
+      s"""
+         |
+         |load jdbc.`${db}.${tableName}` where
+         |driver="${jdbcd.driver}"
+         |and partitionColumn = "${partitionColumn}"
+         |and lowerBound = "${min}"
+         |and upperBound = "${max}"
+         |and numPartitions = "${partitionNum}"
+         |as ${tempName};
+         |
+         |run ${tempName} as TableRepartition.``
+         |where partitionNum="${partitionNum}"
+         |and partitionType="range"
+         |and partitionCols="${partitionColumn}"
+         |as ${tempName}_1;
+         |
+         |save overwrite ${tempName}_1 as delta.`mysql_${db}.${tableName}` ;
+         |""".stripMargin
+
+    val (file, position) = getBinlogInfo(jdbcd)
+    val Array(prefix, binlogIndex) = file.split("\\.")
+    val incrementSyncScript =
+      s"""
+         |set streamName="${jobName}";
+         |
+         |load binlog.`` where
+         |host="${jdbcd.host}"
+         |and port="${jdbcd.port}"
+         |and userName="${jdbcd.user}"
+         |and password="${jdbcd.password}"
+         |and databaseNamePattern="${jdbcd.db}"
+         |and tableNamePattern="${tableName}"
+         |and bingLogNamePrefix="${prefix}"
+         |and binlogIndex="${binlogIndex}"
+         |and binlogFileOffset="${position}"
+         |as ${tempName};
+         |
+         |save append ${tempName}
+         |as rate.`mysql_{db}.{tableName}`
+         |options mode="Append"
+         |and idCols="${pb.idCols}"
+         |and duration="${syncInterval}"
+         |and syncType="binlog"
+         |and checkpointLocation="/tmp/${tempName}";
+         |""".stripMargin
+
+    ctx.run(ctx.query[MlsqlIndexer].insert(
+      _.name -> lift(jobName),
+      _.syncInterval -> lift(MlsqlIndexer.REAL_TIME.toLong),
+      _.lastExecuteTime -> lift(System.currentTimeMillis()),
+      _.status -> lift(MlsqlIndexer.STATUS_NONE),
+      _.mlsqlUserId -> lift(user.id),
+      _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
+      _.indexerConfig -> lift(JSONTool.toJsonStr(MysqlIndexerConfig(jobName, s"${pb.dbName}.${pb.tableName}", partitionColumn, partitionNum.toInt, syncInterval))),
+      _.content -> lift(JSONTool.toJsonStr(List(jobName, fullSyncScript, incrementSyncScript))),
+      _.lastFailMsg -> ""
+    ))
+
+    return jobName
+  }
+
+  private def getTableMinMax(db: JDBCD, columnName: String, tableName: String) = {
+    var conn: Connection = null
+    var min = 0L
+    var max = 0L
+    try {
+      Class.forName(db.driver)
+      conn = DriverManager.getConnection(db.url, db.user, db.password)
+
+      val statement = conn.prepareStatement(s"select max(`${columnName}`) as max,min(`${columnName}`) as min from `${tableName}`")
+      val tablesRs = statement.executeQuery()
+
+      while (tablesRs.next()) {
+        max = tablesRs.getLong(1)
+        min = tablesRs.getLong(2)
+      }
+      tablesRs.close()
+      statement.close()
+      conn.close()
+
+    } catch {
+      case e: Exception =>
+        try {
+          if (conn != null) {
+            conn.close()
+          }
+        } catch {
+          case e: Exception =>
+        }
+        //connectTimeout=5000&socketTimeout=30000
+        e.printStackTrace()
+    }
+    (min, max)
+  }
+
+  private def getBinlogInfo(db: JDBCD) = {
+    var conn: Connection = null
+    var file: String = ""
+    var position: Long = 0L
+    try {
+      Class.forName(db.driver)
+      conn = DriverManager.getConnection(db.url, db.user, db.password)
+
+      val statement = conn.prepareStatement(s"show master status")
+      val tablesRs = statement.executeQuery()
+
+      while (tablesRs.next()) {
+        file = tablesRs.getString(1)
+        position = tablesRs.getLong(2)
+      }
+      tablesRs.close()
+      statement.close()
+      conn.close()
+
+    } catch {
+      case e: Exception =>
+        try {
+          if (conn != null) {
+            conn.close()
+          }
+        } catch {
+          case e: Exception =>
+        }
+        //connectTimeout=5000&socketTimeout=30000
+        e.printStackTrace()
+    }
+    (file, position)
+  }
+}

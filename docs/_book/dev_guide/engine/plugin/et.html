@@ -1,0 +1,2671 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>ET插件开发 · MLSQL Console 文档</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-lightbox/css/lightbox.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-emphasize/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../../styles/website.css">
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="et_command.html" />
+    
+    
+    <link rel="prev" href="ET_README.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    MLSQL Stack
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">产品信息</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <a target="_blank" href="http://blog.mlsql.tech">
+            
+                    
+                    MLSQL官方博客
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" >
+            
+                <a target="_blank" href="http://blog.mlsql.tech/blog/demo.html">
+            
+                    
+                    MLSQL Stack体验站点
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">版本以及部署</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../../release-notes/">
+            
+                <a href="../../../release-notes/">
+            
+                    
+                    所有版本
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../../../release-notes/version.html">
+            
+                <a href="../../../release-notes/version.html">
+            
+                    
+                    MLSQL Stack版本管理策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../../../release-notes/2.0.1.html">
+            
+                <a href="../../../release-notes/2.0.1.html">
+            
+                    
+                    MLSQL Stack 2.0.1版发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../../../release-notes/2.0.0.html">
+            
+                <a href="../../../release-notes/2.0.0.html">
+            
+                    
+                    MLSQL Stack 2.0.0版发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../../../release-notes/2.0.1-bug.html">
+            
+                <a href="../../../release-notes/2.0.1-bug.html">
+            
+                    
+                    MLSQL Stack 2.0.1 Bug 合集
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../../../release-notes/2.0.0-bug.html">
+            
+                <a href="../../../release-notes/2.0.0-bug.html">
+            
+                    
+                    MLSQL Stack 2.0.0 Bug 合集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../../howtouse/">
+            
+                <a href="../../../howtouse/">
+            
+                    
+                    基本安装
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../../howtouse/install.html">
+            
+                <a href="../../../howtouse/install.html">
+            
+                    
+                    MLSQL Console 安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../../howtouse/setup.html">
+            
+                <a href="../../../howtouse/setup.html">
+            
+                    
+                    MLSQL Console 初始配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../../howtouse/engine/">
+            
+                <a href="../../../howtouse/engine/">
+            
+                    
+                    MLSQL Engine 安装与配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.3.1" data-path="../../../howtouse/engine/configuration.html">
+            
+                <a href="../../../howtouse/engine/configuration.html">
+            
+                    
+                    启动参数详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3.2" data-path="../../../howtouse/engine/deploy.html">
+            
+                <a href="../../../howtouse/engine/deploy.html">
+            
+                    
+                    Local
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3.3" data-path="../../../howtouse/engine/k8s_deploy.html">
+            
+                <a href="../../../howtouse/engine/k8s_deploy.html">
+            
+                    
+                    K8s部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3.4" data-path="../../../howtouse/engine/yarn_deploy.html">
+            
+                <a href="../../../howtouse/engine/yarn_deploy.html">
+            
+                    
+                    Yarn部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">操作指南</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../../../analysis-workshop/">
+            
+                <a href="../../../analysis-workshop/">
+            
+                    
+                    Analysis Workshop使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../../../analysis-workshop/interface.html">
+            
+                <a href="../../../analysis-workshop/interface.html">
+            
+                    
+                    软件界面介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../../../analysis-workshop/admin-engine.html">
+            
+                <a href="../../../analysis-workshop/admin-engine.html">
+            
+                    
+                    Admin管理后台之Engine配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../../../analysis-workshop/simple-example.html">
+            
+                <a href="../../../analysis-workshop/simple-example.html">
+            
+                    
+                    简单使用示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="../../../analysis-workshop/pivot.html">
+            
+                <a href="../../../analysis-workshop/pivot.html">
+            
+                    
+                    透视表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../../../analysis-workshop/dash.html">
+            
+                <a href="../../../analysis-workshop/dash.html">
+            
+                    
+                    可视化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6" data-path="../../../analysis-workshop/window.html">
+            
+                <a href="../../../analysis-workshop/window.html">
+            
+                    
+                    使用窗口进行数据分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.7" data-path="../../../analysis-workshop/complex-filter.html">
+            
+                <a href="../../../analysis-workshop/complex-filter.html">
+            
+                    
+                    复杂组合条件过滤
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.8" data-path="../../../analysis-workshop/ds-mysql.html">
+            
+                <a href="../../../analysis-workshop/ds-mysql.html">
+            
+                    
+                    MySQL数据库配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.9" data-path="../../../analysis-workshop/json-fields.html">
+            
+                <a href="../../../analysis-workshop/json-fields.html">
+            
+                    
+                    Json字段展开
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.10" data-path="../../../analysis-workshop/aw-plugin.html">
+            
+                <a href="../../../analysis-workshop/aw-plugin.html">
+            
+                    
+                    用MLSQL为Analysis Workshop开发插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../../../console/">
+            
+                <a href="../../../console/">
+            
+                    
+                    MLSQL语言控制台使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../../../console/interface.html">
+            
+                <a href="../../../console/interface.html">
+            
+                    
+                    界面简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="../../../console/simple-example.html">
+            
+                <a href="../../../console/simple-example.html">
+            
+                    
+                    简单使用示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">MLSQL语法以及编程教程</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../../../lang/">
+            
+                <a href="../../../lang/">
+            
+                    
+                    MLSQL语法手册
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.1" data-path="../../../lang/set.html">
+            
+                <a href="../../../lang/set.html">
+            
+                    
+                    Set语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2" data-path="../../../lang/load.html">
+            
+                <a href="../../../lang/load.html">
+            
+                    
+                    Load语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.3" data-path="../../../lang/select.html">
+            
+                <a href="../../../lang/select.html">
+            
+                    
+                    Select语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.4" data-path="../../../lang/et_statement.html">
+            
+                <a href="../../../lang/et_statement.html">
+            
+                    
+                    Train/Run/Predict语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.5" data-path="../../../lang/register.html">
+            
+                <a href="../../../lang/register.html">
+            
+                    
+                    Register语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.6" data-path="../../../lang/save.html">
+            
+                <a href="../../../lang/save.html">
+            
+                    
+                    Save语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.7" data-path="../../../lang/macro.html">
+            
+                <a href="../../../lang/macro.html">
+            
+                    
+                    宏语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.8" data-path="../../../lang/include.html">
+            
+                <a href="../../../lang/include.html">
+            
+                    
+                    Include语法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.9" >
+            
+                <a target="_blank" href="http://blog.mlsql.tech/blog/mlsql-ifelse.html">
+            
+                    
+                    分支语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.10" data-path="../../../lang/analyze.html">
+            
+                <a href="../../../lang/analyze.html">
+            
+                    
+                    MLSQL语法解析接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../../../batch/">
+            
+                <a href="../../../batch/">
+            
+                    
+                    MLSQL批处理编程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.1" data-path="../../../datahouse/">
+            
+                <a href="../../../datahouse/">
+            
+                    
+                    MLSQL数仓/数据湖使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.1.1" data-path="../../../datahouse/hive.html">
+            
+                <a href="../../../datahouse/hive.html">
+            
+                    
+                    Hive加载和存储
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.1.2" data-path="../../../datahouse/delta.html">
+            
+                <a href="../../../datahouse/delta.html">
+            
+                    
+                    Delta加载和存储以及流式支持
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.1.3" data-path="../../../datahouse/binlog.html">
+            
+                <a href="../../../datahouse/binlog.html">
+            
+                    
+                    MySQL Binlog同步
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2" data-path="../../../datasource/">
+            
+                <a href="../../../datasource/">
+            
+                    
+                    加载和存储多种数据源
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.2.1" data-path="../../../datasource/jdbc.html">
+            
+                <a href="../../../datasource/jdbc.html">
+            
+                    
+                    JDBC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2.2" data-path="../../../datasource/es.html">
+            
+                <a href="../../../datasource/es.html">
+            
+                    
+                    ElasticSearch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2.3" data-path="../../../datasource/solr.html">
+            
+                <a href="../../../datasource/solr.html">
+            
+                    
+                    Solr
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2.4" data-path="../../../datasource/hbase.html">
+            
+                <a href="../../../datasource/hbase.html">
+            
+                    
+                    HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2.5" data-path="../../../datasource/mongodb.html">
+            
+                <a href="../../../datasource/mongodb.html">
+            
+                    
+                    MongoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2.6" data-path="../../../datasource/file.html">
+            
+                <a href="../../../datasource/file.html">
+            
+                    
+                    Parquet/Json/Text/Xml/Csv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.2.7" data-path="../../../datasource/mlsql_source.html">
+            
+                <a href="../../../datasource/mlsql_source.html">
+            
+                    
+                    jsonStr/script/mlsqlAPI/mlsqlConf
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.3" data-path="../../../system_udf/">
+            
+                <a href="../../../system_udf/">
+            
+                    
+                    内置常见UDF
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.3.1" data-path="../../../system_udf/http.html">
+            
+                <a href="../../../system_udf/http.html">
+            
+                    
+                    http请求
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.3.2" data-path="../../../system_udf/vec.html">
+            
+                <a href="../../../system_udf/vec.html">
+            
+                    
+                    常见函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.4" data-path="../../../process/">
+            
+                <a href="../../../process/">
+            
+                    
+                    一些有用的内置ET
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.2.4.1" data-path="../../../process/estimator_transformer/TreeBuildExt.html">
+            
+                <a href="../../../process/estimator_transformer/TreeBuildExt.html">
+            
+                    
+                    计算复杂的父子关系
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.4.2" data-path="../../../process/estimator_transformer/RepartitionExt.html">
+            
+                <a href="../../../process/estimator_transformer/RepartitionExt.html">
+            
+                    
+                    改变表的分区数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.4.3" data-path="../../../process/estimator_transformer/SendMessage.html">
+            
+                <a href="../../../process/estimator_transformer/SendMessage.html">
+            
+                    
+                    如何发送邮件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2.4.4" data-path="../../../process/estimator_transformer/mlsql-watcher.html">
+            
+                <a href="../../../process/estimator_transformer/mlsql-watcher.html">
+            
+                    
+                    数据采集组件mlsql-watcher使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../../../stream/">
+            
+                <a href="../../../stream/">
+            
+                    
+                    MLSQL流编程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.3.1" data-path="../../../stream/datasource.html">
+            
+                <a href="../../../stream/datasource.html">
+            
+                    
+                    Kafka和MockStream
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.2" data-path="../../../stream/kakfa_tool.html">
+            
+                <a href="../../../stream/kakfa_tool.html">
+            
+                    
+                    MLSQL Kafka小工具集锦
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.3" data-path="../../../stream/data_convert.html">
+            
+                <a href="../../../stream/data_convert.html">
+            
+                    
+                    自动将Kafka中的JSON数据展开为表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.4" data-path="../../../stream/query_kafka.html">
+            
+                <a href="../../../stream/query_kafka.html">
+            
+                    
+                    如何高效的AdHoc查询Kafka
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.5" data-path="../../../stream/callback.html">
+            
+                <a href="../../../stream/callback.html">
+            
+                    
+                    如何设置流式计算回调
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../../../stream/batch.html">
+            
+                <a href="../../../stream/batch.html">
+            
+                    
+                    如何对流的结果以批的形式保存
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.7" data-path="../../../stream/window_wartermark.html">
+            
+                <a href="../../../stream/window_wartermark.html">
+            
+                    
+                    window/watermark的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.8" data-path="../../../stream/stream_mysql_update.html">
+            
+                <a href="../../../stream/stream_mysql_update.html">
+            
+                    
+                    如何使用MLSQL流式更新MySQL数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.9" data-path="../../../stream/web_console.html">
+            
+                <a href="../../../stream/web_console.html">
+            
+                    
+                    流结果输出到WebConsole
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../../../ml/">
+            
+                <a href="../../../ml/">
+            
+                    
+                    MLSQL机器学习编程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1" data-path="../../../feature/">
+            
+                <a href="../../../feature/">
+            
+                    
+                    特征工程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1.1" data-path="../../../feature/nlp.html">
+            
+                <a href="../../../feature/nlp.html">
+            
+                    
+                    文本向量化
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1.1.1" data-path="../../../feature/tfidf.html">
+            
+                <a href="../../../feature/tfidf.html">
+            
+                    
+                    TFIDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.1.2" data-path="../../../feature/word2vec.html">
+            
+                <a href="../../../feature/word2vec.html">
+            
+                    
+                    Word2Vec
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.2" data-path="../../../feature/scale.html">
+            
+                <a href="../../../feature/scale.html">
+            
+                    
+                    特征平滑
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.3" data-path="../../../feature/normalize.html">
+            
+                <a href="../../../feature/normalize.html">
+            
+                    
+                    归一化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.4" data-path="../../../feature/confusion_matrix.html">
+            
+                <a href="../../../feature/confusion_matrix.html">
+            
+                    
+                    混淆矩阵
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.5" data-path="../../../feature/some_extract.html">
+            
+                <a href="../../../feature/some_extract.html">
+            
+                    
+                    QQ/电话/邮件抽取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.6" data-path="../../../feature/discretizer/">
+            
+                <a href="../../../feature/discretizer/">
+            
+                    
+                    离散化
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1.6.1" data-path="../../../feature/discretizer/bucketizer.html">
+            
+                <a href="../../../feature/discretizer/bucketizer.html">
+            
+                    
+                    Bucketizer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.6.2" data-path="../../../feature/discretizer/quantile.html">
+            
+                <a href="../../../feature/discretizer/quantile.html">
+            
+                    
+                    Quantile
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.7" data-path="../../../feature/vecmap.html">
+            
+                <a href="../../../feature/vecmap.html">
+            
+                    
+                    Map转化为向量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.1.8" data-path="../../../feature/rate_sample.html">
+            
+                <a href="../../../feature/rate_sample.html">
+            
+                    
+                    数据集切分
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2" data-path="../../../python/">
+            
+                <a href="../../../python/">
+            
+                    
+                    MLSQL Python支持
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.2.1" data-path="../../../python/env.html">
+            
+                <a href="../../../python/env.html">
+            
+                    
+                    环境依赖
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.2" data-path="../../../python/etl.html">
+            
+                <a href="../../../python/etl.html">
+            
+                    
+                    数据处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.3" data-path="../../../python/train.html">
+            
+                <a href="../../../python/train.html">
+            
+                    
+                    模型训练
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.4" data-path="../../../python/pyjava.html">
+            
+                <a href="../../../python/pyjava.html">
+            
+                    
+                    PyJava API简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.5" data-path="../../../python/read_excel.html">
+            
+                <a href="../../../python/read_excel.html">
+            
+                    
+                    结合Python读取Excel
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.6" data-path="../../../python/write_excel.html">
+            
+                <a href="../../../python/write_excel.html">
+            
+                    
+                    结合Python保存Excel
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.7" data-path="../../../python/resource.html">
+            
+                <a href="../../../python/resource.html">
+            
+                    
+                    K8s下的Python资源限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.8" data-path="../../../python/datamode.html">
+            
+                <a href="../../../python/datamode.html">
+            
+                    
+                    dataMode 详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2.9" data-path="../../../python/py_paralell.html">
+            
+                <a href="../../../python/py_paralell.html">
+            
+                    
+                    Python并行度你所需要知道的
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.3" data-path="../../../algs/">
+            
+                <a href="../../../algs/">
+            
+                    
+                    MLSQL内置算法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.3.1" data-path="../../../algs/naive_bayes.html">
+            
+                <a href="../../../algs/naive_bayes.html">
+            
+                    
+                    NaiveBayes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.3.2" data-path="../../../algs/als.html">
+            
+                <a href="../../../algs/als.html">
+            
+                    
+                    ALS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.3.3" data-path="../../../algs/random_forest.html">
+            
+                <a href="../../../algs/random_forest.html">
+            
+                    
+                    RandomForest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.3.4" data-path="../../../algs/lda.html">
+            
+                <a href="../../../algs/lda.html">
+            
+                    
+                    LDA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.3.5" data-path="../../../algs/xgboost.html">
+            
+                <a href="../../../algs/xgboost.html">
+            
+                    
+                    XGBoost
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.4" data-path="../../../dl/">
+            
+                <a href="../../../dl/">
+            
+                    
+                    基于Java的深度学习框架集成
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.4.1" data-path="../../../dl/load_image.html">
+            
+                <a href="../../../dl/load_image.html">
+            
+                    
+                    加载图片数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.4.2" data-path="../../../dl/cifar10.html">
+            
+                <a href="../../../dl/cifar10.html">
+            
+                    
+                    Cifar10示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.5" data-path="../../../api_deploy/">
+            
+                <a href="../../../api_deploy/">
+            
+                    
+                    部署算法API服务
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.5.1" data-path="../../../api_deploy/design.html">
+            
+                <a href="../../../api_deploy/design.html">
+            
+                    
+                    设计和原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.5.2" data-path="../../../api_deploy/case.html">
+            
+                <a href="../../../api_deploy/case.html">
+            
+                    
+                    部署流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="../../../udf/">
+            
+                <a href="../../../udf/">
+            
+                    
+                    MLSQL动态创建UDF/UDAF
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.5.1" data-path="../../../udf/python_udf.html">
+            
+                <a href="../../../udf/python_udf.html">
+            
+                    
+                    Python UDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.2" data-path="../../../udf/scala_udf.html">
+            
+                <a href="../../../udf/scala_udf.html">
+            
+                    
+                    Scala UDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.3" data-path="../../../udf/scala_udaf.html">
+            
+                <a href="../../../udf/scala_udaf.html">
+            
+                    
+                    Scala UDAF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.4" data-path="../../../udf/java_udf.html">
+            
+                <a href="../../../udf/java_udf.html">
+            
+                    
+                    Java UDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">安全与隐私</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../../../security/sum.html">
+            
+                <a href="../../../security/sum.html">
+            
+                    
+                    安全与隐私
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.1" data-path="../../../security/">
+            
+                <a href="../../../security/">
+            
+                    
+                    MLSQL Engine 接口访问控制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.1.1" data-path="../../../security/token_control.html">
+            
+                <a href="../../../security/token_control.html">
+            
+                    
+                    接口访问Token设置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.1.2" data-path="../../../security/custom_control.html">
+            
+                <a href="../../../security/custom_control.html">
+            
+                    
+                    自定义接口访问策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.2" data-path="../../../security/sum2.html">
+            
+                <a href="../../../security/sum2.html">
+            
+                    
+                    授权用户对数据的访问控制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1.2.1" >
+            
+                <span>
+            
+                    
+                    解析时表权限
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.2.2" >
+            
+                <span>
+            
+                    
+                    运行时表/列权限
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.2.3" >
+            
+                <span>
+            
+                    
+                    客户端开发
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.1.2.4" >
+            
+                <span>
+            
+                    
+                    服务端开发
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">性能与资源</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../../resources/dynamic_resource.html">
+            
+                <a href="../../../resources/dynamic_resource.html">
+            
+                    
+                    动态资源调整
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">插件/API/商店</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../../store/">
+            
+                <a href="../../../store/">
+            
+                    
+                    MLSQL 脚本商店和插件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1.1" data-path="../../../store/save_excel.html">
+            
+                <a href="../../../store/save_excel.html">
+            
+                    
+                    脚本插件save_excel
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.1.2" data-path="../../../plugin/">
+            
+                <a href="../../../plugin/">
+            
+                    
+                    MLSQL Engine插件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1.2.1" data-path="../../../plugin/online_install.html">
+            
+                <a href="../../../plugin/online_install.html">
+            
+                    
+                    网络安装插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.1.2.2" data-path="../../../plugin/offline_install.html">
+            
+                <a href="../../../plugin/offline_install.html">
+            
+                    
+                    离线安装插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../../../api/sum.html">
+            
+                <a href="../../../api/sum.html">
+            
+                    
+                    API on（Console/Engine）介绍
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.2.1" data-path="../../../developer/">
+            
+                <a href="../../../developer/">
+            
+                    
+                    MLSQL Console API指南
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.2.1.1" data-path="../../../developer/script_api.html">
+            
+                <a href="../../../developer/script_api.html">
+            
+                    
+                    脚本获取接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2.1.2" data-path="../../../developer/script_run_api.html">
+            
+                <a href="../../../developer/script_run_api.html">
+            
+                    
+                    脚本执行代理接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2.2" data-path="../../../api/README.md">
+            
+                <span>
+            
+                    
+                    MLSQL Engine Rest接口详解
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.2.2.1" data-path="../../../api/run-script.html">
+            
+                <a href="../../../api/run-script.html">
+            
+                    
+                    脚本执行接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2.2.2" data-path="../../../api/code_suggest.html">
+            
+                <a href="../../../api/code_suggest.html">
+            
+                    
+                    代码提示接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2.3" data-path="../../../resources/liveness.html">
+            
+                <a href="../../../resources/liveness.html">
+            
+                    
+                    MLSQL Engine Liveness探针
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2.4" data-path="../../../resources/readiness.html">
+            
+                <a href="../../../resources/readiness.html">
+            
+                    
+                    MLSQL Engine Readness探针
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../../qa/">
+            
+                <a href="../../../qa/">
+            
+                    
+                    常见问题
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1.1" data-path="../../../qa/upload_file.html">
+            
+                <a href="../../../qa/upload_file.html">
+            
+                    
+                    文件上传失败怎么办
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.2" data-path="../../../qa/home.html">
+            
+                <a href="../../../qa/home.html">
+            
+                    
+                    个人主目录是个啥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.3" data-path="../../../qa/session_isolated.html">
+            
+                <a href="../../../qa/session_isolated.html">
+            
+                    
+                    会话隔离/并发执行/调试执行/定时任务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.4" data-path="../../../qa/cdh_hdp.html">
+            
+                <a href="../../../qa/cdh_hdp.html">
+            
+                    
+                    CDH/HDP 怎么运行MLSQL Engine
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.5" data-path="../../../qa/debug_log.html">
+            
+                <a href="../../../qa/debug_log.html">
+            
+                    
+                    排查错误，三个系统的日志你都要看
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.6" data-path="../../../qa/mlsql_cluster.html">
+            
+                <a href="../../../qa/mlsql_cluster.html">
+            
+                    
+                    听说mlsql-cluster暂时不更新了，mlsql-cluster是个啥？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.7" data-path="../../../qa/mlsql-docker-image.html">
+            
+                <a href="../../../qa/mlsql-docker-image.html">
+            
+                    
+                    MLSQL K8s部署，镜像环境如何制作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.8" >
+            
+                <a target="_blank" href="https://zhuanlan.zhihu.com/p/138405931">
+            
+                    
+                    写SQL如何避免拷贝黏贴
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.9" >
+            
+                <a target="_blank" href="https://zhuanlan.zhihu.com/p/138475580">
+            
+                    
+                    如何将SQL封装成命令调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="9.1.10" data-path="../../../qa/load_jdbc.html">
+            
+                <a href="../../../qa/load_jdbc.html">
+            
+                    
+                    加载JDBC(如MySQL，Oracle)数据常见困惑
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" >
+            
+                <span>
+            
+                    
+                    最佳实践
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">开发者指南</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    MLSQL Engine开发环境设置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1.1" data-path="../spark_2_4_3.html">
+            
+                <a href="../spark_2_4_3.html">
+            
+                    
+                    Spark 2.4.3开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="10.1.2" data-path="../spark_3_0_0.html">
+            
+                <a href="../spark_3_0_0.html">
+            
+                    
+                    Spark 3.0.0开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2" data-path="ET_README.html">
+            
+                <a href="ET_README.html">
+            
+                    
+                    ET插件开发
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="10.2.1" data-path="et.html">
+            
+                <a href="et.html">
+            
+                    
+                    ET插件开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2.2" data-path="et_command.html">
+            
+                <a href="et_command.html">
+            
+                    
+                    命令行开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">附录</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" >
+            
+                <span>
+            
+                    
+                    附录一：
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="11.2" >
+            
+                <span>
+            
+                    
+                    附录二：
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >ET插件开发</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#et&#x63D2;&#x4EF6;&#x5F00;&#x53D1;"><b></b>ET&#x63D2;&#x4EF6;&#x5F00;&#x53D1;</a></li><ul><li><span class="title-icon "></span><a href="#&#x76F4;&#x63A5;&#x4FEE;&#x6539;mlsql&#x6E90;&#x7801;"><b></b>&#x76F4;&#x63A5;&#x4FEE;&#x6539;MLSQL&#x6E90;&#x7801;</a></li><li><span class="title-icon "></span><a href="#&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;"><b></b>&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</a></li><li><span class="title-icon "></span><a href="#&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;"><b></b>&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</a></li></ul></ul></div><h1 id="et&#x63D2;&#x4EF6;&#x5F00;&#x53D1;"><a name="et&#x63D2;&#x4EF6;&#x5F00;&#x53D1;" class="anchor-navigation-ex-anchor" href="#et&#x63D2;&#x4EF6;&#x5F00;&#x53D1;"><i class="fa fa-link" aria-hidden="true"></i></a>ET&#x63D2;&#x4EF6;&#x5F00;&#x53D1;</h1>
+<p>&#x5F00;&#x53D1;ET&#x63D2;&#x4EF6;&#x6709;&#x4E09;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ol>
+<li>&#x76F4;&#x63A5;&#x4FEE;&#x6539;MLSQL&#x6E90;&#x7801;</li>
+<li>&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</li>
+<li>&#x72EC;&#x7ACB;&#x6210;&#x9879;&#x76EE;&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</li>
+</ol>
+<h2 id="&#x76F4;&#x63A5;&#x4FEE;&#x6539;mlsql&#x6E90;&#x7801;"><a name="&#x76F4;&#x63A5;&#x4FEE;&#x6539;mlsql&#x6E90;&#x7801;" class="anchor-navigation-ex-anchor" href="#&#x76F4;&#x63A5;&#x4FEE;&#x6539;mlsql&#x6E90;&#x7801;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x76F4;&#x63A5;&#x4FEE;&#x6539;MLSQL&#x6E90;&#x7801;</h2>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x6CA1;&#x5565;&#x7528;&#x7684;&#x63D2;&#x4EF6;&#xFF0C;&#x53EB; <code>EmptyTable</code>,&#x5177;&#x4F53;&#x7528;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>select 1 as col as table1;
+run table1 as EmptyTable.`` as outputTable;
+</code></pre><p>EmptyTable&#x5565;&#x4E5F;&#x4E0D;&#x5E72;&#xFF0C;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7A7A;&#x8868;,&#x5728;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x7A7A;&#x8868;&#x7684;&#x540D;&#x79F0;&#x4E3A;outputTable.</p>
+<p>&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>package tech.mlsql.plugins.ets
+
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.expressions.UserDefinedFunction
+import org.apache.spark.sql.{DataFrame, SparkSession}
+import streaming.dsl.mmlib.SQLAlg
+import streaming.dsl.mmlib.algs.param.WowParams
+
+class EmptyTable(override val uid: String) extends SQLAlg with WowParams {
+  def this() = this(Identifiable.randomUID(&quot;tech.mlsql.plugins.ets.EmptyTable&quot;))
+
+  override def train(df: DataFrame, path: String, params: Map[String, String]): DataFrame = {
+    df.sparkSession.emptyDataFrame
+  }
+
+  override def batchPredict(df: DataFrame, path: String, params: Map[String, String]): DataFrame = train(df, path, params)
+
+  override def load(sparkSession: SparkSession, path: String, params: Map[String, String]): Any = ???
+
+  override def predict(sparkSession: SparkSession, _model: Any, name: String, params: Map[String, String]): UserDefinedFunction = ???
+}
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;EmptyTable&#x53EA;&#x9700;&#x8981;&#x7EE7;&#x627F;SQLAlg&#x548C;&#x6DF7;&#x5165;WowParams&#x5373;&#x53EF;&#xFF08;&#x5B9E;&#x9645;&#x4E0A;&#x8FD8;&#x6709;&#x5F88;&#x591A;&#x5176;&#x4ED6;&#x7684;&#x63A5;&#x53E3;&#x53EF;&#x4EE5;&#x6DF7;&#x5165;&#xFF0C;&#x6BD4;&#x5982;&#x6743;&#x9650;&#x63A5;&#x53E3;&#x7B49;&#x7B49;&#xFF09;&#x3002;&#x7136;&#x540E;&#x8986;&#x76D6;&#x5B9E;&#x73B0;&#x76F8;&#x5E94;&#x7684;&#x65B9;&#x6CD5;&#x5373;&#x53EF;&#x3002;&#x5728;MLSQL&#x91CC;&#xFF0C;train&#x8BED;&#x6CD5;&#x5BF9;&#x5E94;&#x7684;&#x662F;ET&#x91CC;&#x7684;train&#x65B9;&#x6CD5;&#x3002; run/predict&#x5BF9;&#x5E94;&#x7684;&#x662F;batchPredict&#x65B9;&#x6CD5;&#x3002;register&#x5219;&#x5BF9;&#x5E94;&#x7684;&#x662F;load/predict &#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x5728;train/run&#x8BED;&#x6CD5;&#x91CC;&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5B9E;&#x73B0;train/batchPredict&#x65B9;&#x6CD5;&#x5373;&#x53EF;&#x3002;</p>
+<p>train&#x65B9;&#x6CD5;&#x7B7E;&#x540D;&#x4E5F;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#xFF0C;&#x7ED9;&#x5B9A;&#x4F60;&#x4E00;&#x4E2A;dataframe(&#x5728;&#x793A;&#x4F8B;&#x4E2D;&#x662F;table1)&#xFF0C;&#x4EE5;&#x53CA;&#x4E00;&#x4E9B;&#x53C2;&#x6570;&#xFF08;where&#x6761;&#x4EF6;&#x91CC;&#x7684;&#x53C2;&#x6570;&#xFF09;&#xFF0C;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x65B0;&#x7684;dataframe&#x63A5;&#x53E3;&#x3002;</p>
+<pre><code>-- table1 &#x5C31;&#x662F;train&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;df
+run table1 
+as EmptyTable.`` 
+-- where &#x5728;train&#x65B9;&#x6CD5;&#x91CC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;params&#x62FF;&#x5230;
+where ... 
+-- outputTable &#x5C31;&#x662F;train&#x7684;&#x8FD4;&#x56DE;&#x503C;
+as outputTable;
+</code></pre><p>&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x5B9E;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;&#x6CA1;&#x5565;&#x7528;&#x7684;ET&#x63D2;&#x4EF6;&#x4E86;&#x3002;&#x90A3;&#x4E48;&#x5982;&#x4F55;&#x6CE8;&#x518C;&#x5230;MLSQL&#x5F15;&#x64CE;&#x4E2D;&#x5462;&#xFF1F;&#x5982;&#x679C;&#x662F;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x8981;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x5230;<code>tech.mlsql.ets.register.ETRegister</code>&#x5373;&#x53EF;&#xFF1A;</p>
+<pre><code>register(&quot;EmptyTable&quot;, &quot;tech.mlsql.ets.EmptyTable&quot;)
+</code></pre><p>&#x73B0;&#x5728;&#xFF0C;&#x4F60;&#x542F;&#x52A8;IDE&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x4E86;&#x3002;</p>
+<h2 id="&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;"><a name="&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;" class="anchor-navigation-ex-anchor" href="#&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x72EC;&#x7ACB;&#x6210;&#x6A21;&#x5757;&#x4F5C;&#x4E3A;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x5E0C;&#x671B;&#x8FD9;&#x4E2A;&#x63D2;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x6A21;&#x5757;&#xFF0C;&#x5E76;&#x4E14;&#x5185;&#x7F6E;&#x5728;MLSQL&#x4E2D;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x9700;&#x8981;&#x5728;external&#x76EE;&#x5F55;&#x4E0B;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#xFF0C;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x975E;&#x5E38;&#x591A;&#x7684;&#x4F8B;&#x5B50;&#x4E86;&#x3002;</p>
+<p></p><div class="image-wrapper dev_guide-engine/plugin/et"><a href="http://docs.mlsql.tech/upload_images/5cb2719a-f5a9-46d9-88fc-09f297efdb7a.png" data-lightbox="33dd49ad-4b10-4263-8bf6-ea1ac17385aa" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/5cb2719a-f5a9-46d9-88fc-09f297efdb7a.png" alt=""></a></div><p></p>
+<p>&#x9664;&#x4E86;&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x4EE5;&#x5916;&#xFF0C;&#x4F60;&#x8FD8;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;<code>EmptyTableApp</code>&#x7684;&#x7C7B;&#xFF08;&#x7C7B;&#x540D;&#x968F;&#x4FBF;&#x53D6;&#xFF09;,&#x5185;&#x5BB9;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>package tech.mlsql.plugins.ets
+
+import tech.mlsql.dsl.CommandCollection
+import tech.mlsql.ets.register.ETRegister
+import tech.mlsql.version.VersionCompatibility
+
+/**
+ * 6/8/2020 WilliamZhu(allwefantasy@gmail.com)
+ */
+class EmptyTableApp extends tech.mlsql.app.App with VersionCompatibility {
+  override def run(args: Seq[String]): Unit = {
+    //&#x6CE8;&#x518C;ET&#x7EC4;&#x4EF6;
+    ETRegister.register(&quot;EmptyTable&quot;, classOf[EmptyTable].getName)   
+    }
+
+
+  override def supportedVersions: Seq[String] = Seq(&quot;1.5.0-SNAPSHOT&quot;, &quot;1.5.0&quot;, &quot;1.6.0-SNAPSHOT&quot;, &quot;1.6.0&quot;)
+}
+
+
+object EmptyTableApp {
+
+}
+</code></pre><p>&#x7136;&#x540E;&#x5728;<code>tech.mlsql.runtime.PluginHook</code> &#x6DFB;&#x52A0;&#x8BE5;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#xFF1A;</p>
+<pre><code class="lang-scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">PluginHook</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Logging</span> </span>{
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> apps = <span class="hljs-type">List</span>(
+    <span class="hljs-string">&quot;tech.mlsql.plugins.app.pythoncontroller.PythonApp&quot;</span>,
+    <span class="hljs-string">&quot;tech.mlsql.plugins.mlsql_watcher.MLSQLWatcher&quot;</span>,
+    <span class="hljs-string">&quot;tech.mlsql.plugins.sql.profiler.ProfilerApp&quot;</span>,
+    <span class="hljs-string">&quot;tech.mlsql.autosuggest.app.MLSQLAutoSuggestApp&quot;</span>,
+    <span class="hljs-string">&quot;tech.mlsql.plugins.ets.ETApp&quot;</span>,
+    <span class="hljs-string">&quot;tech.mlsql.plugins.healthy.App&quot;</span>,
+    <span class="hljs-string">&quot;tech.mlsql.plugins.ets.EmptyTableApp&quot;</span>
+  )
+</code></pre>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x8FD8;&#x9700;&#x8981;&#x5728;streamingpro-mlsql &#x6DFB;&#x52A0;&#x8BE5;&#x8BE5;&#x6A21;&#x5757;&#x4F9D;&#x8D56;&#x3002;&#x901A;&#x5E38;&#x6DFB;&#x52A0;&#x5728;profile/streamingpro-spark-2.4.0-adaptor &#x548C;profile/streamingpro-spark-3.0.0-adaptor &#x4E2D;&#x90FD;&#x8981;&#x6DFB;&#x52A0;&#x3002;&#x5982;&#x679C;&#x4F60;&#x8FD9;&#x4E2A;&#x6A21;&#x5757;&#x53EA;&#x517C;&#x5BB9;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#xFF0C;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x5373;&#x53EF;&#x3002;</p>
+<h2 id="&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;"><a name="&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;" class="anchor-navigation-ex-anchor" href="#&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;</h2>
+<p>&#x5982;&#x679C;&#x4F60;&#x60F3;&#x4F5C;&#x4E3A;&#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5355;&#x72EC;&#x6210;&#x4E00;&#x4E2A;&#x9879;&#x76EE;&#x5F00;&#x53D1;&#x548C;&#x7EF4;&#x62A4;&#xFF0C;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x9879;&#x76EE; :<a href="https://github.com/allwefantasy/mlsql-plugins" target="_blank">https://github.com/allwefantasy/mlsql-plugins</a></p>
+<p>&#x6A21;&#x5F0F;&#x548C;&#x5185;&#x7F6E;&#x63D2;&#x4EF6;&#x4E00;&#x6837;&#xFF0C;&#x7136;&#x540E;&#x6253;&#x6210;jar&#x5305;&#xFF0C;&#x4F7F;&#x7528;<a href="http://docs.mlsql.tech/mlsql-console/plugin/offline_install.html" target="_blank">&#x79BB;&#x7EBF;&#x5B89;&#x88C5;&#x7684;&#x65B9;&#x5F0F;&#x5B89;&#x88C5;</a></p>
+<p>MLSQL &#x5916;&#x7F6E;&#x63D2;&#x4EF6;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x5B89;&#x88C5;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x8981;&#x66F4;&#x65B0;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x542F;&#x670D;&#x52A1;&#x3002;</p>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright">  </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> <i>&#x8BE5;&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;</i> 2020-11-30 16:49:15 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ET_README.html" class="navigation navigation-prev " aria-label="Previous page: ET插件开发">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="et_command.html" class="navigation navigation-next " aria-label="Next page: 命令行开发">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"ET插件开发","level":"10.2.1","depth":2,"next":{"title":"命令行开发","level":"10.2.2","depth":2,"path":"dev_guide/engine/plugin/et_command.md","ref":"dev_guide/engine/plugin/et_command.md","articles":[]},"previous":{"title":"ET插件开发","level":"10.2","depth":1,"path":"dev_guide/engine/plugin/ET_README.md","ref":"dev_guide/engine/plugin/ET_README.md","articles":[{"title":"ET插件开发","level":"10.2.1","depth":2,"path":"dev_guide/engine/plugin/et.md","ref":"dev_guide/engine/plugin/et.md","articles":[]},{"title":"命令行开发","level":"10.2.2","depth":2,"path":"dev_guide/engine/plugin/et_command.md","ref":"dev_guide/engine/plugin/et_command.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"dev_guide/engine/plugin/et.md","mtime":"2020-11-30T08:49:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-04T08:40:20.272Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lightbox/js/lightbox.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

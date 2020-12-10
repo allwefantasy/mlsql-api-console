@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.28-log)
 # Database: mlsql_console
-# Generation Time: 2020-08-13 03:34:21 +0000
+# Generation Time: 2020-11-17 09:34:27 +0000
 # ************************************************************
 
 
@@ -205,6 +205,21 @@ CREATE TABLE `mlsql_group_role_auth` (
   PRIMARY KEY (`id`),
   KEY `mlsql_table_id` (`mlsql_table_id`),
   KEY `mlsql_group_role_id` (`mlsql_group_role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table mlsql_group_script_file
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_group_script_file`;
+
+CREATE TABLE `mlsql_group_script_file` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mlsql_group_id` int(11) DEFAULT NULL,
+  `script_file_id` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

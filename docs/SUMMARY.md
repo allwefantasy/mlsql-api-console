@@ -164,7 +164,8 @@
        * [脚本获取接口](developer/script_api.md)
        * [脚本执行代理接口](developer/script_run_api.md)
     * [MLSQL Engine Rest接口详解](api/README.md)
-       * [/run/script](api/run-script.md)
+       * [脚本执行接口](api/run-script.md)
+       * [代码提示接口](api/code_suggest.md)
     * [MLSQL Engine Liveness探针](resources/liveness.md)
     * [MLSQL Engine Readness探针](resources/readiness.md)
 
@@ -177,7 +178,20 @@
     * [排查错误，三个系统的日志你都要看](qa/debug_log.md)
     * [听说mlsql-cluster暂时不更新了，mlsql-cluster是个啥？](qa/mlsql_cluster.md)
     * [MLSQL K8s部署，镜像环境如何制作](qa/mlsql-docker-image.md)
+    * [写SQL如何避免拷贝黏贴](https://zhuanlan.zhihu.com/p/138405931)
+    * [如何将SQL封装成命令调用](https://zhuanlan.zhihu.com/p/138475580)
+    * [加载JDBC(如MySQL，Oracle)数据常见困惑](qa/load_jdbc.md)
 * [最佳实践]()
+
+## 开发者指南
+
+* [MLSQL Engine开发环境设置](dev_guide/engine/README.md)
+    * [Spark 2.4.3开发环境](dev_guide/engine/spark_2_4_3.md)
+    * [Spark 3.0.0开发环境](dev_guide/engine/spark_3_0_0.md)
+* [ET插件开发](dev_guide/engine/plugin/ET_README.md)
+    * [ET插件开发](dev_guide/engine/plugin/et.md)
+    * [命令行开发](dev_guide/engine/plugin/et_command.md)
+
 
 ## 附录
 
