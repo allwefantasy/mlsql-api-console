@@ -59,8 +59,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     }
   }
 
-  def execute(shouldOptimize: Boolean) = {
-
+  def getEngine = {
     val engineName = if (param("engineName") == "undefined" || !hasParam("engineName")) {
       UserService.getBackendName(user).getOrElse("")
     } else param("engineName")
@@ -68,11 +67,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     val engineConfigOpt = engines.filter(_.name == engineName).headOption
 
     val _proxyUrl = if (clusterUrl != null && !clusterUrl.isEmpty) clusterUrl else engineUrl
-    val _myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
-      s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
-    } else {
-      MLSQLConsoleCommandConfig.commandConfig.my_url
-    }
+    val _myUrl = RunScript.MY_URL
     val _home = s"${MLSQLConsoleCommandConfig.commandConfig.user_home}"
     val _skipAuth = if (!MLSQLConsoleCommandConfig.commandConfig.enable_auth_center) MlsqlEngine.SKIP_AUTH else MlsqlEngine.AUTH
 
@@ -82,8 +77,12 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
         0, "", _proxyUrl, _home, _myUrl, _myUrl, _myUrl, _skipAuth, "{}", ""
       ))
     }
+    engineConfig
+  }
 
-
+  def execute(shouldOptimize: Boolean) = {
+    
+    val engineConfig = getEngine
     val proxy = RestService.client(engineConfig.url)
     var newparams = params()
 
@@ -200,5 +199,13 @@ case class RunScriptResp(isSaveQuery: Boolean, isAsync: Boolean, startTime: Long
   def buildJob(user: MlsqlUser, status: Int, reason: String) = {
     val job = MlsqlJob(0, newparams("jobName"), sql, status, user.id, reason, System.currentTimeMillis(), -1, "[]")
     job
+  }
+}
+
+object RunScript {
+  val MY_URL = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
+    s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
+  } else {
+    MLSQLConsoleCommandConfig.commandConfig.my_url
   }
 }

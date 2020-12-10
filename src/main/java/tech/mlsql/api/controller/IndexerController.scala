@@ -20,9 +20,9 @@ class IndexerController extends ApplicationController with AuthModule with Rende
   def indexMySQL = {
     tokenAuth(false)
     val reqParams = params().asScala.toMap
-    require(reqParams.contains("dbName"),"Table should be selected")
-    require(reqParams.contains("idCols"),"idCols is required")
-    require(reqParams.contains("indexerType"),"indexerType is required")
+    require(reqParams.contains("dbName"), "Table should be selected")
+    require(reqParams.contains("idCols"), "idCols is required")
+    require(reqParams.contains("indexerType"), "indexerType is required")
 
     val indexer = new MySQLIndexer()
     val jobName = indexer.generate(user, reqParams)
@@ -35,5 +35,21 @@ class IndexerController extends ApplicationController with AuthModule with Rende
     tokenAuth(false)
     val temp = ctx.run(ctx.query[MlsqlIndexer].filter(_.mlsqlUserId == lift(user.id)))
     render(200, JSONTool.toJsonStr(temp))
+  }
+
+  @At(path = Array("api_v1/indexer/callback"), types = Array(Method.GET, Method.POST))
+  def callback = {
+    secretAuth
+    val eventName = param("eventName")
+    val jsonContentStr = param("jsonContent")
+    val jsonContent = JSONTool.jParseJsonObj(jsonContentStr)
+    val streamName = jsonContent.getString("name")
+    val id = jsonContent.getString("id")
+    ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(streamName)).update(
+      _.lastExecuteTime -> lift(System.currentTimeMillis()),
+      _.lastFailMsg -> lift(jsonContentStr),
+      _.lastJobId -> lift(id)
+    ))
+    render(200, "{}")
   }
 }

@@ -18,5 +18,6 @@ case class PartitionBean(
                           partitionColumn: String,
                           lowerBound: Long,
                           tableName: String,
-                          idCols:String
+                          idCols:String,
+                          engineName:String
                         )

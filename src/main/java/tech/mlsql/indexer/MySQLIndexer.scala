@@ -9,7 +9,7 @@ import tech.mlsql.api.controller.JDBCD
 import tech.mlsql.common.utils.distribute.socket.server.JavaUtils
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer, MlsqlJob, MlsqlUser}
-import tech.mlsql.service.RunScript
+import tech.mlsql.service.{RestService, RunScript}
 
 class MySQLIndexer {
 
@@ -33,13 +33,13 @@ class MySQLIndexer {
     }
 
     val runScript = new RunScript(user, params)
-
+    
     val resp = runScript.execute(false)
     // 在历史任务中生成一条记录
     runScript.buildFailRecord(resp, (msg) => {
       //失败提交失败的话 我们要在索引任务里做更新
-      val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_FAIL, lastFailMsg = msg)
-      ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+      ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+        _.lastFailMsg -> lift(msg)))
     })
     runScript.buildSuccessRecord(resp)
 
@@ -56,27 +56,36 @@ class MySQLIndexer {
           Thread.sleep(5 * 1000)
         }
         if (jobInfo.status != MlsqlJob.SUCCESS) {
-          val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_FAIL, lastFailMsg = jobInfo.reason)
-          ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+            _.lastFailMsg -> lift(jobInfo.reason)))
+
         } else {
           //启动一个流式任务
-          val runScript = new RunScript(user, Map(
+
+          var params = Map(
             "sql" -> incrementSyncScript,
             "owner" -> user.name,
             "async" -> "false",
-            "jobName" -> jobName))
+            "jobName" -> jobName)
 
+          val temp = new RunScript(user, params)
+          val newIncrementSyncScript = incrementSyncScript.
+            replaceAll("__CONSOLE_URL__",temp.getEngine.consoleUrl).
+            replaceAll("__AUTH_SECRET__",RestService.auth_secret)
+          params += ("sql" -> newIncrementSyncScript)
+
+          val runScript = new RunScript(user, params)
           val resp = runScript.execute(false)
           // 在历史任务中生成一条记录
           runScript.buildFailRecord(resp, (msg) => {
             //失败提交失败的话 我们要在索引任务里做更新
-            val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_FAIL, lastFailMsg = msg)
-            ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+            ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+              _.lastFailMsg -> lift(msg)))
           })
           runScript.buildSuccessRecord(resp)
           //任务正常运行的话，就可以更新任务状态了
-          val temp = job.copy(lastStatus = MlsqlIndexer.LAST_STATUS_SUCCESS, lastFailMsg = "")
-          ctx.run(ctx.query[MlsqlIndexer].update(lift(temp)))
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
+            _.lastFailMsg -> lift("")))
 
         }
       }
@@ -88,6 +97,7 @@ class MySQLIndexer {
 
 
   def generate(user: MlsqlUser, params: Map[String, String]): String = {
+    val uuid = UUID.randomUUID().toString
     val pb = PartitionBean(
       upperBound = params("upperBound").toLong,
       partitionNumValue = params("partitionNumValue").toLong,
@@ -96,7 +106,8 @@ class MySQLIndexer {
       tableName = params("tableName"),
       indexerType = params("indexerType"),
       idCols = params("idCols"),
-      partitionColumn = params("partitionColumn")
+      partitionColumn = params("partitionColumn"),
+      engineName = params("engineName")
     )
 
     val db: String = pb.dbName
@@ -112,10 +123,12 @@ class MySQLIndexer {
     //    val jdbcd = parseUrl(jdbcUrl).copy(name = db, driver = jdbcDriver, user = jdbcUser, password = jdbcPassword)
     val (min, max) = getTableMinMax(jdbcd, partitionColumn, tableName)
     val tempName = s"${db}_${tableName}"
-    val jobName = s"Build indexer for ${db}.${tableName}"
+    val jobName = s"${db}.${tableName}-${uuid}"
+    val connect = MlsqlDs.getConnect(db, user)
+
     val fullSyncScript =
       s"""
-         |
+         |${connect}
          |load jdbc.`${db}.${tableName}` where
          |driver="${jdbcd.driver}"
          |and partitionColumn = "${partitionColumn}"
@@ -150,6 +163,8 @@ class MySQLIndexer {
          |and binlogIndex="${binlogIndex}"
          |and binlogFileOffset="${position}"
          |as ${tempName};
+         |
+         |!callback post "__CONSOLE_URL__/api_v1/indexer/callback?auth_secret=__AUTH_SECRET__" when "started,progress,terminated";
          |
          |save append ${tempName}
          |as rate.`mysql_{db}.{tableName}`

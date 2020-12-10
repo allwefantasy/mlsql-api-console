@@ -14,6 +14,12 @@ trait AuthModule {
     JSONTool.toJsonStr(Map("msg" -> msg))
   }
 
+  def secretAuth = {
+    if (!hasParam("auth_secret") || param("auth_secret") != RestService.auth_secret) {
+      render(403, "forbidden(secret required)")
+    }
+  }
+
   def tokenAuth(ignoreToken: Boolean = false) = {
     restResponse.httpServletResponse().setHeader("Access-Control-Allow-Origin", "*")
     if (!ignoreToken) {
