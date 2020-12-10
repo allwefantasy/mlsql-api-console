@@ -183,8 +183,8 @@ class MySQLIndexer extends BaseIndexer {
       _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
       _.indexerConfig -> lift(JSONTool.toJsonStr(MysqlIndexerConfig(jobName, s"${pb.dbName}.${pb.tableName}", partitionColumn, partitionNum.toInt, syncInterval))),
       _.content -> lift(JSONTool.toJsonStr(List(jobName, fullSyncScript, incrementSyncScript))),
-      _.lastFailMsg -> "",
-      _.indexerType -> MlsqlIndexer.INDEXER_TYPE_MYSQL
+      _.lastFailMsg -> lift(""),
+      _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_MYSQL)
     ))
 
     return jobName

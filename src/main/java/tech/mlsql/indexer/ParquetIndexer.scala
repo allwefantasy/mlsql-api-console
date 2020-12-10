@@ -14,15 +14,16 @@ import tech.mlsql.service.RunScript
  */
 class ParquetIndexer extends BaseIndexer {
   override def run(user: MlsqlUser, jobName: String, _engineName: Option[String]): Unit = {
-    val indexerInfo = ctx.run(ctx.query[MlsqlIndexer]).filter(_.name == lift(jobName)).head
+    val indexerInfo = ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName))).head
     val config = JSONTool.parseJson[Map[String, String]](indexerInfo.indexerConfig)
-    val jobTimeout = JavaUtils.timeStringAsSec(config.getOrElse("jobTimeout", "8d"))
+    val timeout = JavaUtils.timeStringAsMs(config.getOrElse("timeout", "8h"))
 
     val params = Map(
       "sql" -> indexerInfo.content,
       "owner" -> user.name,
       "async" -> "true",
-      "jobName" -> jobName
+      "jobName" -> jobName,
+      "timeout" -> timeout.toString
     )
 
     val runScript = new RunScript(user, params)
@@ -41,18 +42,24 @@ class ParquetIndexer extends BaseIndexer {
       override def run(): Unit = {
         var jobInfo = ctx.run(query[MlsqlJob].filter(_.name == lift(jobName)).filter(_.mlsqlUserId == lift(user.id))).head
         var endTime = System.currentTimeMillis()
-        while (jobInfo.status == MlsqlJob.RUNNING && (endTime - startTime) < jobTimeout) {
+        while (jobInfo.status == MlsqlJob.RUNNING && (endTime - startTime) < timeout) {
           jobInfo = ctx.run(query[MlsqlJob].filter(_.name == lift(jobName)).filter(_.mlsqlUserId == lift(user.id))).head
           endTime = System.currentTimeMillis()
           Thread.sleep(5 * 1000)
         }
+        val currentTime = System.currentTimeMillis()
         if (jobInfo.status != MlsqlJob.SUCCESS) {
+
           ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(jobInfo.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
-            _.lastFailMsg -> lift(jobInfo.reason)))
+            _.lastFailMsg -> lift(jobInfo.reason), _.lastExecuteTime -> lift(currentTime)))
 
         } else {
-          ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(jobInfo.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
-            _.lastFailMsg -> ""))
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(jobInfo.id)).update(
+            _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
+            _.lastFailMsg -> "",
+            _.lastExecuteTime -> lift(currentTime)
+          )
+          )
         }
       }
     })
@@ -63,7 +70,7 @@ class ParquetIndexer extends BaseIndexer {
   def paramsToWhere(params: Map[String, String]): String = {
     if (params.size == 0) return ""
     " where " + params.map { case (k, v) =>
-      s"`${k}`" = s"''' ${v} '''"
+      s"`${k}`=''' ${v} '''"
     }.mkString(" and ")
   }
 
@@ -83,23 +90,25 @@ class ParquetIndexer extends BaseIndexer {
       (k.substring("load.".length), v)
     }.toMap
 
+    val whereStr = paramsToWhere(where)
+
     val content =
       s"""
-         |load ${format}.`${dbName}.${tableName}` ${paramsToWhere(where)} as ${tempTableName};
+         |load ${format}.`${dbName}.${tableName}` ${whereStr} as ${tempTableName};
          |save overwrite ${tempTableName} as delta.`${format}_${dbName}.${tableName}`;
          |""".stripMargin
-
+    val currentTime = System.currentTimeMillis()
     ctx.run(ctx.query[MlsqlIndexer].insert(
       _.name -> lift(jobName),
       _.syncInterval -> lift(MlsqlIndexer.REAL_TIME.toLong),
-      _.lastExecuteTime -> lift(System.currentTimeMillis()),
+      _.lastExecuteTime -> lift(currentTime),
       _.status -> lift(MlsqlIndexer.STATUS_NONE),
       _.mlsqlUserId -> lift(user.id),
       _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
       _.indexerConfig -> lift(JSONTool.toJsonStr(params)),
       _.content -> lift(content),
-      _.lastFailMsg -> "",
-      _.indexerType -> MlsqlIndexer.INDEXER_TYPE_OTHER
+      _.lastFailMsg -> lift(""),
+      _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_OTHER)
     ))
     jobName
   }
