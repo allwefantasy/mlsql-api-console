@@ -2,6 +2,7 @@ package tech.mlsql
 
 import net.csdn.ServiceFramwork
 import net.csdn.bootstrap.Application
+import tech.mlsql.indexer.IndexerScheduler
 import tech.mlsql.utils.ParamsUtil
 
 /**
@@ -16,6 +17,7 @@ object MLSQLConsole {
     val applicationYamlName = params.getParam("config", "application.yml")
     ServiceFramwork.applicaionYamlName(applicationYamlName)
     ServiceFramwork.scanService.setLoader(classOf[MLSQLConsoleCommandConfig])
+    IndexerScheduler.start
     Application.main(args)
 
   }

@@ -6,7 +6,7 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.indexer.MySQLIndexer
+import tech.mlsql.indexer.{MySQLIndexer, ParquetIndexer}
 import tech.mlsql.quill_model.MlsqlIndexer
 import tech.mlsql.utils.RenderHelper
 
@@ -27,7 +27,17 @@ class IndexerController extends ApplicationController with AuthModule with Rende
     val indexer = new MySQLIndexer()
     val jobName = indexer.generate(user, reqParams)
     indexer.run(user, jobName, reqParams.get("engineName"))
-    render(200, JSONTool.toJsonStr(Map("jobName" -> "jobName")))
+    render(200, JSONTool.toJsonStr(Map("jobName" -> jobName)))
+  }
+  
+  @At(path = Array("/api_v1/indexer/parquet/build"), types = Array(Method.GET, Method.POST))
+  def index = {
+    tokenAuth(false)
+    val reqParams = params().asScala.toMap
+    require(reqParams.contains("indexerType"), "indexerType is required")
+    val indexer = new ParquetIndexer()
+    val jobName = indexer.generate(user, reqParams)
+    render(200, JSONTool.toJsonStr(Map("jobName" -> jobName)))
   }
 
   @At(path = Array("/api_v1/indexer"), types = Array(Method.GET, Method.POST))

@@ -11,10 +11,9 @@ import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer, MlsqlJob, MlsqlUser}
 import tech.mlsql.service.{RestService, RunScript}
 
-class MySQLIndexer {
-
-
-  def run(user: MlsqlUser, jobName: String, engineName: Option[String]) = {
+class MySQLIndexer extends BaseIndexer {
+  
+  override def run(user: MlsqlUser, jobName: String, engineName: Option[String]) = {
     val uuid = UUID.randomUUID().toString
     ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(_.lastJobId -> lift(uuid)))
     val job = ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName))).head
@@ -33,12 +32,12 @@ class MySQLIndexer {
     }
 
     val runScript = new RunScript(user, params)
-    
+
     val resp = runScript.execute(false)
     // 在历史任务中生成一条记录
     runScript.buildFailRecord(resp, (msg) => {
       //失败提交失败的话 我们要在索引任务里做更新
-      ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+      ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
         _.lastFailMsg -> lift(msg)))
     })
     runScript.buildSuccessRecord(resp)
@@ -56,7 +55,7 @@ class MySQLIndexer {
           Thread.sleep(5 * 1000)
         }
         if (jobInfo.status != MlsqlJob.SUCCESS) {
-          ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
             _.lastFailMsg -> lift(jobInfo.reason)))
 
         } else {
@@ -70,8 +69,8 @@ class MySQLIndexer {
 
           val temp = new RunScript(user, params)
           val newIncrementSyncScript = incrementSyncScript.
-            replaceAll("__CONSOLE_URL__",temp.getEngine.consoleUrl).
-            replaceAll("__AUTH_SECRET__",RestService.auth_secret)
+            replaceAll("__CONSOLE_URL__", temp.getEngine.consoleUrl).
+            replaceAll("__AUTH_SECRET__", RestService.auth_secret)
           params += ("sql" -> newIncrementSyncScript)
 
           val runScript = new RunScript(user, params)
@@ -79,12 +78,12 @@ class MySQLIndexer {
           // 在历史任务中生成一条记录
           runScript.buildFailRecord(resp, (msg) => {
             //失败提交失败的话 我们要在索引任务里做更新
-            ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+            ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
               _.lastFailMsg -> lift(msg)))
           })
           runScript.buildSuccessRecord(resp)
           //任务正常运行的话，就可以更新任务状态了
-          ctx.run(ctx.query[MlsqlIndexer].filter(_.id==lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(job.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
             _.lastFailMsg -> lift("")))
 
         }
@@ -96,7 +95,7 @@ class MySQLIndexer {
   }
 
 
-  def generate(user: MlsqlUser, params: Map[String, String]): String = {
+  override def generate(user: MlsqlUser, params: Map[String, String]): String = {
     val uuid = UUID.randomUUID().toString
     val pb = PartitionBean(
       upperBound = params("upperBound").toLong,
@@ -184,7 +183,8 @@ class MySQLIndexer {
       _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
       _.indexerConfig -> lift(JSONTool.toJsonStr(MysqlIndexerConfig(jobName, s"${pb.dbName}.${pb.tableName}", partitionColumn, partitionNum.toInt, syncInterval))),
       _.content -> lift(JSONTool.toJsonStr(List(jobName, fullSyncScript, incrementSyncScript))),
-      _.lastFailMsg -> ""
+      _.lastFailMsg -> "",
+      _.indexerType -> MlsqlIndexer.INDEXER_TYPE_MYSQL
     ))
 
     return jobName

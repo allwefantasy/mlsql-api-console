@@ -196,12 +196,13 @@ case class MlsqlIndexer(id: Int,
                         mlsqlUserId: Int,
                         status: Int,
                         lastStatus: Int,
-                        lastFailMsg:String,
+                        lastFailMsg: String,
                         lastExecuteTime: Long,
                         syncInterval: Long,
                         content: String,
-                        indexerConfig:String,
-                        lastJobId:String
+                        indexerConfig: String,
+                        lastJobId: String,
+                        indexerType: String
                        ) {
   def isRealTime = syncInterval == -1
 
@@ -218,7 +219,12 @@ object MlsqlIndexer {
   val LAST_STATUS_FAIL = 1
 
   val REAL_TIME = -1
-  val ONE_TIME= 0
+  val ONE_TIME = 0
+
+  val INDEXER_TYPE_MYSQL = "mysql"
+  val INDEXER_TYPE_OTHER = "other"
+  val INDEXER_TYPE_CUBE = "cube"
+  val INDEXER_TYPE_MV = "mv"
 }
 
 object AppKv {

@@ -1,5 +1,6 @@
 package tech.mlsql.indexer
 
+//format
 case class MysqlIndexerConfig(
                                name: String,
                                from: String,
@@ -18,6 +19,8 @@ case class PartitionBean(
                           partitionColumn: String,
                           lowerBound: Long,
                           tableName: String,
-                          idCols:String,
-                          engineName:String
+                          idCols: String,
+                          engineName: String
                         )
+
+case class HiveIndexerConfig(from: String)
