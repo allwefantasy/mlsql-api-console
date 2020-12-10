@@ -6,6 +6,7 @@ import net.csdn.annotation.rest.At
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
+import tech.mlsql.indexer.IndexerUtils
 import tech.mlsql.quill_model.MlsqlDs
 import tech.mlsql.utils.RenderHelper
 
@@ -109,26 +110,27 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
           e.printStackTrace()
           render(500, e.getMessage)
       }
-      (min,max)
+      (min, max)
     }
 
     val columnInfo = MlsqlDs.list(user).filter(_.format == "jdbc").map(item => {
       JSONTool.parseJson[JDBCD](item.params)
-    }).filter(_.jType == "mysql").filter(_.name==dbName).map(db => {
+    }).filter(_.jType == "mysql").filter(_.name == dbName).map(db => {
       showTables(db)
     }).head
 
-    render(200,JSONTool.toJsonStr(Map("min"->columnInfo._1,"max"-> columnInfo._2)))
+    render(200, JSONTool.toJsonStr(Map("min" -> columnInfo._1, "max" -> columnInfo._2)))
 
   }
 
   @At(path = Array("/api_v1/ds/mysql/dbs"), types = Array(Method.POST, Method.GET))
   def getDBs = {
     tokenAuth()
+    val indexers = IndexerUtils.allIndexers
 
     def showTables(db: JDBCD) = {
       var conn: Connection = null
-      val tables = ArrayBuffer[String]()
+      val tables = ArrayBuffer[DSTable]()
       try {
         Class.forName(db.driver)
         conn = DriverManager.getConnection(db.url, db.user, db.password)
@@ -137,7 +139,14 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
         val tablesRs = statement.executeQuery()
 
         while (tablesRs.next()) {
-          tables += tablesRs.getString(1)
+          val tableName = tablesRs.getString(1)
+          val key = s"${db.name}.${tableName}"
+          if (indexers.contains(key)) {
+            tables += DSTable(tableName, Map("indexer" -> indexers(key).name))
+          }else {
+            tables += DSTable(tableName, Map())
+          }
+
         }
         tablesRs.close()
         statement.close()
@@ -169,7 +178,9 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
   }
 }
 
-case class DSDB(name: String, db: String, tables: List[String])
+case class DSDB(name: String, db: String, tables: List[DSTable])
+
+case class DSTable(name: String, options: Map[String, String])
 
 case class JDBCD(jType: String,
                  name: String,

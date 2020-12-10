@@ -6,7 +6,7 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.indexer.{MySQLIndexer, MysqlIndexerConfig, ParquetIndexer}
+import tech.mlsql.indexer.{IndexerUtils, MySQLIndexer, MysqlIndexerConfig, ParquetIndexer}
 import tech.mlsql.quill_model.MlsqlIndexer
 import tech.mlsql.utils.RenderHelper
 
@@ -18,10 +18,7 @@ import scala.collection.JavaConverters._
 class IndexerController extends ApplicationController with AuthModule with RenderHelper {
 
   private def getIndexMapper = {
-    ctx.run(ctx.query[MlsqlIndexer].filter(_.mlsqlUserId == lift(user.id)).filter(_.lastStatus == lift(MlsqlIndexer.LAST_STATUS_SUCCESS))).map { item =>
-      val config = JSONTool.parseJson[MysqlIndexerConfig](item.indexerConfig)
-      (config.from, item)
-    }.toMap
+    IndexerUtils.allIndexers
   }
 
   private def isIndexerExists(name: String) = {

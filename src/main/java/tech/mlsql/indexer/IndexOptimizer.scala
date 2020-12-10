@@ -27,7 +27,7 @@ class IndexOptimizer extends Logging{
       case e: Exception =>
         return sql
     }
-    val indexers = ctx.run(ctx.query[MlsqlIndexer].filter(_.mlsqlUserId == lift(user.id)).filter(_.lastStatus == lift(MlsqlIndexer.LAST_STATUS_SUCCESS))).map { item =>
+    val indexers = IndexerUtils.allIndexers.values.map { item =>
       val config = JSONTool.parseJson[MysqlIndexerConfig](item.indexerConfig)
       (config.from, item)
     }.toMap
