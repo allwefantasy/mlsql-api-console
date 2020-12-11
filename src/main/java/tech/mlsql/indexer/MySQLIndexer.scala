@@ -12,7 +12,7 @@ import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer, MlsqlJob, MlsqlUser}
 import tech.mlsql.service.{RestService, RunScript}
 
 class MySQLIndexer extends BaseIndexer {
-  
+
   override def run(user: MlsqlUser, jobName: String, engineName: Option[String]) = {
     val uuid = UUID.randomUUID().toString
     ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(_.lastJobId -> lift(uuid)))
@@ -181,7 +181,13 @@ class MySQLIndexer extends BaseIndexer {
       _.status -> lift(MlsqlIndexer.STATUS_NONE),
       _.mlsqlUserId -> lift(user.id),
       _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
-      _.indexerConfig -> lift(JSONTool.toJsonStr(MysqlIndexerConfig(jobName, s"${pb.dbName}.${pb.tableName}", partitionColumn, partitionNum.toInt, syncInterval))),
+      _.indexerConfig -> lift(JSONTool.toJsonStr(MysqlIndexerConfig(
+        jobName,
+        s"${pb.dbName}.${pb.tableName}",
+        partitionColumn,
+        partitionNum.toString,
+        syncInterval.toString,
+        pb.engineName))),
       _.content -> lift(JSONTool.toJsonStr(List(jobName, fullSyncScript, incrementSyncScript))),
       _.lastFailMsg -> lift(""),
       _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_MYSQL)

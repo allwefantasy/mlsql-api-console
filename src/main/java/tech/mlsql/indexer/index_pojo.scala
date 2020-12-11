@@ -5,8 +5,9 @@ case class MysqlIndexerConfig(
                                name: String,
                                from: String,
                                partitionColumn: String,
-                               partitionNum: Int,
-                               syncInterval: Long
+                               partitionNum: String,
+                               syncInterval: String,
+                               engineName:String
                              )
 
 case class LoadStatement(raw: String, format: String, path: String, option: Map[String, String] = Map[String, String](), tableName: String)
