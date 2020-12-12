@@ -1,14 +1,11 @@
 package tech.mlsql.api.controller
 
-import java.sql.{Connection, DriverManager}
-
 import net.csdn.annotation.rest.At
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.indexer.{DBInfoUtils, IndexerUtils}
 import tech.mlsql.quill_model.MlsqlDs
-import tech.mlsql.service.RunScript
 import tech.mlsql.utils.RenderHelper
 
 import scala.collection.JavaConverters._
@@ -34,14 +31,10 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
         newParams += ("driver" -> driver)
 
         def testConnection = {
-          try {
-            Class.forName(driver)
-            DriverManager.getConnection(url, param("user"), param("password"))
-          } catch {
-            case e: Exception =>
-              render(500, e.getMessage)
+          val (success,msg) = DBInfoUtils.testConnection(user, url, driver, param("user"), param("password"))
+          if (!success) {
+            render(500, msg)
           }
-
         }
 
         testConnection
@@ -78,7 +71,7 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
     val columnName = param("columnName")
     val dbName = param("dbName")
     val tableName = param("tableName")
-    val columnInfo = DBInfoUtils.getMinMax(user,dbName,tableName,columnName)
+    val columnInfo = DBInfoUtils.getMinMax(user, dbName, tableName, columnName)
 
     render(200, JSONTool.toJsonStr(Map("min" -> columnInfo._1, "max" -> columnInfo._2)))
 
@@ -91,14 +84,15 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
 
     def showTables(db: JDBCD) = {
       val tables = ArrayBuffer[DSTable]()
-      DBInfoUtils.getTables(user,db.name).foreach{tableName=>{
+      DBInfoUtils.getTables(user, db.name).foreach { tableName => {
         val key = s"${db.name}.${tableName}"
         if (indexers.contains(key)) {
           tables += DSTable(tableName, Map("indexer" -> indexers(key).name))
         } else {
           tables += DSTable(tableName, Map())
         }
-      }}
+      }
+      }
 
       tables
     }

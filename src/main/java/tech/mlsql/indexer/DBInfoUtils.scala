@@ -1,5 +1,7 @@
 package tech.mlsql.indexer
 
+import java.util.UUID
+
 import net.sf.json.JSONObject
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlUser}
@@ -34,6 +36,33 @@ object DBInfoUtils {
     val min = data.getLong("min")
     val max = data.getLong("max")
     (min, max)
+  }
+
+  def testConnection(user:MlsqlUser,url:String,driver:String,userName:String,password:String) = {
+    val uuid = UUID.randomUUID().toString.replaceAll("-","")
+    val connect = s"""
+       |connect jdbc where
+       | url="${url}"
+       | and driver="${driver}"
+       | and user="${userName}"
+       | and password="${password}"
+       | as ${uuid};
+       |""".stripMargin
+
+    val executor = new RunScript(user, Map(
+      "sql" ->
+        s"""
+           |$connect
+           |run command as JDBC.`${uuid}._` where
+           |`driver-statement-query`="show tables"
+           |and sqlMode="query"
+           |as ${uuid}_show_tables;
+           |""".stripMargin,
+      "includeSchema" -> "true",
+      "owner"->"__system__"
+    ))
+    val resp = executor.execute(false)
+    (resp.response.getStatus==200,resp.response.getContent)
   }
 
   def getTables(user: MlsqlUser, dbName: String) = {
