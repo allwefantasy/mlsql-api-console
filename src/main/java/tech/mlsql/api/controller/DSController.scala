@@ -6,8 +6,9 @@ import net.csdn.annotation.rest.At
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.indexer.IndexerUtils
+import tech.mlsql.indexer.{DBInfoUtils, IndexerUtils}
 import tech.mlsql.quill_model.MlsqlDs
+import tech.mlsql.service.RunScript
 import tech.mlsql.utils.RenderHelper
 
 import scala.collection.JavaConverters._
@@ -77,47 +78,7 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
     val columnName = param("columnName")
     val dbName = param("dbName")
     val tableName = param("tableName")
-
-    def showTables(db: JDBCD) = {
-      var conn: Connection = null
-      var min = 0L
-      var max = 0L
-      try {
-        Class.forName(db.driver)
-        conn = DriverManager.getConnection(db.url, db.user, db.password)
-
-        val statement = conn.prepareStatement(s"select max(`${columnName}`) as max,min(`${columnName}`) as min from `${tableName}`")
-        val tablesRs = statement.executeQuery()
-
-        while (tablesRs.next()) {
-          max = tablesRs.getLong(1)
-          min = tablesRs.getLong(2)
-        }
-        tablesRs.close()
-        statement.close()
-        conn.close()
-
-      } catch {
-        case e: Exception =>
-          try {
-            if (conn != null) {
-              conn.close()
-            }
-          } catch {
-            case e: Exception =>
-          }
-          //connectTimeout=5000&socketTimeout=30000
-          e.printStackTrace()
-          render(500, e.getMessage)
-      }
-      (min, max)
-    }
-
-    val columnInfo = MlsqlDs.list(user).filter(_.format == "jdbc").map(item => {
-      JSONTool.parseJson[JDBCD](item.params)
-    }).filter(_.jType == "mysql").filter(_.name == dbName).map(db => {
-      showTables(db)
-    }).head
+    val columnInfo = DBInfoUtils.getMinMax(user,dbName,tableName,columnName)
 
     render(200, JSONTool.toJsonStr(Map("min" -> columnInfo._1, "max" -> columnInfo._2)))
 
@@ -129,42 +90,16 @@ class DSController extends ApplicationController with AuthModule with RenderHelp
     val indexers = IndexerUtils.allIndexers
 
     def showTables(db: JDBCD) = {
-      var conn: Connection = null
       val tables = ArrayBuffer[DSTable]()
-      try {
-        Class.forName(db.driver)
-        conn = DriverManager.getConnection(db.url, db.user, db.password)
-
-        val statement = conn.prepareStatement("show tables")
-        val tablesRs = statement.executeQuery()
-
-        while (tablesRs.next()) {
-          val tableName = tablesRs.getString(1)
-          val key = s"${db.name}.${tableName}"
-          if (indexers.contains(key)) {
-            tables += DSTable(tableName, Map("indexer" -> indexers(key).name))
-          }else {
-            tables += DSTable(tableName, Map())
-          }
-
+      DBInfoUtils.getTables(user,db.name).foreach{tableName=>{
+        val key = s"${db.name}.${tableName}"
+        if (indexers.contains(key)) {
+          tables += DSTable(tableName, Map("indexer" -> indexers(key).name))
+        } else {
+          tables += DSTable(tableName, Map())
         }
-        tablesRs.close()
-        statement.close()
-        conn.close()
+      }}
 
-      } catch {
-        case e: Exception =>
-          try {
-            if (conn != null) {
-              conn.close()
-            }
-          } catch {
-            case e: Exception =>
-          }
-          //connectTimeout=5000&socketTimeout=30000
-          e.printStackTrace()
-          render(500, e.getMessage)
-      }
       tables
     }
 

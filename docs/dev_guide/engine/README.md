@@ -1,5 +1,9 @@
 # MLSQL Engine开发环境设置
 
+![](http://docs.mlsql.tech/upload_images/903a4473-d7e0-4461-b0fc-bd89581609b7.png)
+
+![](http://docs.mlsql.tech/upload_images/b0ca2c5e-063a-40ad-b2ab-a66c2fce8b3e.png)
+
 
 
 MLSQL主要使用Java/Scala开发，所以我们推荐使用Idea IntelliJ 社区版进行开发。
