@@ -52,13 +52,13 @@ class IndexOptimizer extends Logging {
               prefix = "mysql"
             }
 
-//            if (indexer.get.syncInterval != MlsqlIndexer.REAL_TIME) {
-//              prefix = "jdbc"
-//            }
+            //            if (indexer.get.syncInterval != MlsqlIndexer.REAL_TIME) {
+            //              prefix = "jdbc"
+            //            }
 
             rewriteRaw =
               s"""
-                 |load delta.`${prefix}_${cleanPath}` ${where} as ${loadStm.tableName};
+                 |load delta.`_mlsql_indexer_.${prefix}_${cleanPath.replace(".", "_")}` ${where} as ${loadStm.tableName};
                  |""".stripMargin
             logInfo(
               s"""

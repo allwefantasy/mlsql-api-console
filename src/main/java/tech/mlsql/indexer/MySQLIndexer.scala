@@ -141,7 +141,7 @@ class MySQLIndexer extends BaseIndexer {
          |and partitionCols="${partitionColumn}"
          |as ${tempName}_1;
          |
-         |save overwrite ${tempName}_1 as delta.`mysql_${db}.${tableName}` ;
+         |save overwrite ${tempName}_1 as delta.`_mlsql_indexer_.mysql_${db}_${tableName}` ;
          |""".stripMargin
 
     val (file, position) = DBInfoUtils.getBinlogInfo(user,jdbcd)
@@ -165,7 +165,7 @@ class MySQLIndexer extends BaseIndexer {
          |!callback post "__CONSOLE_URL__/api_v1/indexer/callback?auth_secret=__AUTH_SECRET__" when "started,progress,terminated";
          |
          |save append ${tempName}
-         |as rate.`mysql_{db}.{table}`
+         |as rate.`_mlsql_indexer_.mysql_{db}_{table}`
          |options mode="Append"
          |and idCols="${pb.idCols}"
          |and duration="${syncInterval}"

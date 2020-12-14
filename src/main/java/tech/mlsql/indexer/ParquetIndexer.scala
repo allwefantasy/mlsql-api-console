@@ -128,7 +128,7 @@ class ParquetIndexer extends BaseIndexer {
       s"""
          |${connect}
          |load ${format}.`${dbName}.${tableName}` ${whereStr} as ${tempTableName};
-         |save overwrite ${tempTableName} as delta.`${format}_${dbName}.${tableName}`;
+         |save overwrite ${tempTableName} as delta.`_mlsql_indexer_.${format}_${dbName}_${tableName}`;
          |""".stripMargin
     val currentTime = System.currentTimeMillis()
     ctx.run(ctx.query[MlsqlIndexer].insert(
