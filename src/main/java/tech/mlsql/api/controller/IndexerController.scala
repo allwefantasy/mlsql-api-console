@@ -8,8 +8,8 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.indexer.{IndexerUtils, MySQLIndexer, ParquetIndexer}
-import tech.mlsql.quill_model.MlsqlIndexer
+import tech.mlsql.indexer.{DBInfoUtils, IndexerUtils, MySQLIndexer, ParquetIndexer}
+import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer}
 import tech.mlsql.service.RunScript
 import tech.mlsql.utils.RenderHelper
 
@@ -29,6 +29,19 @@ class IndexerController extends ApplicationController with AuthModule with Rende
     indexers.contains(name)
   }
 
+  def isBinlogSupport = {
+    // 是否支持binlog
+    val jdbcd = MlsqlDs.get(user, param("dbName"), "jdbc").map(item => {
+      JSONTool.parseJson[JDBCD](item.params)
+    }).head
+    try {
+      DBInfoUtils.getBinlogInfo(user, jdbcd)
+    } catch {
+      case e: Exception =>
+        render(400, s"${jdbcd.name} 没有开启binlog支持")
+    }
+  }
+
   @At(path = Array("/api_v1/indexer/mysql/build"), types = Array(Method.GET, Method.POST))
   def indexMySQL = {
     tokenAuth(false)
@@ -43,6 +56,7 @@ class IndexerController extends ApplicationController with AuthModule with Rende
     val jobName = reqParams("indexerType") match {
       case "mysql" =>
         require(reqParams.contains("idCols"), "idCols is required")
+        isBinlogSupport
         val indexer = new MySQLIndexer()
         val jobName = indexer.generate(user, reqParams)
         indexer.run(user, jobName, reqParams.get("engineName"))
