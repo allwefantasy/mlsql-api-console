@@ -6,7 +6,7 @@ import net.csdn.jpa.QuillDB.ctx
 import net.csdn.jpa.QuillDB.ctx._
 import tech.mlsql.common.utils.distribute.socket.server.JavaUtils
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.quill_model.{MlsqlIndexer, MlsqlJob, MlsqlUser}
+import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer, MlsqlJob, MlsqlUser}
 import tech.mlsql.service.RunScript
 
 /**
@@ -50,11 +50,11 @@ class ParquetIndexer extends BaseIndexer {
         val currentTime = System.currentTimeMillis()
         if (jobInfo.status != MlsqlJob.SUCCESS) {
 
-          ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(jobInfo.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
             _.lastFailMsg -> lift(jobInfo.reason), _.lastExecuteTime -> lift(currentTime)))
 
         } else {
-          ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(jobInfo.id)).update(
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(
             _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
             _.lastFailMsg -> "",
             _.lastExecuteTime -> lift(currentTime)
@@ -70,7 +70,7 @@ class ParquetIndexer extends BaseIndexer {
   def paramsToWhere(params: Map[String, String]): String = {
     if (params.size == 0) return ""
     " where " + params.map { case (k, v) =>
-      s"`${k}`=''' ${v} '''"
+      s"`${k}`='''${v}'''"
     }.mkString(" and ")
   }
 
@@ -81,10 +81,29 @@ class ParquetIndexer extends BaseIndexer {
     val uuid = UUID.randomUUID().toString
     val jobName = s"${dbName}.${tableName}-${uuid}"
 
+    val syncIntervalStr = params("syncInterval")
+    val syncInterval = JavaUtils.timeStringAsMs(syncIntervalStr)
+
     //生成脚本
     val format = params("format")
+    var newparam = params
+    var connect =""
+
+    if (format == "jdbc" && params.get("partitionColumn").isDefined) {
+      newparam = newparam ++ Map(
+        "load.upperBound" -> params("upperBound"),
+        "load.partitionColumn" -> params("partitionColumn"),
+        "load.numPartitions" -> params("partitionNumValue"),
+        "load.lowerBound" -> params("lowerBound")
+      )
+    }
+
+    if(format == "jdbc"){
+      connect = MlsqlDs.getConnect(dbName, user)
+    }
+
     val tempTableName = uuid.replaceAll("-", "")
-    val where = params.filter { case (k, v) =>
+    val where = newparam.filter { case (k, v) =>
       k.startsWith("load.")
     }.map { case (k, v) =>
       (k.substring("load.".length), v)
@@ -94,18 +113,19 @@ class ParquetIndexer extends BaseIndexer {
 
     val content =
       s"""
+         |${connect}
          |load ${format}.`${dbName}.${tableName}` ${whereStr} as ${tempTableName};
          |save overwrite ${tempTableName} as delta.`${format}_${dbName}.${tableName}`;
          |""".stripMargin
     val currentTime = System.currentTimeMillis()
     ctx.run(ctx.query[MlsqlIndexer].insert(
       _.name -> lift(jobName),
-      _.syncInterval -> lift(MlsqlIndexer.REAL_TIME.toLong),
+      _.syncInterval -> lift(syncInterval),
       _.lastExecuteTime -> lift(currentTime),
       _.status -> lift(MlsqlIndexer.STATUS_NONE),
       _.mlsqlUserId -> lift(user.id),
       _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
-      _.indexerConfig -> lift(JSONTool.toJsonStr(params)),
+      _.indexerConfig -> lift(JSONTool.toJsonStr(newparam+("from"->s"${dbName}.${tableName}"))),
       _.content -> lift(content),
       _.lastFailMsg -> lift(""),
       _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_OTHER)

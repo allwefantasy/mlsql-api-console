@@ -1,8 +1,10 @@
 package tech.mlsql.indexer
 
+import java.sql.{Connection, DriverManager}
 import java.util.UUID
 
 import net.sf.json.JSONObject
+import tech.mlsql.api.controller.JDBCD
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlUser}
 import tech.mlsql.service.RunScript
@@ -36,6 +38,31 @@ object DBInfoUtils {
     val min = data.getLong("min")
     val max = data.getLong("max")
     (min, max)
+  }
+
+  def getBinlogInfo(user:MlsqlUser,db: JDBCD) = {
+
+    val connect = MlsqlDs.getConnect(db.name, user)
+
+    val executor = new RunScript(user, Map(
+      "sql" ->
+        s"""
+           |
+           |${connect}
+           |run command as JDBC.`mlsql_console._` where
+           |`driver-statement-query`="show master status"
+           |and sqlMode="query"
+           |as binlog_${db.name};
+           |
+           |""".stripMargin,
+      "includeSchema" -> "true",
+      "owner"->"__system__"
+    ))
+    val resp = executor.execute(false)
+    val data = JSONTool.jParseJsonObj(resp.response.getContent).getJSONArray("data").getJSONObject(0)
+    val file = data.getString("File")
+    val position = data.getLong("Position")
+    (file, position)
   }
 
   def testConnection(user:MlsqlUser,url:String,driver:String,userName:String,password:String) = {

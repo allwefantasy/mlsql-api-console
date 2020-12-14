@@ -34,7 +34,6 @@ class IndexerController extends ApplicationController with AuthModule with Rende
     tokenAuth(false)
     val reqParams = params().asScala.toMap
     require(reqParams.contains("dbName"), "Table should be selected")
-    require(reqParams.contains("idCols"), "idCols is required")
     require(reqParams.contains("indexerType"), "indexerType is required")
 
     if (isIndexerExists(s"${reqParams("dbName")}.${reqParams("tableName")}")) {
@@ -43,12 +42,13 @@ class IndexerController extends ApplicationController with AuthModule with Rende
 
     val jobName = reqParams("indexerType") match {
       case "mysql" =>
+        require(reqParams.contains("idCols"), "idCols is required")
         val indexer = new MySQLIndexer()
         val jobName = indexer.generate(user, reqParams)
         indexer.run(user, jobName, reqParams.get("engineName"))
         jobName
       case "parquet" =>
-        val reqParams = params().asScala.toMap
+        val reqParams = params().asScala.toMap ++ Map("format" -> "jdbc")
         require(reqParams.contains("indexerType"), "indexerType is required")
         val indexer = new ParquetIndexer()
         val jobName = indexer.generate(user, reqParams)

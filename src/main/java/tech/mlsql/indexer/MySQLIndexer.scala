@@ -1,6 +1,5 @@
 package tech.mlsql.indexer
 
-import java.sql.{Connection, DriverManager}
 import java.util.UUID
 
 import net.csdn.jpa.QuillDB.ctx
@@ -120,7 +119,7 @@ class MySQLIndexer extends BaseIndexer {
     }).head
 
     //    val jdbcd = parseUrl(jdbcUrl).copy(name = db, driver = jdbcDriver, user = jdbcUser, password = jdbcPassword)
-    val (min, max) = getTableMinMax(jdbcd, partitionColumn, tableName)
+    val (min, max) = DBInfoUtils.getMinMax(user, db, tableName, partitionColumn)
     val tempName = s"${db}_${tableName}"
     val jobName = s"${db}.${tableName}-${uuid}"
     val connect = MlsqlDs.getConnect(db, user)
@@ -145,7 +144,7 @@ class MySQLIndexer extends BaseIndexer {
          |save overwrite ${tempName}_1 as delta.`mysql_${db}.${tableName}` ;
          |""".stripMargin
 
-    val (file, position) = getBinlogInfo(jdbcd)
+    val (file, position) = DBInfoUtils.getBinlogInfo(user,jdbcd)
     val Array(prefix, binlogIndex) = file.split("\\.")
     val incrementSyncScript =
       s"""
@@ -196,71 +195,5 @@ class MySQLIndexer extends BaseIndexer {
     return jobName
   }
 
-  private def getTableMinMax(db: JDBCD, columnName: String, tableName: String) = {
-    var conn: Connection = null
-    var min = 0L
-    var max = 0L
-    try {
-      Class.forName(db.driver)
-      conn = DriverManager.getConnection(db.url, db.user, db.password)
 
-      val statement = conn.prepareStatement(s"select max(`${columnName}`) as max,min(`${columnName}`) as min from `${tableName}`")
-      val tablesRs = statement.executeQuery()
-
-      while (tablesRs.next()) {
-        max = tablesRs.getLong(1)
-        min = tablesRs.getLong(2)
-      }
-      tablesRs.close()
-      statement.close()
-      conn.close()
-
-    } catch {
-      case e: Exception =>
-        try {
-          if (conn != null) {
-            conn.close()
-          }
-        } catch {
-          case e: Exception =>
-        }
-        //connectTimeout=5000&socketTimeout=30000
-        e.printStackTrace()
-    }
-    (min, max)
-  }
-
-  private def getBinlogInfo(db: JDBCD) = {
-    var conn: Connection = null
-    var file: String = ""
-    var position: Long = 0L
-    try {
-      Class.forName(db.driver)
-      conn = DriverManager.getConnection(db.url, db.user, db.password)
-
-      val statement = conn.prepareStatement(s"show master status")
-      val tablesRs = statement.executeQuery()
-
-      while (tablesRs.next()) {
-        file = tablesRs.getString(1)
-        position = tablesRs.getLong(2)
-      }
-      tablesRs.close()
-      statement.close()
-      conn.close()
-
-    } catch {
-      case e: Exception =>
-        try {
-          if (conn != null) {
-            conn.close()
-          }
-        } catch {
-          case e: Exception =>
-        }
-        //connectTimeout=5000&socketTimeout=30000
-        e.printStackTrace()
-    }
-    (file, position)
-  }
 }

@@ -1,7 +1,5 @@
 package tech.mlsql.indexer
 
-import net.csdn.jpa.QuillDB.ctx
-import net.csdn.jpa.QuillDB.ctx._
 import net.sf.json.{JSONArray, JSONObject}
 import tech.mlsql.common.utils.log.Logging
 import tech.mlsql.common.utils.serder.json.JSONTool
@@ -13,7 +11,7 @@ import scala.collection.JavaConverters._
 /**
  * 8/12/2020 WilliamZhu(allwefantasy@gmail.com)
  */
-class IndexOptimizer extends Logging{
+class IndexOptimizer extends Logging {
   def optimize(user: MlsqlUser, sql: String): String = {
     val runner = new RunScript(user, Map(
       "sql" -> sql,
@@ -33,7 +31,7 @@ class IndexOptimizer extends Logging{
     }.toMap
 
     val items = statements.asScala.map(item => item.asInstanceOf[JSONObject]).map { item =>
-      val raw = item.getString("raw")+";"
+      val raw = item.getString("raw") + ";"
       var rewriteRaw = raw
       if (raw.trim.toLowerCase.startsWith("load")) {
         val loadStm = JSONTool.parseJson[LoadStatement](item.toString())
@@ -48,9 +46,19 @@ class IndexOptimizer extends Logging{
                 s"${kv._1} = '''${kv._2}'''"
               }.mkString(" and ")
             }
+
+            var prefix = "jdbc"
+            if (indexer.get.syncInterval == MlsqlIndexer.REAL_TIME) {
+              prefix = "mysql"
+            }
+
+//            if (indexer.get.syncInterval != MlsqlIndexer.REAL_TIME) {
+//              prefix = "jdbc"
+//            }
+
             rewriteRaw =
               s"""
-                 |load delta.`mysql_${cleanPath}` ${where} as ${loadStm.tableName};
+                 |load delta.`${prefix}_${cleanPath}` ${where} as ${loadStm.tableName};
                  |""".stripMargin
             logInfo(
               s"""
@@ -68,6 +76,7 @@ class IndexOptimizer extends Logging{
     }
     items.mkString("\n")
   }
+
   def cleanStr(str: String) = {
     if (str.startsWith("`") || str.startsWith("\"") || (str.startsWith("'") && !str.startsWith("'''")))
       str.substring(1, str.length - 1)
