@@ -38,7 +38,7 @@ class ParquetIndexer extends BaseIndexer {
     val resp = runScript.execute(false)
     // 在历史任务中生成一条记录
     runScript.buildFailRecord(resp, (msg) => {
-      //失败提交失败的话 我们要在索引任务里做更新
+      //任务提交失败的话 我们要在索引任务里做更新
       ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(indexerInfo.id)).update(
         _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
         _.status -> lift(MlsqlIndexer.STATUS_NONE),
