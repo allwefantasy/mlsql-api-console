@@ -16,6 +16,7 @@
         <serviceframework.version>2.0.6</serviceframework.version>
         <mlsql.version>1.5.0</mlsql.version>
         <common-utils-version>0.3.4</common-utils-version>
+        <mysql-connector.version>5.1.46</mysql-connector.version>
     </properties>
 
     <profiles>
@@ -99,6 +100,12 @@
             <groupId>net.liftweb</groupId>
             <artifactId>lift-json_2.11</artifactId>
             <version>3.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
         </dependency>
 
         <dependency>
