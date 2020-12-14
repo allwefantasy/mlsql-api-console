@@ -38,7 +38,7 @@ class IndexerController extends ApplicationController with AuthModule with Rende
       DBInfoUtils.getBinlogInfo(user, jdbcd)
     } catch {
       case e: Exception =>
-        render(400, s"数据库 【${jdbcd.name}】 需要开启binlog支持,row模式")
+        render(400, s"数据库 【${jdbcd.name}】要建立实时索引，需要开启binlog支持,row模式")
     }
   }
 
