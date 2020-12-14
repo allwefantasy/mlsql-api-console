@@ -165,7 +165,7 @@ class MySQLIndexer extends BaseIndexer {
          |!callback post "__CONSOLE_URL__/api_v1/indexer/callback?auth_secret=__AUTH_SECRET__" when "started,progress,terminated";
          |
          |save append ${tempName}
-         |as rate.`mysql_{db}.{tableName}`
+         |as rate.`mysql_{db}.{table}`
          |options mode="Append"
          |and idCols="${pb.idCols}"
          |and duration="${syncInterval}"
