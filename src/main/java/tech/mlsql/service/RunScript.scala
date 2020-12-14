@@ -15,6 +15,8 @@ import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.indexer.IndexOptimizer
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlEngine, MlsqlJob, MlsqlUser}
 
+import scala.collection.mutable
+
 /**
  * 8/12/2020 WilliamZhu(allwefantasy@gmail.com)
  */
@@ -22,17 +24,53 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
 
   private val clusterUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url
   private val engineUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_engine_url
+  private val extraParams = mutable.HashMap[String, String]()
+
+  def sql(sql: String) = {
+    extraParams += ("sql" -> sql)
+    this
+  }
+
+  def owner(owner: String) = {
+    extraParams += ("owner" -> owner)
+    this
+  }
+
+  def async(async: Boolean) = {
+    extraParams += ("async" -> async.toString)
+    this
+  }
+
+  def timeout(timeout: Long) = {
+    extraParams += ("timeout" -> timeout.toString)
+    this
+  }
+
+  def executeMode(executeMode: String) = {
+    extraParams += ("executeMode" -> executeMode)
+    this
+  }
+
+  def jobName(jobName: String) = {
+    extraParams += ("jobName" -> jobName)
+    this
+  }
+
+  def engineName(engineName: String) = {
+    extraParams += ("engineName" -> engineName)
+    this
+  }
 
   private def param(str: String) = {
-    _params.getOrElse(str, null)
+    params().getOrElse(str, null)
   }
 
   private def hasParam(str: String) = {
-    _params.contains(str)
+    params().contains(str)
   }
 
   private def params() = {
-    _params
+    _params ++ extraParams
   }
 
   private def genErrorMessage(msg: String) = {

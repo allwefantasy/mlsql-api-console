@@ -8,7 +8,7 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.indexer.{DBInfoUtils, IndexerUtils, MySQLIndexer, ParquetIndexer}
+import tech.mlsql.indexer.{DBInfoUtils, IndexerUtils, MySQLIndexer, MySQLIndexerV2, ParquetIndexer}
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer}
 import tech.mlsql.service.RunScript
 import tech.mlsql.utils.RenderHelper
@@ -57,7 +57,7 @@ class IndexerController extends ApplicationController with AuthModule with Rende
       case "mysql" =>
         require(reqParams.contains("idCols"), "idCols is required")
         isBinlogSupport
-        val indexer = new MySQLIndexer()
+        val indexer = new MySQLIndexerV2()
         val jobName = indexer.generate(user, reqParams)
         indexer.run(user, jobName, reqParams.get("engineName"))
         jobName
