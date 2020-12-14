@@ -15,6 +15,13 @@ import tech.mlsql.service.RunScript
 class ParquetIndexer extends BaseIndexer {
   override def run(user: MlsqlUser, jobName: String, _engineName: Option[String]): Unit = {
     val indexerInfo = ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName))).head
+    // 标记正在执行
+    if(indexerInfo.status == MlsqlIndexer.STATUS_INDEXING){
+      return
+    }
+    //相当于上锁
+    ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(indexerInfo.id)).update(_.status -> lift(MlsqlIndexer.STATUS_INDEXING)))
+
     val config = JSONTool.parseJson[Map[String, String]](indexerInfo.indexerConfig)
     val timeout = JavaUtils.timeStringAsMs(config.getOrElse("timeout", "8h"))
 
@@ -32,7 +39,9 @@ class ParquetIndexer extends BaseIndexer {
     // 在历史任务中生成一条记录
     runScript.buildFailRecord(resp, (msg) => {
       //失败提交失败的话 我们要在索引任务里做更新
-      ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(indexerInfo.id)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+      ctx.run(ctx.query[MlsqlIndexer].filter(_.id == lift(indexerInfo.id)).update(
+        _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+        _.status -> lift(MlsqlIndexer.STATUS_NONE),
         _.lastFailMsg -> lift(msg)))
     })
     runScript.buildSuccessRecord(resp)
@@ -50,13 +59,17 @@ class ParquetIndexer extends BaseIndexer {
         val currentTime = System.currentTimeMillis()
         if (jobInfo.status != MlsqlJob.SUCCESS) {
 
-          ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(_.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
-            _.lastFailMsg -> lift(jobInfo.reason), _.lastExecuteTime -> lift(currentTime)))
+          ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(
+            _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_FAIL),
+            _.lastFailMsg -> lift(jobInfo.reason),
+            _.status -> lift(MlsqlIndexer.STATUS_NONE),
+            _.lastExecuteTime -> lift(currentTime)))
 
         } else {
           ctx.run(ctx.query[MlsqlIndexer].filter(_.name == lift(jobName)).update(
             _.lastStatus -> lift(MlsqlIndexer.LAST_STATUS_SUCCESS),
             _.lastFailMsg -> "",
+            _.status -> lift(MlsqlIndexer.STATUS_NONE),
             _.lastExecuteTime -> lift(currentTime)
           )
           )
