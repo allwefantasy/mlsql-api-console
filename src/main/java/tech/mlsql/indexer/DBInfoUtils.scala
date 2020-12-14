@@ -24,7 +24,7 @@ object DBInfoUtils {
         s"""
            |
            |${connect}
-           |run command as JDBC.`mlsql_console._` where
+           |run command as JDBC.`${dbName}._` where
            |`driver-statement-query`="select max(`${columnName}`) as max,min(`${columnName}`) as min from `${tableName}`"
            |and sqlMode="query"
            |as min_max_${dbName}_${tableName}_${columnName};
@@ -49,7 +49,7 @@ object DBInfoUtils {
         s"""
            |
            |${connect}
-           |run command as JDBC.`mlsql_console._` where
+           |run command as JDBC.`${db.name}._` where
            |`driver-statement-query`="show master status"
            |and sqlMode="query"
            |as binlog_${db.name};
@@ -98,7 +98,7 @@ object DBInfoUtils {
       "sql" ->
         s"""
            |$connect
-           |run command as JDBC.`mlsql_console._` where
+           |run command as JDBC.`${dbName}._` where
            |`driver-statement-query`="show tables"
            |and sqlMode="query"
            |as ${dbName}_show_tables;
