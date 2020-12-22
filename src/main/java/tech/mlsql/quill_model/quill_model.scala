@@ -193,6 +193,12 @@ case class AppKv(id: Int, name: String, value: String)
 
 case class MlsqlIndexer(id: Int,
                         name: String,
+                        oriFormat: String,
+                        oriPath: String,
+                        oriStorageName: String,
+                        format: String,
+                        path: String,
+                        storageName: String,
                         mlsqlUserId: Int,
                         status: Int,
                         lastStatus: Int,

@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.28-log)
 # Database: mlsql_console
-# Generation Time: 2020-11-17 09:34:27 +0000
+# Generation Time: 2020-12-22 09:18:07 +0000
 # ************************************************************
 
 
@@ -254,6 +254,35 @@ CREATE TABLE `mlsql_group_user` (
   KEY `mlsql_group_id` (`mlsql_group_id`),
   KEY `mlsql_user_id` (`mlsql_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table mlsql_indexer
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mlsql_indexer`;
+
+CREATE TABLE `mlsql_indexer` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `sync_interval` bigint(20) DEFAULT NULL,
+  `last_execute_time` bigint(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `content` longtext CHARACTER SET utf8,
+  `mlsql_user_id` int(11) DEFAULT NULL,
+  `last_status` int(11) DEFAULT NULL,
+  `indexer_config` mediumtext CHARACTER SET utf8,
+  `last_fail_msg` text CHARACTER SET utf8,
+  `last_job_id` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `indexer_type` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `ori_format` varchar(255) DEFAULT NULL,
+  `ori_path` varchar(255) DEFAULT NULL,
+  `ori_storage_name` varchar(255) DEFAULT NULL,
+  `format` varchar(255) DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `storage_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 

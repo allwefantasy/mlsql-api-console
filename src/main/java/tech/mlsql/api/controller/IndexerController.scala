@@ -8,8 +8,8 @@ import net.csdn.jpa.QuillDB.ctx._
 import net.csdn.modules.http.RestRequest.Method
 import net.csdn.modules.http.{ApplicationController, AuthModule}
 import tech.mlsql.common.utils.serder.json.JSONTool
-import tech.mlsql.indexer.{DBInfoUtils, IndexerUtils, MySQLIndexer, MySQLIndexerV2, ParquetIndexer}
-import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer}
+import tech.mlsql.indexer._
+import tech.mlsql.quill_model.{MlsqlDs, MlsqlIndexer, MlsqlUser}
 import tech.mlsql.service.RunScript
 import tech.mlsql.utils.RenderHelper
 
@@ -92,6 +92,46 @@ class IndexerController extends ApplicationController with AuthModule with Rende
     tokenAuth(false)
     val temp = ctx.run(ctx.query[MlsqlIndexer].filter(_.mlsqlUserId == lift(user.id)))
     render(200, JSONTool.toJsonStr(temp))
+  }
+
+  @At(path = Array("/api_v1/indexer/all"), types = Array(Method.GET, Method.POST))
+  def allIndex = {
+    secretAuth
+    val tables = JSONTool.parseJson[List[MlsqlOriTable]](param("data"))
+    val values = tables.map(item => item.format + "_" + item.path + "_" + item.storageName).toSet
+    val tableMapping = tables.map(item => (item.format + "_" + item.path + "_" + item.storageName, item)).toMap
+    val temp = ctx.run(ctx.query[MlsqlIndexer].join(ctx.query[MlsqlUser]).on { case (indexer, user) =>
+      indexer.mlsqlUserId == user.id
+    }.filter { case (item, _) =>
+      val value = item.oriFormat + "_" + item.oriPath + "_" + item.oriStorageName
+      liftQuery(values).contains(value)
+    }.map { case (indexer, user) =>
+      MlsqlIndexerWrapper(
+        name = indexer.name,
+        oriFormat = indexer.oriFormat,
+        oriPath = indexer.oriPath,
+        oriStorageName = indexer.oriStorageName,
+        format = indexer.format,
+        path = indexer.path,
+        storageName = indexer.storageName,
+        status = indexer.status,
+        owner = user.name,
+        lastStatus = indexer.lastStatus,
+        lastFailMsg = indexer.lastFailMsg,
+        lastExecuteTime = indexer.lastExecuteTime,
+        syncInterval = indexer.syncInterval,
+        content = indexer.content,
+        indexerConfig = indexer.indexerConfig,
+        lastJobId = indexer.lastJobId,
+        indexerType = indexer.indexerType
+      )
+
+    })
+    val res = temp.map { item =>
+      val value = item.oriFormat + "_" + item.oriPath + "_" + item.oriStorageName
+      (tableMapping(value), item)
+    }.toMap
+    render(200, JSONTool.toJsonStr(res))
   }
 
   @At(path = Array("/api_v1/indexer/remove"), types = Array(Method.GET, Method.POST))

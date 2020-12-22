@@ -259,7 +259,14 @@ class MySQLIndexerV2 extends BaseIndexer {
       ))),
       _.content -> lift(JSONTool.toJsonStr(List(jobName, fullSyncScript, incrementSyncScript, syncDBBinlog, instanceName))),
       _.lastFailMsg -> lift(""),
-      _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_MYSQL)
+      _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_MYSQL),
+      
+      _.oriFormat -> lift("jdbc"),
+      _.oriPath -> lift(s"${pb.dbName}.${pb.tableName}"),
+      _.oriStorageName -> lift(""),
+      _.format -> lift("delta"),
+      _.path -> lift(s"_mlsql_indexer_.mysql_${pb.dbName}_${pb.tableName}"),
+      _.storageName -> lift("")
     ))
 
     return jobName

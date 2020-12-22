@@ -144,7 +144,7 @@ class MySQLIndexer extends BaseIndexer {
          |save overwrite ${tempName}_1 as delta.`_mlsql_indexer_.mysql_${db}_${tableName}` ;
          |""".stripMargin
 
-    val (file, position) = DBInfoUtils.getBinlogInfo(user,jdbcd)
+    val (file, position) = DBInfoUtils.getBinlogInfo(user, jdbcd)
     val Array(prefix, binlogIndex) = file.split("\\.")
     val incrementSyncScript =
       s"""
@@ -189,7 +189,14 @@ class MySQLIndexer extends BaseIndexer {
         pb.engineName))),
       _.content -> lift(JSONTool.toJsonStr(List(jobName, fullSyncScript, incrementSyncScript))),
       _.lastFailMsg -> lift(""),
-      _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_MYSQL)
+      _.indexerType -> lift(MlsqlIndexer.INDEXER_TYPE_MYSQL),
+
+      _.oriFormat -> lift("jdbc"),
+      _.oriPath -> lift(s"${pb.dbName}.${pb.tableName}"),
+      _.oriStorageName -> lift(""),
+      _.format -> lift("delta"),
+      _.path -> lift(s"_mlsql_indexer_.mysql_${pb.dbName}_${pb.tableName}"),
+      _.storageName -> lift("")
     ))
 
     return jobName

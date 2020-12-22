@@ -25,3 +25,23 @@ case class PartitionBean(
                         )
 
 case class HiveIndexerConfig(from: String)
+
+case class MlsqlIndexerWrapper(name: String,
+                        oriFormat: String,
+                        oriPath: String,
+                        oriStorageName: String,
+                        format: String,
+                        path: String,
+                        storageName: String,
+                        status: Int,
+                        owner:String,
+                        lastStatus: Int,
+                        lastFailMsg: String,
+                        lastExecuteTime: Long,
+                        syncInterval: Long,
+                        content: String,
+                        indexerConfig: String,
+                        lastJobId: String,
+                        indexerType: String
+                       )
+case class MlsqlOriTable(name:String,format:String,path:String,storageName:String,options:Map[String,String])
