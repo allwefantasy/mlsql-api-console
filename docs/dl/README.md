@@ -13,8 +13,13 @@ MLSQL除了可以集成Tensorflow等具备Python接口的框架以外，也提�
 ```
 !plugin app add - "mlsql-bigdl-2.4";
 ```
+除此之外，你还需要在启动Engine时，设置如下参数：
 
-安装完成后，就可以使用BigDL的所有功能了。核心功能我们会在后续的章节介绍：
+```
+-streaming.bigdl.enable true
+```
+
+然后就可以使用BigDL的所有功能了。核心功能我们会在后续的章节介绍：
 
 1. 如何加载和处理你的图片
 2. 如何创建模型并且进行训练，然后预测

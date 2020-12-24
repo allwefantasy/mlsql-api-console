@@ -5,12 +5,9 @@
 我们来看一段示例：
 
 ```sql
-
-select 1 as a as emptyData;
-
 set imageDir="/Users/allwefantasy/Downloads/jack";
 
-run emptyData as ImageLoaderExt.`${imageDir}`
+run command as ImageLoaderExt.`${imageDir}`
 where code='''
         def apply(params:Map[String,String]) = {
          Resize(256, 256) -> CenterCrop(224, 224) ->
