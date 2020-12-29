@@ -52,7 +52,7 @@
    * [Train/Run/Predict语法](lang/et_statement.md)
    * [Register语法](lang/register.md)
    * [Save语法](lang/save.md)
-   * [宏语法](lang/macro.md)
+   * [宏语法(命令行)](lang/macro.md)
    * [Include语法](lang/include.md)
    * [分支语句](http://blog.mlsql.tech/blog/mlsql-ifelse.html)
    * [MLSQL语法解析接口](lang/analyze.md)
@@ -195,5 +195,5 @@
 
 ## 附录
 
-* [附录一：]()
+* [常见宏命令](extra/commands.md)
 * [附录二：]()
