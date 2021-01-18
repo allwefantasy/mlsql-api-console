@@ -134,15 +134,17 @@ save overwrite ....
 如果你希望先创建表，然后再写入表，那么你可以使用ET JDBC,该ET本质上是在Driver端执行各种操作指令的。
 
 ```
-run command as JDBC.`db_1` where 
-driver-statement-0="drop table test1"
-and driver-statement-1="create table test1.....";
+run command as JDBC.`db_1._` where
+`driver-statement-0`="drop table test1"
+and `driver-statement-1`="create table test1.....";
 
 save append tmp_article_table as jdbc.`db_1.test1`;
 ```
 
 
 这段语句，我们先删除test1,然后创建test1,最后使用save语句把进行数据结果的保存。
+
+注意： `JDBC.`后面的路径要写成 `db_1._`,表示忽略表名。
 
 ## 如何执行Upsert语义(目前只支持MySQL)
 

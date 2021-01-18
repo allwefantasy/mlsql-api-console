@@ -115,6 +115,7 @@
        * [dataMode 详解](python/datamode.md)
        * [Python并行度你所需要知道的](python/py_paralell.md)
    * [MLSQL内置算法](algs/README.md)
+       * [KMeans](algs/kmeans.md)
        * [NaiveBayes](algs/naive_bayes.md)
        * [ALS](algs/als.md)
        * [RandomForest](algs/random_forest.md)

@@ -679,7 +679,7 @@
                 <a href="../lang/macro.html">
             
                     
-                    宏语法
+                    宏语法(命令行)
             
                 </a>
             
@@ -1521,7 +1521,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.4.3.1" data-path="../algs/naive_bayes.html">
+        <li class="chapter " data-level="5.4.3.1" data-path="../algs/kmeans.html">
+            
+                <a href="../algs/kmeans.html">
+            
+                    
+                    KMeans
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.3.2" data-path="../algs/naive_bayes.html">
             
                 <a href="../algs/naive_bayes.html">
             
@@ -1534,7 +1547,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4.3.2" data-path="../algs/als.html">
+        <li class="chapter " data-level="5.4.3.3" data-path="../algs/als.html">
             
                 <a href="../algs/als.html">
             
@@ -1547,7 +1560,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4.3.3" data-path="../algs/random_forest.html">
+        <li class="chapter " data-level="5.4.3.4" data-path="../algs/random_forest.html">
             
                 <a href="../algs/random_forest.html">
             
@@ -1560,7 +1573,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4.3.4" data-path="../algs/lda.html">
+        <li class="chapter " data-level="5.4.3.5" data-path="../algs/lda.html">
             
                 <a href="../algs/lda.html">
             
@@ -1573,7 +1586,7 @@
             
         </li>
     
-        <li class="chapter " data-level="5.4.3.5" data-path="../algs/xgboost.html">
+        <li class="chapter " data-level="5.4.3.6" data-path="../algs/xgboost.html">
             
                 <a href="../algs/xgboost.html">
             
@@ -2411,14 +2424,14 @@
         
         
     
-        <li class="chapter " data-level="11.1" >
+        <li class="chapter " data-level="11.1" data-path="../extra/commands.html">
             
-                <span>
+                <a href="../extra/commands.html">
             
                     
-                    附录一：
+                    常见宏命令
             
-                </span>
+                </a>
             
 
             
@@ -2631,12 +2644,13 @@ select * from test1 where a = &quot;b&quot;
 tmp_article_table&#x3002; &#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x8986;&#x76D6;&#x8BF7;&#x4F7F;&#x7528; </p>
 <pre><code>save overwrite ....
 </code></pre><p>&#x5982;&#x679C;&#x4F60;&#x5E0C;&#x671B;&#x5148;&#x521B;&#x5EFA;&#x8868;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5199;&#x5165;&#x8868;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;ET JDBC,&#x8BE5;ET&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x5728;Driver&#x7AEF;&#x6267;&#x884C;&#x5404;&#x79CD;&#x64CD;&#x4F5C;&#x6307;&#x4EE4;&#x7684;&#x3002;</p>
-<pre><code>run command as JDBC.`db_1` where 
-driver-statement-0=&quot;drop table test1&quot;
-and driver-statement-1=&quot;create table test1.....&quot;;
+<pre><code>run command as JDBC.`db_1._` where
+`driver-statement-0`=&quot;drop table test1&quot;
+and `driver-statement-1`=&quot;create table test1.....&quot;;
 
 save append tmp_article_table as jdbc.`db_1.test1`;
 </code></pre><p>&#x8FD9;&#x6BB5;&#x8BED;&#x53E5;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x5220;&#x9664;test1,&#x7136;&#x540E;&#x521B;&#x5EFA;test1,&#x6700;&#x540E;&#x4F7F;&#x7528;save&#x8BED;&#x53E5;&#x628A;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x7ED3;&#x679C;&#x7684;&#x4FDD;&#x5B58;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A; <code>JDBC.</code>&#x540E;&#x9762;&#x7684;&#x8DEF;&#x5F84;&#x8981;&#x5199;&#x6210; <code>db_1._</code>,&#x8868;&#x793A;&#x5FFD;&#x7565;&#x8868;&#x540D;&#x3002;</p>
 <h2 id="&#x5982;&#x4F55;&#x6267;&#x884C;upsert&#x8BED;&#x4E49;&#x76EE;&#x524D;&#x53EA;&#x652F;&#x6301;mysql"><a name="&#x5982;&#x4F55;&#x6267;&#x884C;upsert&#x8BED;&#x4E49;&#x76EE;&#x524D;&#x53EA;&#x652F;&#x6301;mysql" class="anchor-navigation-ex-anchor" href="#&#x5982;&#x4F55;&#x6267;&#x884C;upsert&#x8BED;&#x4E49;&#x76EE;&#x524D;&#x53EA;&#x652F;&#x6301;mysql"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5982;&#x4F55;&#x6267;&#x884C;Upsert&#x8BED;&#x4E49;(&#x76EE;&#x524D;&#x53EA;&#x652F;&#x6301;MySQL)</h2>
 <p>&#x8981;&#x8BA9;MLSQL&#x5728;&#x4FDD;&#x5B58;&#x6570;&#x636E;&#x65F6;&#x6267;&#x884C;Upsert&#x8BED;&#x4E49;&#x7684;&#x8BDD;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x63D0;&#x4F9B;idCol&#x5B57;&#x6BB5;&#x5373;&#x53EF;&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
 <pre><code class="lang-sql">save append tmp_article_table as jdbc.`db_1.test1`
@@ -2661,7 +2675,7 @@ and duration=&quot;3&quot;
 and checkpointLocation=&quot;/tmp/cpl3&quot;;
 </code></pre><p>&#x6211;&#x4EEC;&#x4F7F;&#x7528;streamJDBC&#x6570;&#x636E;&#x6E90;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#x5C06;&#x6570;&#x636E;&#x5199;&#x5165;&#x5230;MySQL&#x4E2D;&#x3002;driver-statement-0 &#x5728;&#x6574;&#x4E2A;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x53EA;&#x4F1A;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x3002;statement-0
 &#x5219;&#x4F1A;&#x9488;&#x5BF9;&#x6BCF;&#x6761;&#x8BB0;&#x5F55;&#x6267;&#x884C;&#x3002; insert&#x8BED;&#x53E5;&#x4E2D;&#x7684;&#x5360;&#x4F4D;&#x7B26;&#x987A;&#x5E8F;&#x9700;&#x8981;&#x548C;table21&#x4E2D;&#x7684;&#x5217;&#x987A;&#x5E8F;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;</p>
-<footer class="page-footer-ex"> <span class="page-footer-ex-copyright">  </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> <i>&#x8BE5;&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;</i> 2019-08-30 10:00:00 </span> </footer>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright">  </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> <i>&#x8BE5;&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;</i> 2021-01-15 10:43:42 </span> </footer>
                                 
                                 </section>
                             
@@ -2704,7 +2718,7 @@ and checkpointLocation=&quot;/tmp/cpl3&quot;;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"JDBC","level":"5.2.2.1","depth":3,"next":{"title":"ElasticSearch","level":"5.2.2.2","depth":3,"path":"datasource/es.md","ref":"datasource/es.md","articles":[]},"previous":{"title":"加载和存储多种数据源","level":"5.2.2","depth":2,"path":"datasource/README.md","ref":"datasource/README.md","articles":[{"title":"JDBC","level":"5.2.2.1","depth":3,"path":"datasource/jdbc.md","ref":"datasource/jdbc.md","articles":[]},{"title":"ElasticSearch","level":"5.2.2.2","depth":3,"path":"datasource/es.md","ref":"datasource/es.md","articles":[]},{"title":"Solr","level":"5.2.2.3","depth":3,"path":"datasource/solr.md","ref":"datasource/solr.md","articles":[]},{"title":"HBase","level":"5.2.2.4","depth":3,"path":"datasource/hbase.md","ref":"datasource/hbase.md","articles":[]},{"title":"MongoDB","level":"5.2.2.5","depth":3,"path":"datasource/mongodb.md","ref":"datasource/mongodb.md","articles":[]},{"title":"Parquet/Json/Text/Xml/Csv","level":"5.2.2.6","depth":3,"path":"datasource/file.md","ref":"datasource/file.md","articles":[]},{"title":"jsonStr/script/mlsqlAPI/mlsqlConf","level":"5.2.2.7","depth":3,"path":"datasource/mlsql_source.md","ref":"datasource/mlsql_source.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"datasource/jdbc.md","mtime":"2019-08-30T02:00:00.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-23T09:34:10.851Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"JDBC","level":"5.2.2.1","depth":3,"next":{"title":"ElasticSearch","level":"5.2.2.2","depth":3,"path":"datasource/es.md","ref":"datasource/es.md","articles":[]},"previous":{"title":"加载和存储多种数据源","level":"5.2.2","depth":2,"path":"datasource/README.md","ref":"datasource/README.md","articles":[{"title":"JDBC","level":"5.2.2.1","depth":3,"path":"datasource/jdbc.md","ref":"datasource/jdbc.md","articles":[]},{"title":"ElasticSearch","level":"5.2.2.2","depth":3,"path":"datasource/es.md","ref":"datasource/es.md","articles":[]},{"title":"Solr","level":"5.2.2.3","depth":3,"path":"datasource/solr.md","ref":"datasource/solr.md","articles":[]},{"title":"HBase","level":"5.2.2.4","depth":3,"path":"datasource/hbase.md","ref":"datasource/hbase.md","articles":[]},{"title":"MongoDB","level":"5.2.2.5","depth":3,"path":"datasource/mongodb.md","ref":"datasource/mongodb.md","articles":[]},{"title":"Parquet/Json/Text/Xml/Csv","level":"5.2.2.6","depth":3,"path":"datasource/file.md","ref":"datasource/file.md","articles":[]},{"title":"jsonStr/script/mlsqlAPI/mlsqlConf","level":"5.2.2.7","depth":3,"path":"datasource/mlsql_source.md","ref":"datasource/mlsql_source.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"datasource/jdbc.md","mtime":"2021-01-15T02:43:42.129Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-15T03:00:53.233Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -14,6 +14,7 @@ import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.indexer.IndexOptimizer
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlEngine, MlsqlJob, MlsqlUser}
+import tech.mlsql.service.notebook.hint.{KylinHint, PythonHint}
 
 import scala.collection.mutable
 
@@ -119,7 +120,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
   }
 
   def execute(shouldOptimize: Boolean) = {
-    
+
     val engineConfig = getEngine
     val proxy = RestService.client(engineConfig.url)
     var newparams = params()
@@ -146,10 +147,18 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
           JSONTool.toJsonStr(List(currentScriptFile))
         }
       case _ =>
+        var tempSQL = newparams("sql")
+        val hintManager = List(new KylinHint,new PythonHint)
+        hintManager.foreach { hinter =>
+          if (tempSQL == newparams("sql")) {
+            tempSQL = hinter.rewrite(tempSQL, newparams)
+          }
+        }
+
         if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query") {
           val optimizer = new IndexOptimizer()
-          optimizer.optimize(user, newparams("sql"))
-        } else newparams("sql")
+          optimizer.optimize(user, tempSQL)
+        } else tempSQL
 
     }
 
@@ -185,7 +194,9 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     if (!hasParam("callback")) {
       newparams += ("callback" -> s"${engineConfig.consoleUrl}/api_v1/job/callback?__auth_secret__=${RestService.auth_secret}")
     }
+
     newparams += ("sql" -> sql)
+
     newparams += ("owner" -> user.name)
 
     if (!hasParam("schemaInferUrl")) {

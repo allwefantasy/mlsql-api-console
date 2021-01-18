@@ -1,7 +1,7 @@
 # 如何对流的结果以批的形式保存
 
 MLSQL对流的数据源支持有限。如果我想流的数据保存到ES中，但是没有相应的流式ES数据源的实现该怎么办？为了解决这个问题，
-MLSQL提供了一个'custome' 流式数据源，可以方便的让你用批的方式操作流的结果数据。
+MLSQL提供了一个'custom' 流式数据源，可以方便的让你用批的方式操作流的结果数据。
 
 我们来看看具体的示例代码：
 
@@ -76,3 +76,44 @@ and checkpointLocation="/tmp/cpl15";
 3. code里允许你用批的形态操作jack表。
 
 这样，我们就能很方便的将大部分数据写入到支持批的数据源中了。
+
+## Hive分区表写入
+
+如果我们希望把数据写入hive分区表怎么办？依然只要修改最后一句。如果是动态分区，
+可以按如下方式写：
+
+
+```sql
+save append table21
+as custom.``
+options mode="append"
+and duration="15"
+and sourceTable="jack"
+and code='''
+save append jack as hive.`/tmp/jack` partitionBy 【partitionCol】;
+'''
+and checkpointLocation="/tmp/cpl15";
+```
+
+如果是静态分区，则直接指定目录即可。另外也可以使用hive原生insert语句,例如下面的例子
+
+```
+--开启hive相关配置，放在脚本前面
+set hive.exec.dynamic.partition=true where type="conf";
+set hive.exec.dynamic.partition.mode=nostrict  where type="conf";
+
+
+save append table21
+as custom.``
+options mode="append"
+and duration="15"
+and sourceTable="jack"
+and code='''
+insert into table db.tb partition(【partitionCol】)
+select * from jack;
+'''
+and checkpointLocation="/tmp/cpl15";
+
+```
+
+
