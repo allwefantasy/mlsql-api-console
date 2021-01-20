@@ -9,8 +9,15 @@ trait BaseHint {
   protected def _parse(query: String): SQLHeadHint = {
     val headers = query.split("\n").filter(_.stripMargin.startsWith("--%")).map{item=>
        item.stripMargin.stripPrefix("--%")
+    }.filter(_.stripMargin.startsWith("#%")).map{item=>
+      item.stripMargin.stripPrefix("#%")
     }
-    val body = query.split("\n").filterNot(_.stripMargin.startsWith("--%")).mkString("\n")
+
+    val body = query.split("\n").
+      filterNot(_.stripMargin.startsWith("--%")).
+      filterNot(_.stripMargin.startsWith("#%")).mkString("\n")
+
+
     var t: String = "mlsql"
     var input: Option[String] = None
     var output: Option[String] = None
