@@ -7,10 +7,10 @@ trait BaseHint {
   def rewrite(query: String, options: Map[String, String]): String
 
   protected def _parse(query: String): SQLHeadHint = {
-    val headers = query.split("\n").filter(_.stripMargin.startsWith("--%")).map{item=>
-       item.stripMargin.stripPrefix("--%")
-    }.filter(_.stripMargin.startsWith("#%")).map{item=>
-      item.stripMargin.stripPrefix("#%")
+    val headers = query.split("\n").filter(item=>
+      item.stripMargin.startsWith("--%") ||item.stripMargin.startsWith("#%")
+    ).map{item=>
+       item.stripMargin.stripPrefix("--%").stripPrefix("#%")
     }
 
     val body = query.split("\n").
