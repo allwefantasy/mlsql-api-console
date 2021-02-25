@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>宏语法(命令行) · MLSQL Console 文档</title>
+        <title>宏语法(命令行) · MLSQL Stack 文档</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -1850,53 +1850,27 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="6.1.2.1" >
+        <li class="chapter " data-level="6.1.2.1" data-path="../security/compile_time.html">
             
-                <span>
+                <a href="../security/compile_time.html">
             
                     
                     解析时表权限
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="6.1.2.2" >
+        <li class="chapter " data-level="6.1.2.2" data-path="../security/runtime_time.html">
             
-                <span>
+                <a href="../security/runtime_time.html">
             
                     
                     运行时表/列权限
             
-                </span>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="6.1.2.3" >
-            
-                <span>
-            
-                    
-                    客户端开发
-            
-                </span>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="6.1.2.4" >
-            
-                <span>
-            
-                    
-                    服务端开发
-            
-                </span>
+                </a>
             
 
             
@@ -2417,6 +2391,38 @@
             
         </li>
     
+        <li class="chapter " data-level="10.3" data-path="../dev_guide/engine/plugin/OTHER_README.html">
+            
+                <a href="../dev_guide/engine/plugin/OTHER_README.html">
+            
+                    
+                    其他插件开发
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.3.1" data-path="../dev_guide/engine/plugin/ds.html">
+            
+                <a href="../dev_guide/engine/plugin/ds.html">
+            
+                    
+                    自定义数据源插件开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
     
         
@@ -2500,19 +2506,28 @@
 <h2 id="&#x57FA;&#x672C;&#x8BED;&#x6CD5;"><a name="&#x57FA;&#x672C;&#x8BED;&#x6CD5;" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x672C;&#x8BED;&#x6CD5;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x57FA;&#x672C;&#x8BED;&#x6CD5;</h2>
 <p>&#x5047;&#x8BBE;&#x6211;&#x5C01;&#x88C5;&#x4E86;&#x4E00;&#x4E2A;&#x6839;&#x636E;&#x7528;&#x6237;&#x540D;&#x67E5;&#x8BE2;&#x7528;&#x6237;&#x7684;&#x529F;&#x80FD;&#x903B;&#x8F91;&#xFF0C;&#x7136;&#x540E;&#x6211;&#x5E0C;&#x671B;&#x5C06;&#x4ED6;&#x65B9;&#x4FBF;&#x7684;&#x63D0;&#x4F9B;&#x7ED9;&#x5176;&#x4ED6;&#x4EBA;&#x4F7F;&#x7528;&#xFF0C;
 &#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6309;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#x5199;&#xFF1A;</p>
-<pre><code class="lang-sql"><span class="hljs-keyword">set</span> findEmailByName = <span class="hljs-string">&apos;&apos;&apos;
--- notice that there are no semicolon in the end of this line. 
-select email from table1 where name=&quot;{}&quot; 
+<pre><code class="lang-sql"><span class="hljs-keyword">set</span> rawData=<span class="hljs-string">&apos;&apos;&apos;
+{&quot;jack&quot;:1,&quot;name&quot;:2}
+{&quot;jack&quot;:2,&quot;name&quot;:3}
+&apos;&apos;&apos;</span>;
+
+
+<span class="hljs-keyword">load</span> jsonStr.<span class="hljs-string">`rawData`</span> <span class="hljs-keyword">as</span> tablem;
+
+
+<span class="hljs-keyword">set</span> findEmailByName = <span class="hljs-string">&apos;&apos;&apos;
+select * from tablem where name={}
+as output
 &apos;&apos;&apos;</span>;
 
 <span class="hljs-comment">-- Execute it like a command.</span>
-!findEmailByName &quot;jack&quot;;
+!findEmailByName &quot;2&quot;;
 </code></pre>
 <p>&#x6211;&#x4EEC;&#x5148;&#x901A;&#x8FC7;set&#x8BED;&#x6CD5;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E9B;MLSQL&#x811A;&#x672C;&#x7247;&#x6BB5;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;&#x4E00;&#x6761;SQL&#x8BED;&#x53E5;&#x3002;&#x63A5;&#x7740;&#x6211;&#x53EA;&#x8981;&#x901A;&#x8FC7;&#x5C06;&#x611F;&#x53F9;&#x53F7;&#x5E94;&#x7528;&#x4E8E;&#x53D8;&#x91CF;&#x540D;&#x79F0;&#x4E4B;&#x4E0A;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x80FD;&#x5C06;&#x5176;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x6267;&#x884C;&#x3002;
 &#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x4EEC;&#x8FD8;&#x9700;&#x8981;&#x4F20;&#x53C2;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&quot;{}&quot; &#x6216;&#x8005;&quot;{&#x6570;&#x5B57;}&quot;&#x6765;&#x505A;&#x5360;&#x4F4D;&#x7B26;&#x3002;</p>
 <h2 id="&#x5185;&#x7F6E;&#x7684;&#x5B8F;&#x53D8;&#x91CF;"><a name="&#x5185;&#x7F6E;&#x7684;&#x5B8F;&#x53D8;&#x91CF;" class="anchor-navigation-ex-anchor" href="#&#x5185;&#x7F6E;&#x7684;&#x5B8F;&#x53D8;&#x91CF;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5185;&#x7F6E;&#x7684;&#x5B8F;&#x53D8;&#x91CF;</h2>
 <p>&#x6211;&#x4EEC;&#x5185;&#x7F6E;&#x4E86;&#x975E;&#x5E38;&#x591A;&#x7684;&#x5B8F;&#x53D8;&#x91CF;&#xFF0C;&#x6BD4;&#x5982;&#x5BF9;HDFS&#x8FDB;&#x884C;&#x7BA1;&#x7406;&#x7684; !hdfs, &#x4EE5;&#x53CA;&#x5BF9;python&#x505A;&#x652F;&#x6301;&#x7684;!python&#x3002;&#x6211;&#x4EEC;&#x5728;&#x540E;&#x7EED;&#x7684;&#x7AE0;&#x8282;&#x4F1A;&#x4F1A;&#x5BF9;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x6709;&#x66F4;&#x591A;&#x7684;&#x8BB2;&#x89E3;&#x3002;</p>
-<footer class="page-footer-ex"> <span class="page-footer-ex-copyright">  </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> <i>&#x8BE5;&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;</i> 2021-01-12 10:27:46 </span> </footer>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright">  </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> <i>&#x8BE5;&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;</i> 2021-02-23 10:05:46 </span> </footer>
                                 
                                 </section>
                             
@@ -2555,7 +2570,7 @@ select email from table1 where name=&quot;{}&quot;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"宏语法(命令行)","level":"5.1.7","depth":2,"next":{"title":"Include语法","level":"5.1.8","depth":2,"path":"lang/include.md","ref":"lang/include.md","articles":[]},"previous":{"title":"Save语法","level":"5.1.6","depth":2,"path":"lang/save.md","ref":"lang/save.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"lang/macro.md","mtime":"2021-01-12T02:27:46.282Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-15T03:00:53.233Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"宏语法(命令行)","level":"5.1.7","depth":2,"next":{"title":"Include语法","level":"5.1.8","depth":2,"path":"lang/include.md","ref":"lang/include.md","articles":[]},"previous":{"title":"Save语法","level":"5.1.6","depth":2,"path":"lang/save.md","ref":"lang/save.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Stack 文档","gitbook":"*","description":"MLSQL Stack官方文档"},"file":{"path":"lang/macro.md","mtime":"2021-02-23T02:05:46.966Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-25T01:29:06.161Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

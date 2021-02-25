@@ -141,10 +141,8 @@
        * [接口访问Token设置](security/token_control.md)
        * [自定义接口访问策略](security/custom_control.md)
    * [授权用户对数据的访问控制](security/sum2.md)
-       * [解析时表权限]()
-       * [运行时表/列权限]()
-       * [客户端开发]()
-       * [服务端开发]()
+       * [解析时表权限](security/compile_time.md)
+       * [运行时表/列权限](security/runtime_time.md)
 
 ## 性能与资源
 
@@ -192,6 +190,10 @@
 * [ET插件开发](dev_guide/engine/plugin/ET_README.md)
     * [ET插件开发](dev_guide/engine/plugin/et.md)
     * [命令行开发](dev_guide/engine/plugin/et_command.md)
+* [其他插件开发](dev_guide/engine/plugin/OTHER_README.md)
+    * [自定义数据源插件开发](dev_guide/engine/plugin/ds.md)
+
+
 
 
 ## 附录

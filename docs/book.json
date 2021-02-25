@@ -1,6 +1,6 @@
 {
-  "title": "MLSQL Console 文档",
-  "description": "MLSQL Console官方文档",
+  "title": "MLSQL Stack 文档",
+  "description": "MLSQL Stack官方文档",
   "plugins" : [ "-sharing",
     "image-class",
     "lightbox",

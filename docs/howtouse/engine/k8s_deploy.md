@@ -2,6 +2,14 @@
 
 > 目前实测Spark 3.0 通过。建议使用3.0 进行K8s部署。
 
+
+在正文之前，推荐社区小伙伴的手把手教程：
+
+1. [15 - MLSQL on k8s（3） - MLSQL on k8s](https://mp.weixin.qq.com/s/wXz52q57KGalJZILCsS2Sw)
+2. [14 - MLSQL on k8s（2） - Spark on k8s](https://mp.weixin.qq.com/s?__biz=MzI5NzEwODUwNw==&mid=2247483785&idx=1&sn=b5b8330601091804fbece2ad83ecc3e5&chksm=ecbb54fddbccddeb643977b9be21fcddf3a7ffa3252520e303e29d036a30d0b713397c41c1d6&scene=21#wechat_redirect)
+3. [13 - MLSQL on k8s（1） - k8s安装](https://mp.weixin.qq.com/s?__biz=MzI5NzEwODUwNw==&mid=2247483782&idx=1&sn=642b036caf8ab6a07ae7cdebe347acc3&chksm=ecbb54f2dbccdde4f6555f4e1c62403f073cf4e50d6aa66034700b2d9a8f97361857e518edc1&scene=21#wechat_redirect)
+
+
 目前K8s部署有两种方式：
 
 1. Spark官方的 [spark-submit方式](http://spark.apache.org/docs/latest/running-on-kubernetes.html)
@@ -198,4 +206,23 @@ spec:
  
 ```
 
+## delete deploy后，executor的pod还在running
+
+
+可以通过K8s的postStart/preStop处理函数来解决。可以参考[这篇文章](https://kubernetes.io/zh/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/)
+
+下面是一个示例：
+
+```
+ifecycle:
+      preStop:
+        exec:
+          command:
+            - bash
+            - '-c'
+            - |
+              kill $(jps | grep SparkSubmit | awk '{print $1}')
+```
+
+原因是，直接delete deploy,可能Driver还没正常stop前，K8s就直接把Driver Pod干掉了,导致其他Executor Pod不知道该干嘛。
 

@@ -140,7 +140,7 @@ Mon Aug 19 10:28:10 CST 2019
 第四种是sql类型，这意味着set后的key最后是由sql引擎执行生成的。下面的例子可以让大家看出其特点和用法：
 
 ```sql
-set date=`select date_add(1) as set date=`select date_sub(CAST(current_timestamp() as DATE), 1) as dt` 
+set date=`select date_sub(CAST(current_timestamp() as DATE), 1) as dt` 
 where type="sql";
 
 select "${date}" as dt as output;

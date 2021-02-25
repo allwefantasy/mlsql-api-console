@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>使用窗口进行数据分析 · MLSQL Console 文档</title>
+        <title>使用窗口进行数据分析 · MLSQL Stack 文档</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -1850,53 +1850,27 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="6.1.2.1" >
+        <li class="chapter " data-level="6.1.2.1" data-path="../security/compile_time.html">
             
-                <span>
+                <a href="../security/compile_time.html">
             
                     
                     解析时表权限
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="6.1.2.2" >
+        <li class="chapter " data-level="6.1.2.2" data-path="../security/runtime_time.html">
             
-                <span>
+                <a href="../security/runtime_time.html">
             
                     
                     运行时表/列权限
             
-                </span>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="6.1.2.3" >
-            
-                <span>
-            
-                    
-                    客户端开发
-            
-                </span>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="6.1.2.4" >
-            
-                <span>
-            
-                    
-                    服务端开发
-            
-                </span>
+                </a>
             
 
             
@@ -2417,6 +2391,38 @@
             
         </li>
     
+        <li class="chapter " data-level="10.3" data-path="../dev_guide/engine/plugin/OTHER_README.html">
+            
+                <a href="../dev_guide/engine/plugin/OTHER_README.html">
+            
+                    
+                    其他插件开发
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.3.1" data-path="../dev_guide/engine/plugin/ds.html">
+            
+                <a href="../dev_guide/engine/plugin/ds.html">
+            
+                    
+                    自定义数据源插件开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
     
         
@@ -2511,7 +2517,7 @@
 <span class="hljs-keyword">load</span> delta.<span class="hljs-string">`example.simpleData`</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">output</span>;
 </code></pre>
 <p>&#x70B9;&#x51FB; &#x3010;Run&#x3011;&#xFF0C;&#x6548;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/ee9cd924-5883-41c7-a0a1-6855051ef8fc.png" data-lightbox="219b3944-57f1-481a-942e-92400ff1bec9" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/ee9cd924-5883-41c7-a0a1-6855051ef8fc.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/ee9cd924-5883-41c7-a0a1-6855051ef8fc.png" data-lightbox="4f955586-fc28-4e95-917f-9964a68cd535" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/ee9cd924-5883-41c7-a0a1-6855051ef8fc.png" alt=""></a></div><p></p>
 <p>&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x81EA;&#x5B9A;&#x4E49;&#x5B58;&#x50A8;&#x8868;&#xFF0C;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x3010;targetTableName&#x3011;,&#x5982;&#x4E0B;&#x793A;&#x4F8B;&#xFF1A;</p>
 <pre><code class="lang-sql"><span class="hljs-keyword">set</span> targetTableName=<span class="hljs-string">&quot;example.simpleData2&quot;</span>;
 include store.`tech/mlsql/console/example/SimpleData`;
@@ -2521,27 +2527,27 @@ include store.`tech/mlsql/console/example/SimpleData`;
 <p>simpleData&#x6709;&#x4E09;&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x5206;&#x522B;&#x662F;&#x90E8;&#x95E8;&#x540D;&#xFF0C;&#x96C7;&#x5458;&#x540D;&#xFF0C;&#x4EE5;&#x53CA;&#x85AA;&#x6C34;&#x3002;&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x7684;&#x9700;&#x6C42;&#x662F;&#xFF0C;&#x5BF9;&#x6309;&#x90E8;&#x95E8;&#x5206;&#x7EC4;&#xFF0C;&#x7EDF;&#x8BA1;&#x6BCF;&#x4E2A;&#x96C7;&#x5458;&#x7684;&#x85AA;&#x6C34;&#x6392;&#x540D;&#x3002;</p>
 <h2 id="&#x7A97;&#x53E3;&#x5206;&#x6790;"><a name="&#x7A97;&#x53E3;&#x5206;&#x6790;" class="anchor-navigation-ex-anchor" href="#&#x7A97;&#x53E3;&#x5206;&#x6790;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x7A97;&#x53E3;&#x5206;&#x6790;</h2>
 <p>&#x5728;Analysis Workshop&#x4E2D;&#x6253;&#x5F00; example.simpleData&#x8868;&#xFF0C;&#x7136;&#x540E;&#x8FDB;&#x5165;&#x64CD;&#x4F5C;&#x53F0; &#x3010;Window&#x3011; &#x9009;&#x663E;&#x5361;&#xFF0C;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/013a3589-2ed5-4be7-a84c-c590307f872f.png" data-lightbox="8fe8fcba-e0f5-4c5f-ba8d-b0974b58ac04" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/013a3589-2ed5-4be7-a84c-c590307f872f.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/013a3589-2ed5-4be7-a84c-c590307f872f.png" data-lightbox="78be8c56-d121-46ad-b122-b4a55d6e13a1" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/013a3589-2ed5-4be7-a84c-c590307f872f.png" alt=""></a></div><p></p>
 <p>&#x7B2C;&#x4E00;&#x6B65;&#x9009;&#x62E9;&#x5206;&#x7EC4;&#x5B57;&#x6BB5;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x591A;&#x4E2A;&#xFF0C;&#x6211;&#x4EEC;&#x9009;&#x62E9;&#x90E8;&#x95E8;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/58a83a00-ee7a-4068-8026-f400666517c8.png" data-lightbox="4627ec80-7557-40b4-be53-607fb1436b41" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/58a83a00-ee7a-4068-8026-f400666517c8.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/58a83a00-ee7a-4068-8026-f400666517c8.png" data-lightbox="689d72ab-8745-49c0-886d-c2c3b4f0b426" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/58a83a00-ee7a-4068-8026-f400666517c8.png" alt=""></a></div><p></p>
 <p>&#x63A5;&#x7740;&#x6309;&#x85AA;&#x6C34;&#x6392;&#x5E8F;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/d0f35b1d-cf39-4503-a8b7-807d8bb84d25.png" data-lightbox="5cf63b5d-cd34-4119-9f3b-87c42bb1ca7d" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/d0f35b1d-cf39-4503-a8b7-807d8bb84d25.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/d0f35b1d-cf39-4503-a8b7-807d8bb84d25.png" data-lightbox="29d156fd-34c5-4c25-b6ef-abad89798c4c" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/d0f35b1d-cf39-4503-a8b7-807d8bb84d25.png" alt=""></a></div><p></p>
 <p>&#x9009;&#x62E9;&#x7A97;&#x53E3;&#x5927;&#x5C0F;&#xFF0C;Preceding&#x548C;Following &#x90FD;&#x4E0D;&#x586B;&#x5199;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x9ED8;&#x8BA4;Preceding &#x662F;unbouded, Following&#x662F;current row. &#x6B63;&#x5E38;&#x5927;&#x5BB6;&#x586B;&#x5199;&#x6570;&#x5B57;&#x5373;&#x53EF;&#x3002;
 &#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/30555c69-ec15-4c48-ae0f-f7acb816d75b.png" data-lightbox="92a5d13f-671e-4cdb-983c-9e033d17dbda" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/30555c69-ec15-4c48-ae0f-f7acb816d75b.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/30555c69-ec15-4c48-ae0f-f7acb816d75b.png" data-lightbox="cda98dfe-9948-48d9-bb49-e0bf7d5799a3" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/30555c69-ec15-4c48-ae0f-f7acb816d75b.png" alt=""></a></div><p></p>
 <p>&#x6211;&#x4EEC;&#x5BF9;&#x7A97;&#x53E3;&#x8BA1;&#x7B97;&#x4E24;&#x4E2A;&#x503C;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x90E8;&#x95E8;&#x85AA;&#x6C34;&#x603B;&#x548C;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x96C7;&#x5458;&#x85AA;&#x6C34;&#x6392;&#x540D;&#x3002;
 &#x5148;&#x770B;&#x5982;&#x4F55;&#x8BA1;&#x7B97;&#x85AA;&#x6C34;&#x7EFC;&#x5408;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/42f937a3-6114-4eee-aff8-2cb0e6ce9ed9.png" data-lightbox="0af75c01-02a9-4f30-9d54-a22471e58d2b" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/42f937a3-6114-4eee-aff8-2cb0e6ce9ed9.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/42f937a3-6114-4eee-aff8-2cb0e6ce9ed9.png" data-lightbox="a1789786-9bfc-4adc-b1fe-70004e1407b1" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/42f937a3-6114-4eee-aff8-2cb0e6ce9ed9.png" alt=""></a></div><p></p>
 <p>&#x586B;&#x5199;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x70B9;&#x51FB;&#x3010;Add&#x3011; &#x6309;&#x94AE;&#xFF0C;&#x4E0B;&#x4FA7;&#x4F1A;&#x663E;&#x793A;&#x6DFB;&#x52A0;&#x7ED3;&#x679C;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/76db0e5a-3d26-45d5-98a8-10df7112a1b0.png" data-lightbox="d3e6885d-9b26-4461-ab17-470c455e9c15" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/76db0e5a-3d26-45d5-98a8-10df7112a1b0.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/76db0e5a-3d26-45d5-98a8-10df7112a1b0.png" data-lightbox="230ed79b-2d18-4870-855a-254e831f05ab" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/76db0e5a-3d26-45d5-98a8-10df7112a1b0.png" alt=""></a></div><p></p>
 <p>&#x5728;&#x4E0A;&#x9762;&#x641C;&#x7D22;&#x6846;&#x4E2D;&#x4F60;&#x53EF;&#x4EE5;&#x641C;&#x7D22;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5177;&#x4F53;&#x7528;&#x6CD5;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/44513b15-5e51-4d54-a359-c03792c577b9.png" data-lightbox="e0e0a696-cc59-48b4-a945-62669777c9ba" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/44513b15-5e51-4d54-a359-c03792c577b9.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/44513b15-5e51-4d54-a359-c03792c577b9.png" data-lightbox="b066b90d-5d4b-470a-a276-a6be376a2c08" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/44513b15-5e51-4d54-a359-c03792c577b9.png" alt=""></a></div><p></p>
 <p>&#x63A5;&#x7740;&#x6211;&#x4EEC;&#x8FDB;&#x884C;&#x6392;&#x540D;&#xFF0C;&#x4F7F;&#x7528;rank&#x51FD;&#x6570;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/7b38f428-9f19-438e-a83b-f112b72b86e5.png" data-lightbox="5c982245-6efd-414e-a433-60aa0f326c4f" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/7b38f428-9f19-438e-a83b-f112b72b86e5.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/7b38f428-9f19-438e-a83b-f112b72b86e5.png" data-lightbox="19e2a1b9-cff6-4505-bbcc-a82b06b1167c" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/7b38f428-9f19-438e-a83b-f112b72b86e5.png" alt=""></a></div><p></p>
 <p>&#x6DFB;&#x52A0;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x70B9;&#x51FB; &#x3010;Apply&#x3011;&#x5373;&#x53EF;&#x770B;&#x5230;&#x7ED3;&#x679C;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/94e98fba-2aca-432f-a524-f1739a3a00a4.png" data-lightbox="a294c1c2-0fc7-4a60-8eeb-c43f4b35c20f" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/94e98fba-2aca-432f-a524-f1739a3a00a4.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/94e98fba-2aca-432f-a524-f1739a3a00a4.png" data-lightbox="acddf8b8-65f1-4031-9597-b0999290f7a4" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/94e98fba-2aca-432f-a524-f1739a3a00a4.png" alt=""></a></div><p></p>
 <p>&#x5982;&#x679C;&#x9700;&#x8981;&#x53EF;&#x89C6;&#x5316;&#x8BE5;&#x56FE;&#x7684;&#x8BDD;&#xFF0C;&#x8FDB;&#x5165;&#x3010;Dash&#x3011;&#x6807;&#x7B7E;&#x586B;&#x5199;&#x5FC5;&#x8981;&#x4FE1;&#x606F;&#x5373;&#x53EF;&#xFF1A;</p>
-<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/11a40be5-4cdf-4e1a-8b44-94509b02aa35.png" data-lightbox="54cd66f5-b2f6-40d1-b808-7dec82368db6" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/11a40be5-4cdf-4e1a-8b44-94509b02aa35.png" alt=""></a></div><p></p>
+<p></p><div class="image-wrapper analysis-workshop-window"><a href="http://docs.mlsql.tech/upload_images/11a40be5-4cdf-4e1a-8b44-94509b02aa35.png" data-lightbox="b53c4760-df0f-4edc-9ee6-628f27aa7543" data-title="" target="_blank"><img src="http://docs.mlsql.tech/upload_images/11a40be5-4cdf-4e1a-8b44-94509b02aa35.png" alt=""></a></div><p></p>
 <footer class="page-footer-ex"> <span class="page-footer-ex-copyright">  </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> <i>&#x8BE5;&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;</i> 2021-01-12 10:27:46 </span> </footer>
                                 
                                 </section>
@@ -2585,7 +2591,7 @@ include store.`tech/mlsql/console/example/SimpleData`;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"使用窗口进行数据分析","level":"4.1.6","depth":2,"next":{"title":"复杂组合条件过滤","level":"4.1.7","depth":2,"path":"analysis-workshop/complex-filter.md","ref":"analysis-workshop/complex-filter.md","articles":[]},"previous":{"title":"可视化","level":"4.1.5","depth":2,"path":"analysis-workshop/dash.md","ref":"analysis-workshop/dash.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Console 文档","gitbook":"*","description":"MLSQL Console官方文档"},"file":{"path":"analysis-workshop/window.md","mtime":"2021-01-12T02:27:46.228Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-15T03:00:53.233Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"使用窗口进行数据分析","level":"4.1.6","depth":2,"next":{"title":"复杂组合条件过滤","level":"4.1.7","depth":2,"path":"analysis-workshop/complex-filter.md","ref":"analysis-workshop/complex-filter.md","articles":[]},"previous":{"title":"可视化","level":"4.1.5","depth":2,"path":"analysis-workshop/dash.md","ref":"analysis-workshop/dash.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","image-class","lightbox","back-to-top-button","chapter-fold","code","-lunr","-search","search-pro","emphasize","splitter","auto-scroll-table","anchor-navigation-ex","emphasize","alerts","page-footer-ex"],"styles":{"website":"styles/website.css"},"pluginsConfig":{"chapter-fold":{},"emphasize":{},"image-class":{},"page-footer-ex":{"copyright":"","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"<i>该文件修订时间：</i>"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"code":{"copyButtons":true},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":false,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"back-to-top-button":{},"alerts":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"MLSQL Stack 文档","gitbook":"*","description":"MLSQL Stack官方文档"},"file":{"path":"analysis-workshop/window.md","mtime":"2021-01-12T02:27:46.228Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-25T01:29:06.161Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

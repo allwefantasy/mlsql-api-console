@@ -8,13 +8,22 @@
 我们可以按如下方式写：
 
 ```sql
+set rawData='''
+{"jack":1,"name":2}
+{"jack":2,"name":3}
+''';
+
+
+load jsonStr.`rawData` as tablem;
+
+
 set findEmailByName = '''
--- notice that there are no semicolon in the end of this line. 
-select email from table1 where name="{}" 
+select * from tablem where name={}
+as output
 ''';
 
 -- Execute it like a command.
-!findEmailByName "jack";
+!findEmailByName "2";
 ```
 
 我们先通过set语法包含了一些MLSQL脚本片段，这里是一条SQL语句。接着我只要通过将感叹号应用于变量名称之上，我们就能将其作为一个命令执行。
