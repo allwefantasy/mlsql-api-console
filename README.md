@@ -50,7 +50,7 @@ development:
 tech.mlsql.MLSQLConsole
 ```
 
-右键启动即可。
+右键启动即可，默认端口为 9002.
 
 SQL脚本(找最新的就好)：
 
