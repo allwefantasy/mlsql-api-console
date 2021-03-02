@@ -1,31 +1,34 @@
-## 进度
+# MLSQL Console
 
-* Apply超时设置/Setting页面 [完成]
-* Apply历史列表以及回溯 []
-* 重写Comapre, 输入框联动 [完成]
-* Rollback 缓存 [完成]
-* 国际化，支持中英文 [启动]
-* [workshop table管理](完成)
+MLSQL Console 主要展示了[MLSQL](https://github.com/allwefantasy/mlsql) 的能力，对接方式。
 
-* [hive打开需要指定分区](完成)
-* [connect数据源] (Done) ## 需要修改数据库
-* [Python支持] ## 需要修改数据库
+## 本地开发环境设置
 
-* [MLSQL Engine支持Token授权访问]
+软件要求：
+
+1. JDK 8+
+2. Maven 3.3+
+3. Git
+4. MySQL 5.7
+
+推荐Idea Intellj 使用。
+
+启动类：
+
+```
+tech.mlsql.MLSQLConsole
+```
+
+右键启动即可。
+
+SQL脚本(找最新的就好)：
+
+1. mlsql_console_2020-12-24.sql
 
 
-## 版本记录
+## 安装部署
 
-### 2020-08-04
-
-1. 修改数据库mlsql_engine, 添加extra_opts,access_token两个字段,配套升级了mlsql engine
-
-
-### Build 20200805.102004
-
-1. 侧边树状栏增加虚拟scroll.
-2. 打开hive表显示分区的时候，分区降序展示，同时允许用户输入过滤
-3. 修正了AnalysisWorkshop打开新表时没有清理之前的SQL的问题。
+参考官方文档[MLSQL Console安装](http://docs.mlsql.tech/mlsql-stack/howtouse/install.html)
 
 
 
