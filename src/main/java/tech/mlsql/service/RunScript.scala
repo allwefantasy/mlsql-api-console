@@ -14,7 +14,7 @@ import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.indexer.IndexOptimizer
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlEngine, MlsqlJob, MlsqlUser}
-import tech.mlsql.service.notebook.hint.{DeployModelHint, KylinHint, PythonHint}
+import tech.mlsql.service.notebook.hint.{DeployModelHint, DeployPythonModelHint, KylinHint, PythonHint}
 
 import scala.collection.mutable
 
@@ -148,7 +148,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
         }
       case _ =>
         var tempSQL = newparams("sql")
-        val hintManager = List(new KylinHint, new PythonHint, new DeployModelHint)
+        val hintManager = List(new KylinHint, new PythonHint, new DeployModelHint,new DeployPythonModelHint)
         hintManager.foreach { hinter =>
           if (tempSQL == newparams("sql")) {
             tempSQL = hinter.rewrite(tempSQL, newparams + ("owner" -> user.name) + ("home" -> engineConfig.home))
