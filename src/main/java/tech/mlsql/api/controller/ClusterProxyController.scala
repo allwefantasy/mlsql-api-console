@@ -63,7 +63,7 @@ class ClusterProxyController extends ApplicationController with AuthModule with 
     val proxy = RestService.client(MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url)
     var newparams = params().asScala.toMap
     val myUrl = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
-      s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
+      s"http://${NetworkUtils.intranet_ip.getHostAddress}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
     } else {
       MLSQLConsoleCommandConfig.commandConfig.my_url
     }
