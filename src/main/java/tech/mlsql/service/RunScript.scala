@@ -253,7 +253,7 @@ case class RunScriptResp(isSaveQuery: Boolean, isAsync: Boolean, startTime: Long
 
 object RunScript {
   val MY_URL = if (MLSQLConsoleCommandConfig.commandConfig.my_url.isEmpty) {
-    s"http://${NetworkUtils.intranet_ip}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
+    s"http://${NetworkUtils.intranet_ip.getHostAddress}:${ServiceFramwork.injector.getInstance[Settings](classOf[Settings]).get("http.port")}"
   } else {
     MLSQLConsoleCommandConfig.commandConfig.my_url
   }
