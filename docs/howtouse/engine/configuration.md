@@ -36,7 +36,7 @@ $SPARK_HOME/bin/spark-submit --class streaming.core.StreamingApp \
 |  streaming.platform  |  平台 |  目前只有spark   |
 |  streaming.rest  |  是否开启http接口 |   布尔值，需要设置为true  |
 |  streaming.driver.port | HTTP服务端口 |  一般设置为9003  |
-|  streaming.spark.service  | 配置streaming.rest 参数 |  一般设置为true  | 
+|  streaming.spark.service  | 执行完是否退出程序 |  true 不退出  <br />false 退出  |
 |  streaming.job.cancel | 支持运行超时设置 |  一般设置为true  |
 |  streaming.datalake.path | 数据湖基目录 一般为HDFS |  需要设置，否则很多功能会不可用，比如插件等。  |
 
@@ -115,7 +115,7 @@ MLSQL Engine支持将部分任务的日志发送到Driver。
 | spark.mlsql.enable.runtime.directQuery.auth  |  开启directQuery语句运行时权限校验  | 默认为false|
 | spark.mlsql.enable.runtime.select.auth  |  开启select语句运行时权限校验  | 默认为false|
 | spark.mlsql.enable.datasource.rewrite  |  开启数据源加载时动态删除非授权列  | 默认为false|
-| spark.mlsql.datasource.rewrite.implClass  |  设置自定义数据源列控制的实现类 | |
+| spark.mlsql.datasource.rewrite.implClass  |  设置自定义数据源列控制的实现类 | &nbsp;|
 
 
 
