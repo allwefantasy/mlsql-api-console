@@ -157,6 +157,7 @@
    * [MLSQL Engine插件](plugin/README.md)
       * [网络安装插件](plugin/online_install.md)
       * [离线安装插件](plugin/offline_install.md)
+      * [使用MLSQL语言编写Spark程序](plugin/execute_mlsql_script.md)
 
 * [API on（Console/Engine）介绍](api/sum.md)
     * [MLSQL Console API指南](developer/README.md)

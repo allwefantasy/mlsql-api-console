@@ -155,7 +155,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
           }
         }
 
-        if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query") {
+        if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query" && newparams.getOrElse("queryType","") != "robot") {
           val optimizer = new IndexOptimizer()
           optimizer.optimize(user, tempSQL)
         } else tempSQL
