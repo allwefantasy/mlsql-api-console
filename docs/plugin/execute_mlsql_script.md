@@ -1,8 +1,8 @@
-# 执行 MLSQL 脚本
+# 使用 MLSQL 语言编写 Spark 程序
 
 使用场景：
 
-用户希望能够使用 MLSQL 语言替换 Java/Scala/PySpark 去写 Spark 程序，除此之外，他希望引擎的提交方式要和传统的 Spark完全类似，执行完成后就自动退出，因此，对于想通过 MLSQL 程序直接使用 Spark 去提交 MLSQL 脚本可参考下列使用命令。
+用户希望能够使用 MLSQL 语言替换 Java/Scala/PySpark 去写 Spark 程序，除此之外，他希望引擎的提交方式要和传统的 Spark 完全类似，执行完成后就自动退出，因此，对于想通过 MLSQL 程序直接使用 Spark 去提交 MLSQL 脚本可参考下列使用命令。
 
 一个典型的启动命令：
 
