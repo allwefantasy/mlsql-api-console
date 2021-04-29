@@ -233,7 +233,9 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
       ctx.run(query[MlsqlJob].insert(lift(buildJob(user, newparams, MlsqlJob.RUNNING, ""))))
     }
 
+    val time = System.currentTimeMillis()
     val response = proxy.runScript(newparams)
+    logInfo(s"proxy response time:${System.currentTimeMillis()-time}")
     RunScriptResp(isSaveQuery, isAsync, startTime, response, newparams, sql: String)
   }
 
