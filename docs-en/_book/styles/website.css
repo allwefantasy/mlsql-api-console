@@ -1,0 +1,234 @@
+.image-wrapper {
+    text-align: center;
+    padding: 30px 30px;
+}
+
+.image-wrapper img {
+    border-radius: 8px;
+    max-width: 80%;
+    max-height: 400px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+img[src*="#donate"] {
+ width: 200px;
+}
+
+/*!* 图像的备注 *!*/
+/*figure {*/
+    /*margin: 1em 0;*/
+/*}*/
+/*!* 图像的标题 *!*/
+/*figcaption {*/
+    /*font-size: 0.75em;*/
+    /*padding:0.5em 2em;*/
+    /*margin-bottom: 2em;*/
+/*}*/
+/*figure img {*/
+    /*margin-bottom: 0px;*/
+/*}*/
+
+
+.gitbook-link {
+    display: none !important;
+}
+
+
+
+h1{
+    border-bottom: 0.5px solid #EFEEEE;
+    padding-bottom: 3px;
+}
+
+h2{
+    border-bottom: 1px solid #EFEEEE;
+    padding-bottom: 3px;
+}
+
+.markdown-section>:first-child {
+    margin-top: 0!important;
+}
+.page-wrapper {
+    margin-top: -1.275em;
+}
+.book .book-body .page-wrapper .page-inner section.normal {
+    min-height:350px;
+    margin-bottom: 30px;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal hr {
+    height: 0px;
+    padding: 0;
+    margin: 1.7em 0;
+    overflow: hidden;
+    background-color: #e7e7e7;
+    border-bottom: 1px dotted #e7e7e7;
+}
+
+.video-js {
+    width:100%;
+    height: 100%;
+}
+
+pre[class*="language-"] {
+    border: none;
+    background-color: #f7f7f7;
+    font-size: 1em;
+    line-height: 1.2em;
+}
+
+
+.code-wrapper pre > code > span.code-line:before {
+    content: none;
+}
+
+.code-wrapper pre > code[class*="lang-"] > span.code-line:before {
+    content: counter(line);
+}
+
+.book .book-body .page-wrapper .page-inner section.normal {
+    font-size: 14px;
+    /*font-family: "Microsoft YaHei UI", "Microsoft Yahei", "PingFang SC", "Lantinghei SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "WenQuanYi Zen Hei", "Noto Sans CJK SC", "Microsoft JhengHei UI", "Microsoft JhengHei", "PingFang TC", "Lantinghei TC", "Noto Sans CJK TC", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+}
+
+.aceCode {
+    font-size: 14px !important;
+}
+
+input[type=checkbox]{
+    margin-left: -2em;
+}
+
+.page-footer span{
+    font-size: 12px;
+}
+
+.page-footer .copyright {
+    float: left;
+}
+
+.body, html {
+    overflow-y: hidden;
+}
+
+.versions-select select {
+    height: 2em;
+    line-height: 2em;
+    border-radius: 4px;
+    background: #efefef;
+}
+
+
+p {
+    /* text-indent: 2em;   文本缩进 */
+    margin: 0 0 20px;
+    padding: 0;
+    line-height: 1.8;
+}
+li p {
+    text-indent: 0;
+}
+
+.pg-emphasize {
+    margin: 4px;
+    padding: 2px 8px;
+}
+
+.markdown-section blockquote {
+    /*background: #f9f9f9;*/
+    border-left: 6px solid #ddd;
+    word-break: break-word;
+    margin: 1.5em 0px;
+    padding: .5em 10px;
+    color: #757575;
+    /*quotes: "\201C""\201D""\2018""\2019";*/
+}
+
+/*.markdown-section blockquote:before {*/
+    /*color: #ccc;*/
+    /*content: open-quote;*/
+    /*font-size: 4em;*/
+    /*line-height: .1em;*/
+    /*margin-right: .25em;*/
+    /*vertical-align: -.4em;*/
+/*}*/
+
+
+strong, dfn {
+    font-weight: 700;
+}
+em, dfn {
+    font-style: italic;
+    font-weight: 400;
+}
+del {
+    text-decoration: line-through;
+}
+
+
+/*=============================================================================*!*/
+.markdown-section table {
+    border-collapse:collapse;             /* 边框合并：collapse表示如果可能，边框会合并为一个单一的边框 */
+    border-spacing: 0;
+    width: 100%;                          /* 设置元素的宽度：基于包含块（父元素）宽度的百分比宽度 */
+    border: 1px solid #000000;
+}
+.markdown-section table th {
+    font-weight: bold;
+    text-align: center;                   /* 文本对齐方式 */
+    padding-top:3px;
+    padding-bottom:2px;
+    background-color:#999999;
+    color:#000000;
+    font-size: 14px;                      /* 字体大小 */
+}
+.markdown-section table td, .markdown-section table th{
+    border: 1px solid #000000;
+    padding: 3px 6px;
+}
+.markdown-section table tr {
+    font-size: 13px;                        /* 字体大小 */
+    border-top: 1px solid #888888;
+    background-color: #fff;                /* 表格的行的背景色 */
+}
+.markdown-section table tr:nth-child(2n) {
+    background-color: #f8f8f8;             /* 表格的偶数行的背景色 */
+}
+.markdown-section table tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+.markdown-section table td:first-child, table th:first-child {
+    border-left: none;
+}
+.markdown-section table th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+.markdown-section table th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+.markdown-section table th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+.markdown-section table tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+.markdown-section table tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}
+
