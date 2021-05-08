@@ -19,7 +19,6 @@ pip install pyjava==0.2.8.3
 
 ```
 pip install Cython
-pip install pyarrow==0.10.0
 pip install ray==1.3.0
 pip install aiohttp psutil setproctitle grpcio pandas xlsxwriter
 pip install watchdog requests click uuid sfcli
