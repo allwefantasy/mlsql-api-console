@@ -65,6 +65,7 @@ MLSQL Console支持实时日志显示，
 
 ![](http://docs.mlsql.tech/upload_images/1cf48031-b8d4-4b33-b46f-628c1321045a.png)
 
+
 为了支持上面这个功能，用户需要修改SPARK_HOME/conf下的log4j.properties文件。 复制黏贴如下范例：
 
 [MLSQL log4j.properties](https://github.com/allwefantasy/mlsql/blob/master/streamingpro-mlsql/src/main/resources-online/log4j.properties)

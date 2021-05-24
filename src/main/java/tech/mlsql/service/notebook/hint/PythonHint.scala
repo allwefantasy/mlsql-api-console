@@ -24,10 +24,16 @@ class PythonHint extends BaseHint {
       cacheStr = s"select * from ${output}_0 as ${output};"
     }
 
+    val confTableOpt = header.params.get("confTable").map(item => s""" confTable="${item}" and """).getOrElse("")
+
     s"""
-       |!ray on ${input} '''
+       |run command as Ray.`` where
+       |inputTable="${input}" and
+       |outputTable="${output}_0" and
+       |${confTableOpt}
+       |code='''
        |${header.body}
-       |''' named ${output}_0;
+       |''';
        |${cacheStr}
        |""".stripMargin
 
