@@ -14,7 +14,7 @@ import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.indexer.IndexOptimizer
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlEngine, MlsqlJob, MlsqlUser}
-import tech.mlsql.service.notebook.hint.{DeployModelHint, DeployPythonModelHint, KylinHint, PythonHint}
+import tech.mlsql.service.notebook.hint._
 
 import scala.collection.mutable
 
@@ -148,14 +148,14 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
         }
       case _ =>
         var tempSQL = newparams("sql")
-        val hintManager = List(new KylinHint, new PythonHint, new DeployModelHint,new DeployPythonModelHint)
+        val hintManager = List(new KylinHint, new PythonHint, new DeployModelHint, new DeployScriptHint, new DeployPythonModelHint)
         hintManager.foreach { hinter =>
           if (tempSQL == newparams("sql")) {
             tempSQL = hinter.rewrite(tempSQL, newparams + ("owner" -> user.name) + ("home" -> engineConfig.home))
           }
         }
 
-        if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query" && newparams.getOrElse("queryType","") != "robot") {
+        if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query" && newparams.getOrElse("queryType", "") != "robot") {
           val optimizer = new IndexOptimizer()
           optimizer.optimize(user, tempSQL)
         } else tempSQL
@@ -235,7 +235,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
 
     val time = System.currentTimeMillis()
     val response = proxy.runScript(newparams)
-    logInfo(s"proxy response time:${System.currentTimeMillis()-time}")
+    logInfo(s"proxy response time:${System.currentTimeMillis() - time}")
     RunScriptResp(isSaveQuery, isAsync, startTime, response, newparams, sql: String)
   }
 
