@@ -26,8 +26,10 @@ class PythonHint extends BaseHint {
 
     val confTableOpt = header.params.get("confTable").map(item => s""" confTable="${item}" and """).getOrElse("")
     val model = header.params.get("model").map(item => s""" model="${item}" and """).getOrElse("")
+    val schema = header.params.get("schema").map(item => s""" !python conf "schema=${item}"; """).getOrElse("")
 
     s"""
+       |${schema}
        |run command as Ray.`` where
        |inputTable="${input}" and
        |outputTable="${output}_0" and
