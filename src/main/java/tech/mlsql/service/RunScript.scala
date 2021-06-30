@@ -148,7 +148,13 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
         }
       case _ =>
         var tempSQL = newparams("sql")
-        val hintManager = List(new KylinHint, new PythonHint, new DeployModelHint, new DeployScriptHint, new DeployPythonModelHint)
+        val hintManager = List(
+          new PythonHint,
+          new JDBCHint,
+          new KylinHint,
+          new DeployModelHint,
+          new DeployScriptHint, 
+          new DeployPythonModelHint)
         hintManager.foreach { hinter =>
           if (tempSQL == newparams("sql")) {
             tempSQL = hinter.rewrite(tempSQL, newparams + ("owner" -> user.name) + ("home" -> engineConfig.home))
