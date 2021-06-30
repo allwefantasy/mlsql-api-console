@@ -12,13 +12,32 @@ class JDBCHint extends BaseHint {
       return query
     }
     val db = header.params("db")
+    val tpeOpt = header.params.get("type")
     val output = header.output.getOrElse(UUID.randomUUID().toString.replaceAll("-", ""))
 
-    s"""
-       |load jdbc.`${db}._` where directQuery='''
-       |${header.body}
-       |''' as ${output};
-       |""".stripMargin
+    val newBody = header.body.split(";\n").filterNot(_.trim.isEmpty).zipWithIndex.map { case (sta, index) =>
+      s"""
+         |and `driver-statement-${index}`='''
+         |${sta};
+         |'''
+         |""".stripMargin
+    }.mkString(" ")
+
+    tpeOpt match {
+      case Some("ddl") =>
+        s"""
+           |run command as JDBC.`${db}._` where
+           |sqlMode="ddl" ${newBody};
+           |""".stripMargin
+      case Some("query") | None =>
+
+        s"""
+           |load jdbc.`${db}._` where directQuery='''
+           |${header.body}
+           |''' as ${output};
+           |""".stripMargin
+    }
+
 
   }
 }
