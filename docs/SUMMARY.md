@@ -1,20 +1,18 @@
-# MLSQL Stack 产品文档
+# MLSQL 文档
 
-* [MLSQL Stack](README.md)
+## MLSQL 介绍
 
-## 产品信息
-
-* [MLSQL官方博客](http://blog.mlsql.tech)
+* [MLSQL 介绍](README.md)
+* [MLSQL 官方博客](http://blog.mlsql.tech)
 * [MLSQL Stack体验站点](http://blog.mlsql.tech/blog/demo.html)
-
-## 版本以及部署
-
 * [所有版本](release-notes/README.md)
    * [MLSQL Stack版本管理策略](release-notes/version.md)
    * [MLSQL Stack 2.0.1版发布](release-notes/2.0.1.md)
    * [MLSQL Stack 2.0.0版发布](release-notes/2.0.0.md)
    * [MLSQL Stack 2.0.1 Bug 合集](release-notes/2.0.1-bug.md)
    * [MLSQL Stack 2.0.0 Bug 合集](release-notes/2.0.0-bug.md)
+
+## 快速启动
 
 * [基本安装](howtouse/README.md)
    * [MLSQL Console 安装](howtouse/install.md)
@@ -25,9 +23,9 @@
        * [K8s部署](howtouse/engine/k8s_deploy.md)
        * [Yarn部署](howtouse/engine/yarn_deploy.md)
 
-## 操作指南
+## Analysis Workshop 操作
 
-* [Analysis Workshop使用](analysis-workshop/README.md)
+* [Analysis Workshop](analysis-workshop/README.md)
    * [软件界面介绍](analysis-workshop/interface.md)
    * [Admin管理后台之Engine配置](analysis-workshop/admin-engine.md)
    * [简单使用示例](analysis-workshop/simple-example.md)
@@ -39,7 +37,7 @@
    * [Json字段展开](analysis-workshop/json-fields.md)
    * [用MLSQL为Analysis Workshop开发插件](analysis-workshop/aw-plugin.md)
 
-* [MLSQL语言控制台使用](console/README.md)
+* [MLSQL语言控制台](console/README.md)
    * [界面简介](console/interface.md)
    * [简单使用示例](console/simple-example.md)
 
@@ -169,6 +167,7 @@
     * [MLSQL Engine Liveness探针](resources/liveness.md)
     * [MLSQL Engine Readness探针](resources/readiness.md)
 
+## FAQ
 
 * [常见问题](qa/README.md)
     * [文件上传失败怎么办](qa/upload_file.md)
@@ -194,10 +193,6 @@
 * [其他插件开发](dev_guide/engine/plugin/OTHER_README.md)
     * [自定义数据源插件开发](dev_guide/engine/plugin/ds.md)
 
-
-
-
 ## 附录
 
 * [常见宏命令](extra/commands.md)
-* [附录二：]()
