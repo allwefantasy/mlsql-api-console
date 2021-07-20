@@ -27,6 +27,16 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
   private val engineUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_engine_url
   private val extraParams = mutable.HashMap[String, String]()
 
+  def oldUser = {
+    val oldNew = new tech.mlsql.model.MlsqlUser()
+    oldNew.setId(user.id)
+    oldNew.setName(user.name)
+    oldNew.setRole(user.role)
+    oldNew.setBackendTags(user.backendTags)
+    oldNew.setStatus(user.status)
+    oldNew
+  }
+
   def sql(sql: String) = {
     extraParams += ("sql" -> sql)
     this
@@ -59,6 +69,11 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
 
   def engineName(engineName: String) = {
     extraParams += ("engineName" -> engineName)
+    this
+  }
+
+  def scriptPath(scriptPath: String) = {
+    extraParams += ("scriptPath" -> scriptPath)
     this
   }
 
@@ -125,8 +140,12 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     val proxy = RestService.client(engineConfig.url)
     var newparams = params()
 
-    if (!params().contains("jobName")) {
+    if (!newparams.contains("jobName")) {
       newparams += ("jobName" -> UUID.randomUUID().toString)
+    }
+
+    if (!newparams.contains("sql") && newparams.contains("scriptPath")){
+      newparams += ("sql" -> scriptFileService.findScriptFileByPath(oldUser,newparams("scriptPath")).getContent)
     }
 
     val quileFileService = new QuillScriptFileService()
@@ -249,6 +268,8 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     val job = MlsqlJob(0, newparams("jobName"), newparams("sql"), status, user.id, reason, System.currentTimeMillis(), -1, "[]")
     job
   }
+
+  def scriptFileService = ServiceFramwork.injector.getInstance(classOf[ScriptFileService])
 
 }
 
