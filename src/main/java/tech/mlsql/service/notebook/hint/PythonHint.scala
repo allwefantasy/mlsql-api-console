@@ -24,10 +24,26 @@ class PythonHint extends BaseHint {
       cacheStr = s"select * from ${output}_0 as ${output};"
     }
 
+    val confTableOpt = header.params.get("confTable").map(item => s""" confTable="${item}" and """).getOrElse("")
+    val model = header.params.get("model").map(item => s""" model="${item}" and """).getOrElse("")
+    val schema = header.params.get("schema").map(item => s""" !python conf "schema=${item}"; """).getOrElse("")
+    val env = header.params.get("env").map(item => s""" !python env "PYTHON_ENV=${item}"; """).getOrElse("")
+    val dataMode = header.params.get("dataMode").map(item => s""" !python conf "dataMode=${item}"; """).getOrElse("")
+    val runIn = header.params.get("runIn").map(item => s""" !python conf "runIn=${item}"; """).getOrElse("")
+
     s"""
-       |!ray on ${input} '''
+       |${schema}
+       |${env}
+       |${dataMode}
+       |${runIn}
+       |run command as Ray.`` where
+       |inputTable="${input}" and
+       |outputTable="${output}_0" and
+       |${confTableOpt}
+       |${model}
+       |code='''
        |${header.body}
-       |''' named ${output}_0;
+       |''';
        |${cacheStr}
        |""".stripMargin
 

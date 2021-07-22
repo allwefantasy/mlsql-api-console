@@ -7,10 +7,10 @@ trait BaseHint {
   def rewrite(query: String, options: Map[String, String]): String
 
   protected def _parse(query: String): SQLHeadHint = {
-    val headers = query.split("\n").filter(item=>
-      item.stripMargin.startsWith("--%") ||item.stripMargin.startsWith("#%")
-    ).map{item=>
-       item.stripMargin.stripPrefix("--%").stripPrefix("#%")
+    val headers = query.split("\n").filter(item =>
+      item.stripMargin.startsWith("--%") || item.stripMargin.startsWith("#%")
+    ).map { item =>
+      item.stripMargin.stripPrefix("--%").stripPrefix("#%")
     }
 
     val body = query.split("\n").
@@ -25,8 +25,9 @@ trait BaseHint {
     headers.foreach { header =>
       if (!header.contains("=")) {
         t = header
-      }else {
-        val Array(k, v) = header.split("=", 2)
+      } else {
+        val Array(k, _v) = header.split("=", 2)
+        val v = _v
         k match {
           case "input" =>
             input = Some(v)
@@ -37,8 +38,8 @@ trait BaseHint {
         }
       }
     }
-    SQLHeadHint(t,body, input, output, headerParams.toMap)
+    SQLHeadHint(t, body, input, output, headerParams.toMap)
   }
 }
 
-case class SQLHeadHint(t: String,body:String, input: Option[String], output: Option[String], params: Map[String, String])
+case class SQLHeadHint(t: String, body: String, input: Option[String], output: Option[String], params: Map[String, String])

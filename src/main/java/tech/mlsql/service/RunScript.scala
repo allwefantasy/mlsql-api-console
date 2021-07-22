@@ -14,7 +14,7 @@ import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.common.utils.serder.json.JSONTool
 import tech.mlsql.indexer.IndexOptimizer
 import tech.mlsql.quill_model.{MlsqlDs, MlsqlEngine, MlsqlJob, MlsqlUser}
-import tech.mlsql.service.notebook.hint.{DeployModelHint, DeployPythonModelHint, KylinHint, PythonHint}
+import tech.mlsql.service.notebook.hint._
 
 import scala.collection.mutable
 
@@ -26,6 +26,16 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
   private val clusterUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_cluster_url
   private val engineUrl = MLSQLConsoleCommandConfig.commandConfig.mlsql_engine_url
   private val extraParams = mutable.HashMap[String, String]()
+
+  def oldUser = {
+    val oldNew = new tech.mlsql.model.MlsqlUser()
+    oldNew.setId(user.id)
+    oldNew.setName(user.name)
+    oldNew.setRole(user.role)
+    oldNew.setBackendTags(user.backendTags)
+    oldNew.setStatus(user.status)
+    oldNew
+  }
 
   def sql(sql: String) = {
     extraParams += ("sql" -> sql)
@@ -59,6 +69,11 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
 
   def engineName(engineName: String) = {
     extraParams += ("engineName" -> engineName)
+    this
+  }
+
+  def scriptPath(scriptPath: String) = {
+    extraParams += ("scriptPath" -> scriptPath)
     this
   }
 
@@ -125,8 +140,12 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     val proxy = RestService.client(engineConfig.url)
     var newparams = params()
 
-    if (!params().contains("jobName")) {
+    if (!newparams.contains("jobName")) {
       newparams += ("jobName" -> UUID.randomUUID().toString)
+    }
+
+    if (!newparams.contains("sql") && newparams.contains("scriptPath")){
+      newparams += ("sql" -> scriptFileService.findScriptFileByPath(oldUser,newparams("scriptPath")).getContent)
     }
 
     val quileFileService = new QuillScriptFileService()
@@ -148,14 +167,20 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
         }
       case _ =>
         var tempSQL = newparams("sql")
-        val hintManager = List(new KylinHint, new PythonHint, new DeployModelHint,new DeployPythonModelHint)
+        val hintManager = List(
+          new PythonHint,
+          new JDBCHint,
+          new KylinHint,
+          new DeployModelHint,
+          new DeployScriptHint, 
+          new DeployPythonModelHint)
         hintManager.foreach { hinter =>
           if (tempSQL == newparams("sql")) {
             tempSQL = hinter.rewrite(tempSQL, newparams + ("owner" -> user.name) + ("home" -> engineConfig.home))
           }
         }
 
-        if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query" && newparams.getOrElse("queryType","") != "robot") {
+        if (shouldOptimize && newparams.getOrElse("executeMode", "query") == "query" && newparams.getOrElse("queryType", "") != "robot") {
           val optimizer = new IndexOptimizer()
           optimizer.optimize(user, tempSQL)
         } else tempSQL
@@ -235,7 +260,7 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
 
     val time = System.currentTimeMillis()
     val response = proxy.runScript(newparams)
-    logInfo(s"proxy response time:${System.currentTimeMillis()-time}")
+    logInfo(s"proxy response time:${System.currentTimeMillis() - time}")
     RunScriptResp(isSaveQuery, isAsync, startTime, response, newparams, sql: String)
   }
 
@@ -243,6 +268,8 @@ class RunScript(user: MlsqlUser, _params: Map[String, String]) extends Logging {
     val job = MlsqlJob(0, newparams("jobName"), newparams("sql"), status, user.id, reason, System.currentTimeMillis(), -1, "[]")
     job
   }
+
+  def scriptFileService = ServiceFramwork.injector.getInstance(classOf[ScriptFileService])
 
 }
 

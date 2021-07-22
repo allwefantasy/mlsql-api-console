@@ -25,7 +25,7 @@ class ScriptFileService {
     val res = user.listScriptFiles().map { sur =>
       val sf = sur.fetchScriptFile()
       ScriptFileRender(sf.getId, sf.getIcon, sf.getLabel, sf.getParentId, sf.isDir, sf.getIsExpanded)
-    }
+    }.sortBy(_.id).reverse
     implicit val formats = Serialization.formats(NoTypeHints)
     val ser = write(res)
     ser
