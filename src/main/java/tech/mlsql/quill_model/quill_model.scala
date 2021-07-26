@@ -170,7 +170,14 @@ case class MlsqlJob(id: Int, name: String,
   def finishAtStr = new DateTime(finishAt).toString(timeFormat)
 
   def render = {
-    MlsqlJobRender(id, name, content.take(100), statusStr, reason.take(100), createAtStr, finishAtStr, response.take(100))
+    MlsqlJobRender(id, name
+      , Option(content).map(_.take(100)).getOrElse("")
+      , statusStr
+      , Option(reason).map(_.take(100)).getOrElse("")
+      , createAtStr
+      , finishAtStr
+      , Option(response).map(_.take(100)).getOrElse("")
+    )
   }
 }
 
