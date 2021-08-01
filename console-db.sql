@@ -302,7 +302,8 @@ CREATE TABLE `mlsql_job` (
   `script_file_id` int(11) DEFAULT NULL,
   `reason` text,
   `response` longtext,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX(name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
