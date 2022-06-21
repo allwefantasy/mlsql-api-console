@@ -16,7 +16,7 @@
         <serviceframework.version>2.0.8</serviceframework.version>
         <mlsql.version>1.5.0</mlsql.version>
         <common-utils-version>0.3.9.2</common-utils-version>
-        <mysql-connector.version>5.1.46</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
     </properties>
 
     <profiles>
